@@ -1,12 +1,10 @@
-<!-- ============================================ -->
-<!-- PHASE 4: INDEX/LANDING PAGE (/index.html) - Optional Overview -->
-<!-- ============================================ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Objex | Mobile Objex  </title>
+    <title>Mobile Objex | Secure Messaging Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -22,437 +20,660 @@
             --mo-gray: #1A1A24;
             --mo-text: #E8E8EC;
             --mo-text-muted: #888899;
+            --mo-success: #10B981;
+            --mo-error: #EF4444;
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             background: var(--mo-darker);
             min-height: 100vh;
             color: var(--mo-text);
-            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(245, 166, 35, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(245, 166, 35, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: -1;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--mo-gold);
+            top: -100px;
+            right: -100px;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #FF6B35;
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, 30px) scale(1.1); }
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(10, 10, 15, 0.9), transparent);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            border-radius: 12px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--mo-dark);
+            box-shadow: 0 0 30px rgba(245, 166, 35, 0.4);
             position: relative;
             overflow: hidden;
         }
 
-        .hero-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(245, 166, 35, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(245, 166, 35, 0.1) 0%, transparent 50%),
-                var(--mo-darker);
-            z-index: -1;
-        }
-
-        .hero-bg::before {
+        .brand-icon::before {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 2px,
-                rgba(245, 166, 35, 0.03) 2px,
-                rgba(245, 166, 35, 0.03) 4px
-            );
-            animation: slide 20s linear infinite;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 3s infinite;
         }
 
-        @keyframes slide {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
-        /* Logo Animation */
-        .logo-container {
-            margin-bottom: 40px;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .logo {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 48px;
-            font-weight: bold;
-            color: var(--mo-dark);
-            margin: 0 auto 30px;
-            box-shadow: 
-                0 20px 60px rgba(245, 166, 35, 0.3),
-                0 0 0 1px rgba(245, 166, 35, 0.5),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-            position: relative;
-        }
-
-        .logo::after {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            border-radius: 33px;
-            background: linear-gradient(135deg, var(--mo-gold), transparent);
-            z-index: -1;
-            opacity: 0.5;
-            filter: blur(10px);
-        }
-
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 800;
-            margin-bottom: 20px;
+        .brand-text h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
             background: linear-gradient(135deg, var(--mo-text), var(--mo-gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-        }
-
-        .hero p {
-            font-size: 20px;
-            color: var(--mo-text-muted);
-            max-width: 600px;
-            margin-bottom: 40px;
-        }
-
-        /* Demo Credentials */
-        .demo-creds {
-            background: var(--mo-gray);
-            border: 1px solid rgba(245, 166, 35, 0.2);
-            border-radius: 16px;
-            padding: 30px 50px;
-            margin-bottom: 40px;
-        }
-
-        .demo-creds h3 {
-            font-size: 14px;
-            color: var(--mo-gold);
-            text-transform: uppercase;
             letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
-
-        .cred-grid {
-            display: flex;
-            gap: 40px;
-            justify-content: center;
-        }
-
-        .cred-item {
-            text-align: left;
-        }
-
-        .cred-label {
-            font-size: 12px;
-            color: var(--mo-text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
         }
 
-        .cred-value {
-            font-family: monospace;
-            font-size: 16px;
-            color: var(--mo-text);
-            background: var(--mo-dark);
-            padding: 10px 16px;
-            border-radius: 8px;
-            border: 1px solid rgba(245, 166, 35, 0.2);
+        .brand-text span {
+            font-size: 11px;
+            color: var(--mo-text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
         }
 
-        /* CTA Button */
-        .cta-btn {
+        .container {
+            display: flex;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 40px 40px;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-badge {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
-            padding: 20px 50px;
-            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
-            border: none;
-            border-radius: 12px;
-            color: var(--mo-dark);
-            font-size: 18px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(245, 166, 35, 0.1);
+            border: 1px solid rgba(245, 166, 35, 0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--mo-gold);
             text-transform: uppercase;
             letter-spacing: 1px;
-            box-shadow: 0 10px 40px rgba(245, 166, 35, 0.3);
+            margin-bottom: 30px;
         }
 
-        .cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 60px rgba(245, 166, 35, 0.4);
-        }
-
-        /* Features Grid */
-        .features {
-            padding: 80px 40px;
-            background: var(--mo-dark);
-        }
-
-        .features-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .features h2 {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 60px;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .feature-card {
-            background: var(--mo-gray);
-            border: 1px solid rgba(245, 166, 35, 0.1);
-            border-radius: 16px;
-            padding: 30px;
-            transition: all 0.3s;
-        }
-
-        .feature-card:hover {
-            border-color: rgba(245, 166, 35, 0.3);
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(245, 166, 35, 0.1);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
+        .hero-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
             margin-bottom: 20px;
+            text-transform: uppercase;
         }
 
-        .feature-card h3 {
-            font-size: 20px;
-            margin-bottom: 12px;
+        .hero-content h2 span {
+            color: var(--mo-gold);
+            text-shadow: 0 0 30px rgba(245, 166, 35, 0.5);
         }
 
-        .feature-card p {
+        .hero-content p {
+            font-size: 18px;
             color: var(--mo-text-muted);
-            font-size: 15px;
-            line-height: 1.6;
+            line-height: 1.8;
+            margin-bottom: 40px;
         }
 
-        /* Flow Diagram */
-        .flow {
-            padding: 80px 40px;
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
 
-        .flow-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .flow h2 {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 60px;
-        }
-
-        .flow-steps {
+        .feature {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            position: relative;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--mo-text-muted);
         }
 
-        .flow-steps::before {
+        .feature::before {
+            content: '▸';
+            color: var(--mo-gold);
+            font-size: 16px;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 440px;
+            background: rgba(26, 26, 36, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 166, 35, 0.2);
+            border-radius: 24px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
             content: '';
             position: absolute;
-            top: 40px;
-            left: 10%;
-            right: 10%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--mo-gold), var(--mo-gold-light));
-            z-index: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--mo-gold), var(--mo-gold-light), var(--mo-gold));
+            background-size: 200% 100%;
+            animation: gradientMove 3s linear infinite;
         }
 
-        .flow-step {
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .auth-header {
             text-align: center;
-            position: relative;
-            z-index: 1;
-            flex: 1;
+            margin-bottom: 30px;
         }
 
-        .step-number {
-            width: 80px;
-            height: 80px;
-            background: var(--mo-gray);
-            border: 2px solid var(--mo-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            font-weight: bold;
-            color: var(--mo-gold);
-            margin: 0 auto 20px;
-        }
-
-        .flow-step h4 {
-            font-size: 16px;
+        .auth-header h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
             margin-bottom: 8px;
         }
 
-        .flow-step p {
-            font-size: 14px;
-            color: var(--mo-text-muted);
-        }
-
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 40px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        .auth-header p {
             color: var(--mo-text-muted);
             font-size: 14px;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: var(--mo-dark);
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            color: var(--mo-text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .auth-tab.active {
+            background: var(--mo-gold);
+            color: var(--mo-dark);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--mo-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px 14px 45px;
+            background: var(--mo-dark);
+            border: 2px solid rgba(245, 166, 35, 0.2);
+            border-radius: 10px;
+            color: var(--mo-text);
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--mo-gold);
+            box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.1);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--mo-gold);
+            font-size: 18px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            border: none;
+            border-radius: 10px;
+            color: var(--mo-dark);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.4);
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--mo-text-muted);
+            cursor: pointer;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--mo-gold);
+            cursor: pointer;
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--mo-error);
+            color: var(--mo-error);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--mo-success);
+            color: var(--mo-success);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+                padding-top: 120px;
+            }
+            
+            .hero-content h2 {
                 font-size: 36px;
             }
             
-            .cred-grid {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
-            .flow-steps {
-                flex-direction: column;
-                gap: 40px;
-            }
-            
-            .flow-steps::before {
-                display: none;
+            .features {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <section class="hero">
-        <div class="hero-bg"></div>
-        
-        <div class="logo-container">
-            <div class="logo">MO</div>
-        </div>
-        
-        <h1> Demo</h1>
-        <p>Experience the future of fraud-free mobile communications with Mobile Objex's secure messaging platform.</p>
-        
-        <div class="demo-creds">
-            <h3>Demo Access Credentials</h3>
-            <div class="cred-grid">
-                <div class="cred-item">
-                    <div class="cred-label">Username</div>
-                    <div class="cred-value">demo.operator</div>
-                </div>
-                <div class="cred-item">
-                    <div class="cred-label">Password</div>
-                    <div class="cred-value">DemoPass123!</div>
-                </div>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <nav class="nav">
+        <div class="brand">
+            <div class="brand-icon">MO</div>
+            <div class="brand-text">
+                <h1>Mobile Objex</h1>
+                <span>The Future of Fraud-Free Mobile Communications</span>
             </div>
         </div>
-        
-        <a href="login.html" class="cta-btn">
-            Start Demo →
-        </a>
-    </section>
+    </nav>
 
-    <section class="features">
-        <div class="features-container">
-            <h2>Demo Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🔐</div>
-                    <h3>MO Authentication</h3>
-                    <p>Secure login system with session-based access control. Each user gets an isolated session context.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📱</div>
-                    <h3>Phone & Safety Code Capture</h3>
-                    <p>Double-entry verification prevents typos. Data is timestamped and session-bound.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">✉️</div>
-                    <h3>Secure Message Send</h3>
-                    <p>Send verified messages with automatic safety code appending. Only current session recipients.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>Session Isolation</h3>
-                    <p>No cross-session access. Data auto-purges on logout. Full compliance with MO security protocols.</p>
-                </div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>🔒</span> AI-Driven Mobile Trust, Delivered
+            </div>
+            <h2>Secure Mobile <span>Messaging</span> Platform</h2>
+            <p>Stop scams before they reach consumers. Mobile Objex builds verified, trustworthy messaging with advanced fraud detection and safety mark verification.</p>
+            
+            <div class="features">
+                <div class="feature">MO Verified Safety Mark</div>
+                <div class="feature">10-Minute Secure Sessions</div>
+                <div class="feature">End-to-End Encryption</div>
+                <div class="feature">Real-time Fraud Detection</div>
+                <div class="feature">Multi-Channel Protection</div>
+                <div class="feature">Cooperative Data Platform</div>
             </div>
         </div>
-    </section>
 
-    <section class="flow">
-        <div class="flow-container">
-            <h2>Demo Flow</h2>
-            <div class="flow-steps">
-                <div class="flow-step">
-                    <div class="step-number">1</div>
-                    <h4>Login</h4>
-                    <p>Authenticate with MO credentials</p>
-                </div>
-                <div class="flow-step">
-                    <div class="step-number">2</div>
-                    <h4>Capture</h4>
-                    <p>Enter phone & safety code</p>
-                </div>
-                <div class="flow-step">
-                    <div class="step-number">3</div>
-                    <h4>Verify</h4>
-                    <p>Review session data</p>
-                </div>
-                <div class="flow-step">
-                    <div class="step-number">4</div>
-                    <h4>Send</h4>
-                    <p>Deliver secure message</p>
-                </div>
+        <div class="auth-card">
+            <div class="auth-header">
+                <h3>Welcome Back</h3>
+                <p>Access your secure messaging dashboard</p>
             </div>
-        </div>
-    </section>
 
-    <footer>
-        <p>© 2026 Mobile Objex. The Future of Fraud-Free
-Mobile Communications Demo.</p>
-        <p style="margin-top: 10px; font-size: 12px;">Built for secure mobile messaging verification.</p>
-    </footer>
+            <div class="error-message" id="errorMsg">
+                ⚠ <span id="errorText">Invalid credentials</span>
+            </div>
+
+            <div class="success-message" id="successMsg">
+                ✓ Account created successfully! Please sign in.
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchTab('login')">Sign In</button>
+                <button class="auth-tab" onclick="switchTab('register')">Create Account</button>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉</span>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="you@company.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe" checked>
+                    <span>Remember me on this device</span>
+                </label>
+
+                <button type="submit" class="auth-btn">Access Platform</button>
+            </form>
+
+            <!-- Register Form -->
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" class="form-input" id="regName" placeholder="John Smith" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉</span>
+                        <input type="email" class="form-input" id="regEmail" placeholder="you@company.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" class="form-input" id="regPassword" placeholder="Create password (min 6 chars)" required minlength="6">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Company</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🏢</span>
+                        <input type="text" class="form-input" id="regCompany" placeholder="Your company name">
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn">Create Secure Account</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // User Storage
+        const USER_STORAGE_KEY = 'mo_users';
+        const CURRENT_SESSION_KEY = 'mo_session';
+        const REMEMBER_USER_KEY = 'mo_remembered_user';
+
+        function initUsers() {
+            const users = JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '[]');
+            if (users.length === 0) {
+                users.push({
+                    email: 'admin@mobileobjex.com',
+                    password: 'Admin123!',
+                    name: 'System Admin',
+                    company: 'Mobile Objex',
+                    created: new Date().toISOString()
+                });
+                localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
+            }
+        }
+
+        window.addEventListener('load', () => {
+            initUsers();
+            const remembered = localStorage.getItem(REMEMBER_USER_KEY);
+            if (remembered) {
+                const user = JSON.parse(remembered);
+                document.getElementById('loginEmail').value = user.email;
+            }
+        });
+
+        function switchTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.querySelectorAll('.auth-tab')[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+            
+            document.getElementById('errorMsg').classList.remove('show');
+            document.getElementById('successMsg').classList.remove('show');
+        }
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value.toLowerCase();
+            const password = document.getElementById('regPassword').value;
+            const company = document.getElementById('regCompany').value;
+
+            await new Promise(r => setTimeout(r, 500));
+
+            const users = JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '[]');
+            if (users.find(u => u.email === email)) {
+                showError('An account with this email already exists.');
+                return;
+            }
+
+            users.push({
+                email,
+                password,
+                name,
+                company,
+                created: new Date().toISOString()
+            });
+            
+            localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
+            
+            document.getElementById('successMsg').classList.add('show');
+            document.getElementById('loginEmail').value = email;
+            switchTab('login');
+            e.target.reset();
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value.toLowerCase();
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('rememberMe').checked;
+
+            await new Promise(r => setTimeout(r, 500));
+
+            const users = JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                const session = {
+                    username: user.name,
+                    email: user.email,
+                    company: user.company,
+                    sessionId: 'MO-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+                    loginTime: new Date().toISOString(),
+                    expiresAt: Date.now() + (10 * 60 * 1000), // 10 minutes
+                    phoneNumbers: []
+                };
+                
+                sessionStorage.setItem(CURRENT_SESSION_KEY, JSON.stringify(session));
+                
+                if (remember) {
+                    localStorage.setItem(REMEMBER_USER_KEY, JSON.stringify({
+                        email: user.email
+                    }));
+                } else {
+                    localStorage.removeItem(REMEMBER_USER_KEY);
+                }
+                
+                window.location.href = 'capture.html';
+            } else {
+                showError('Invalid email or password. Please try again.');
+            }
+        });
+
+        function showError(msg) {
+            const errorEl = document.getElementById('errorMsg');
+            document.getElementById('errorText').textContent = msg;
+            errorEl.classList.add('show');
+            setTimeout(() => errorEl.classList.remove('show'), 5000);
+        }
+    </script>
 </body>
 </html>
