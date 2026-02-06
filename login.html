@@ -1,0 +1,512 @@
+<!-- ============================================ -->
+<!-- PHASE 1: LOGIN PAGE (/login.html) -->
+<!-- ============================================ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Objex | Secure Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --mo-gold: #F5A623;
+            --mo-gold-light: #FFB84D;
+            --mo-dark: #0A0A0F;
+            --mo-darker: #050508;
+            --mo-gray: #1A1A24;
+            --mo-text: #E8E8EC;
+            --mo-text-muted: #888899;
+            --mo-success: #10B981;
+            --mo-error: #EF4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--mo-darker);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--mo-text);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(245, 166, 35, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(245, 166, 35, 0.1) 0%, transparent 50%),
+                var(--mo-darker);
+        }
+
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(245, 166, 35, 0.03) 2px,
+                rgba(245, 166, 35, 0.03) 4px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Security Badge */
+        .security-badge {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            color: var(--mo-dark);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(245, 166, 35, 0.3);
+        }
+
+        .security-badge::before {
+            content: '✓';
+            width: 18px;
+            height: 18px;
+            background: var(--mo-dark);
+            color: var(--mo-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+
+        /* Login Container */
+        .login-container {
+            background: var(--mo-gray);
+            border: 1px solid rgba(245, 166, 35, 0.2);
+            border-radius: 20px;
+            padding: 50px;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(245, 166, 35, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--mo-gold), var(--mo-gold-light), var(--mo-gold));
+        }
+
+        /* Logo */
+        .logo {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            color: var(--mo-dark);
+            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
+            position: relative;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 23px;
+            background: linear-gradient(135deg, var(--mo-gold), transparent);
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--mo-text);
+            margin-bottom: 8px;
+        }
+
+        .logo p {
+            color: var(--mo-text-muted);
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--mo-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            background: var(--mo-dark);
+            border: 2px solid rgba(245, 166, 35, 0.2);
+            border-radius: 12px;
+            color: var(--mo-text);
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--mo-gold);
+            box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+        }
+
+        .form-input::placeholder {
+            color: var(--mo-text-muted);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--mo-gold);
+            font-size: 18px;
+        }
+
+        /* Login Button */
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            border: none;
+            border-radius: 12px;
+            color: var(--mo-dark);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Error Message */
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--mo-error);
+            color: var(--mo-error);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .error-message.show {
+            display: flex;
+        }
+
+        /* Demo Credentials */
+        .demo-creds {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(245, 166, 35, 0.05);
+            border: 1px dashed rgba(245, 166, 35, 0.3);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .demo-creds h3 {
+            font-size: 12px;
+            color: var(--mo-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .cred-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 13px;
+        }
+
+        .cred-item {
+            color: var(--mo-text-muted);
+        }
+
+        .cred-item strong {
+            color: var(--mo-text);
+            font-family: monospace;
+            background: var(--mo-dark);
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-left: 6px;
+        }
+
+        /* Footer */
+        .login-footer {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 12px;
+            color: var(--mo-text-muted);
+        }
+
+        .login-footer a {
+            color: var(--mo-gold);
+            text-decoration: none;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--mo-dark);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 10px;
+        }
+
+        .login-btn.loading .spinner {
+            display: inline-block;
+        }
+
+        .login-btn.loading .btn-text {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 20px;
+                padding: 30px;
+            }
+            
+            .security-badge {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-bottom: 20px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <div class="security-badge">
+        MO Verified Demo
+    </div>
+
+    <div class="login-container">
+        <div class="logo">
+            <div class="logo-icon">MO</div>
+            <h1>Mobile Objex</h1>
+            <p>Secure Messaging Platform</p>
+        </div>
+
+        <div class="error-message" id="errorMsg">
+            <span>⚠</span>
+            <span id="errorText">Invalid credentials</span>
+        </div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label class="form-label">MO Username</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">👤</span>
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        id="username" 
+                        placeholder="Enter your MO username"
+                        required
+                        autocomplete="username"
+                    >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">MO Password</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🔒</span>
+                    <input 
+                        type="password" 
+                        class="form-input" 
+                        id="password" 
+                        placeholder="Enter your password"
+                        required
+                        autocomplete="current-password"
+                    >
+                </div>
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                <span class="btn-text">
+                    <span class="spinner"></span>
+                    Sign In to Demo
+                </span>
+            </button>
+        </form>
+
+        <div class="demo-creds">
+            <h3>Demo Credentials</h3>
+            <div class="cred-row">
+                <span class="cred-item">Username:<strong>demo.operator</strong></span>
+                <span class="cred-item">Password:<strong>DemoPass123!</strong></span>
+            </div>
+        </div>
+
+        <div class="login-footer">
+            <p>Protected by Mobile Objex Security Protocols</p>
+            <p style="margin-top: 8px;">© 2026 Mobile Objex. Sacred Heart Development Demo</p>
+        </div>
+    </div>
+
+    <script>
+        // Hardcoded credentials per PDF spec
+        const VALID_CREDENTIALS = {
+            'demo.operator': 'DemoPass123!'
+        };
+
+        // Check if already logged in
+        if (sessionStorage.getItem('mo_session')) {
+            window.location.href = 'capture.html';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const btn = document.getElementById('loginBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            
+            // Show loading
+            btn.classList.add('loading');
+            btn.disabled = true;
+            errorMsg.classList.remove('show');
+            
+            // Simulate network delay
+            await new Promise(r => setTimeout(r, 800));
+            
+            // Validate credentials
+            if (VALID_CREDENTIALS[username] === password) {
+                // Create session per PDF requirements
+                const session = {
+                    username: username,
+                    sessionId: 'MO-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+                    loginTime: new Date().toISOString(),
+                    phoneNumbers: []
+                };
+                
+                sessionStorage.setItem('mo_session', JSON.stringify(session));
+                
+                // Redirect to capture page
+                window.location.href = 'capture.html';
+            } else {
+                errorMsg.classList.add('show');
+                document.getElementById('errorText').textContent = 'Invalid MO credentials. Please try again.';
+                btn.classList.remove('loading');
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
