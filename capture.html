@@ -1,13 +1,13 @@
-<!-- ============================================ -->
-<!-- CAPTURE PAGE - Professional Mobile Objex (/capture.html) -->
-<!-- ============================================ -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mobile Objex | Secure Capture</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,29 +15,16 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --mo-gold: #F5A623;
-            --mo-gold-light: #FFB84D;
-            --mo-dark: #0A0A0F;
-            --mo-darker: #050508;
-            --mo-gray: #1A1A24;
-            --mo-text: #E8E8EC;
-            --mo-text-muted: #888899;
-            --mo-success: #10B981;
-            --mo-error: #EF4444;
-            --mo-warning: #F59E0B;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--mo-darker);
+            background: #0a0a0f;
+            color: #ffffff;
             min-height: 100vh;
-            color: var(--mo-text);
         }
 
-        /* Header with Branding */
+        /* Header */
         .header {
-            background: var(--mo-gray);
+            background: #1a1a24;
             border-bottom: 1px solid rgba(245, 166, 35, 0.2);
             padding: 15px 0;
             position: sticky;
@@ -61,94 +48,75 @@
         }
 
         .brand-icon {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #f5a623, #ffb84d);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', monospace;
             font-weight: 700;
             font-size: 18px;
-            color: var(--mo-dark);
-            box-shadow: 0 0 20px rgba(245, 166, 35, 0.3);
+            color: #0a0a0f;
         }
 
-        .brand-text h1 {
-            font-family: 'Orbitron', sans-serif;
+        .brand-title {
+            font-family: 'Orbitron', monospace;
             font-size: 20px;
             font-weight: 700;
+            color: #f5a623;
             letter-spacing: 1px;
-            background: linear-gradient(135deg, var(--mo-text), var(--mo-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
         }
 
-        .brand-text span {
+        .brand-sub {
             font-size: 11px;
-            color: var(--mo-text-muted);
+            color: #888;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
 
-        .security-bar {
+        .nav-right {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
-        .timer-display {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 14px;
-            background: rgba(245, 166, 35, 0.1);
-            border: 1px solid rgba(245, 166, 35, 0.3);
-            border-radius: 8px;
+        .timer {
             font-family: 'Orbitron', monospace;
             font-size: 14px;
-            color: var(--mo-gold);
-            transition: all 0.3s;
+            color: #f5a623;
+            background: rgba(245, 166, 35, 0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(245, 166, 35, 0.3);
         }
 
-        .timer-display.warning {
-            background: rgba(245, 158, 11, 0.2);
-            border-color: var(--mo-warning);
-            color: var(--mo-warning);
-            animation: pulse 1s infinite;
+        .timer.warning {
+            color: #ef4444;
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            animation: blink 1s infinite;
         }
 
-        .timer-display.danger {
-            background: rgba(239, 68, 68, 0.2);
-            border-color: var(--mo-error);
-            color: var(--mo-error);
-            animation: pulse 0.5s infinite;
-        }
-
-        @keyframes pulse {
+        @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.6; }
         }
 
-        .user-menu {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
         .user-email {
             font-size: 13px;
-            color: var(--mo-text-muted);
+            color: #888;
             max-width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .logout-btn {
             background: transparent;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: var(--mo-text);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
             padding: 8px 16px;
             border-radius: 6px;
             cursor: pointer;
@@ -157,11 +125,11 @@
         }
 
         .logout-btn:hover {
-            background: rgba(239, 68, 68, 0.1);
-            border-color: var(--mo-error);
-            color: var(--mo-error);
+            border-color: #ef4444;
+            color: #ef4444;
         }
 
+        /* Main */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -172,115 +140,88 @@
         }
 
         .card {
-            background: var(--mo-gray);
+            background: #1a1a24;
             border: 1px solid rgba(245, 166, 35, 0.15);
             border-radius: 16px;
             padding: 30px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--mo-gold), var(--mo-gold-light));
+            border-top: 3px solid #f5a623;
         }
 
         .card-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
             margin-bottom: 25px;
         }
 
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(245, 166, 35, 0.1);
-            border-radius: 12px;
+        .card-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 20px;
+            color: #fff;
+            margin-bottom: 5px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
-
-        .card-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            gap: 10px;
         }
 
         .card-subtitle {
-            font-size: 13px;
-            color: var(--mo-text-muted);
+            color: #888;
+            font-size: 14px;
         }
 
         .form-group {
             margin-bottom: 20px;
         }
 
-        .form-label {
+        label {
             display: block;
             margin-bottom: 8px;
             font-size: 12px;
-            font-weight: 600;
-            color: var(--mo-text-muted);
+            color: #888;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
-        .form-input {
+        input {
             width: 100%;
-            padding: 14px 16px;
-            background: var(--mo-dark);
+            padding: 14px;
+            background: #0a0a0f;
             border: 2px solid rgba(245, 166, 35, 0.2);
             border-radius: 10px;
-            color: var(--mo-text);
+            color: #fff;
             font-size: 15px;
             transition: all 0.3s;
         }
 
-        .form-input:focus {
+        input:focus {
             outline: none;
-            border-color: var(--mo-gold);
-            box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.1);
+            border-color: #f5a623;
         }
 
         .match-indicator {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 6px;
             font-size: 12px;
-            opacity: 0;
-            transition: opacity 0.3s;
+            margin-top: 6px;
+            display: none;
         }
 
         .match-indicator.show {
-            opacity: 1;
+            display: block;
         }
 
         .match-indicator.valid {
-            color: var(--mo-success);
+            color: #10b981;
         }
 
         .match-indicator.invalid {
-            color: var(--mo-error);
+            color: #ef4444;
         }
 
-        .submit-btn {
+        .btn-submit {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            background: linear-gradient(135deg, #f5a623, #ffb84d);
             border: none;
             border-radius: 10px;
-            color: var(--mo-dark);
-            font-family: 'Orbitron', sans-serif;
+            color: #0a0a0f;
+            font-family: 'Orbitron', monospace;
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
@@ -290,67 +231,62 @@
             margin-top: 10px;
         }
 
-        .submit-btn:hover:not(:disabled) {
+        .btn-submit:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
         }
 
-        .success-message {
+        .success-msg {
             background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--mo-success);
-            color: var(--mo-success);
+            border: 1px solid #10b981;
+            color: #10b981;
             padding: 16px;
             border-radius: 10px;
             margin-top: 20px;
             display: none;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .success-message.show {
+        .success-msg.show {
             display: flex;
         }
 
         .data-preview {
-            max-height: 400px;
-            overflow-y: auto;
+            margin-top: 20px;
         }
 
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: var(--mo-text-muted);
-        }
-
-        .entry-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            color: #666;
         }
 
         .entry-item {
-            background: var(--mo-dark);
-            border: 1px solid rgba(245, 166, 35, 0.2);
-            border-radius: 10px;
+            background: #0a0a0f;
+            border-left: 3px solid #f5a623;
             padding: 16px;
-            border-left: 3px solid var(--mo-gold);
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
 
         .entry-phone {
             font-size: 16px;
             font-weight: 600;
+            color: #fff;
             margin-bottom: 4px;
         }
 
         .entry-code {
+            font-family: 'Orbitron', monospace;
             font-size: 13px;
-            color: var(--mo-gold);
-            font-family: monospace;
+            color: #f5a623;
         }
 
-        .nav-section {
-            margin-top: 30px;
-            text-align: center;
+        .entry-time {
+            font-size: 12px;
+            color: #666;
+            margin-top: 8px;
         }
 
         .nav-btn {
@@ -359,53 +295,51 @@
             gap: 8px;
             padding: 14px 28px;
             background: transparent;
-            border: 2px solid var(--mo-gold);
-            color: var(--mo-gold);
-            border-radius: 8px;
+            border: 2px solid #f5a623;
+            color: #f5a623;
+            border-radius: 10px;
             text-decoration: none;
             font-weight: 600;
+            margin-top: 20px;
             transition: all 0.3s;
         }
 
         .nav-btn:hover {
-            background: var(--mo-gold);
-            color: var(--mo-dark);
+            background: #f5a623;
+            color: #0a0a0f;
         }
 
-        /* Modals */
-        .modal-overlay {
+        .modal {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0,0,0,0.9);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            backdrop-filter: blur(5px);
         }
 
-        .modal-overlay.show {
+        .modal.show {
             display: flex;
         }
 
-        .modal {
-            background: var(--mo-gray);
-            border: 2px solid var(--mo-error);
+        .modal-content {
+            background: #1a1a24;
+            border: 2px solid #ef4444;
             border-radius: 16px;
-            padding: 30px;
-            max-width: 450px;
-            width: 90%;
+            padding: 40px;
             text-align: center;
+            max-width: 400px;
         }
 
         .modal-icon {
             width: 70px;
             height: 70px;
             background: rgba(239, 68, 68, 0.1);
-            border: 2px solid var(--mo-error);
+            border: 2px solid #ef4444;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -415,20 +349,24 @@
         }
 
         .modal h2 {
-            color: var(--mo-error);
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 12px;
+            font-family: 'Orbitron', monospace;
+            color: #ef4444;
+            margin-bottom: 10px;
+        }
+
+        .modal p {
+            color: #888;
+            margin-bottom: 20px;
         }
 
         .modal-btn {
             padding: 12px 30px;
-            background: var(--mo-error);
+            background: #ef4444;
             border: none;
             border-radius: 8px;
-            color: white;
+            color: #fff;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 20px;
         }
 
         @media (max-width: 900px) {
@@ -439,126 +377,108 @@
     </style>
 </head>
 <body>
-    <header class="header">
+
+    <div class="header">
         <div class="header-content">
             <div class="brand">
                 <div class="brand-icon">MO</div>
-                <div class="brand-text">
-                    <h1>Mobile Objex</h1>
-                    <span>Secure Messaging Platform</span>
+                <div>
+                    <div class="brand-title">MOBILE OBJEX</div>
+                    <div class="brand-sub">Secure Platform</div>
                 </div>
             </div>
-            <div class="security-bar">
-                <div class="timer-display" id="timerDisplay">
-                    <span>⏱</span>
-                    <span id="timerValue">10:00</span>
-                </div>
-                <div class="user-menu">
-                    <span class="user-email" id="userEmail"></span>
-                    <button class="logout-btn" onclick="logout()">Logout</button>
-                </div>
+            <div class="nav-right">
+                <div class="timer" id="timer">10:00</div>
+                <div class="user-email" id="userEmail"></div>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
         </div>
-    </header>
+    </div>
 
-    <main class="container">
-        <section class="card">
+    <div class="container">
+        <div class="card">
             <div class="card-header">
-                <div class="card-icon">📱</div>
-                <div>
-                    <h2 class="card-title">Secure Data Capture</h2>
-                    <p class="card-subtitle">Enter recipient verification details</p>
-                </div>
+                <div class="card-title">📱 Secure Data Capture</div>
+                <div class="card-subtitle">Enter recipient verification details</div>
             </div>
 
             <form id="captureForm">
                 <div class="form-group">
-                    <label class="form-label">Phone Number</label>
-                    <input type="tel" class="form-input" id="phone1" placeholder="+1 (555) 123-4567" required>
+                    <label>Phone Number</label>
+                    <input type="tel" id="phone1" placeholder="+1 (555) 123-4567" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Confirm Phone Number</label>
-                    <input type="tel" class="form-input" id="phone2" placeholder="Repeat phone number" required>
-                    <div class="match-indicator" id="phoneMatch">
-                        <span>✓</span> <span>Match</span>
-                    </div>
+                    <label>Confirm Phone Number</label>
+                    <input type="tel" id="phone2" placeholder="Repeat phone number" required>
+                    <div class="match-indicator" id="phoneMatch"></div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Safety Code</label>
-                    <input type="text" class="form-input" id="code1" placeholder="Enter verification code" required>
+                    <label>Safety Code</label>
+                    <input type="text" id="code1" placeholder="Enter verification code" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Confirm Safety Code</label>
-                    <input type="text" class="form-input" id="code2" placeholder="Repeat safety code" required>
-                    <div class="match-indicator" id="codeMatch">
-                        <span>✓</span> <span>Match</span>
-                    </div>
+                    <label>Confirm Safety Code</label>
+                    <input type="text" id="code2" placeholder="Repeat safety code" required>
+                    <div class="match-indicator" id="codeMatch"></div>
                 </div>
 
-                <button type="submit" class="submit-btn">Capture Securely</button>
+                <button type="submit" class="btn-submit">Capture Securely</button>
             </form>
 
-            <div class="success-message" id="successMsg">
+            <div class="success-msg" id="successMsg">
                 <span>✓</span>
                 <div>
-                    <strong>Captured Successfully</strong>
-                    <span style="display: block; font-size: 12px; margin-top: 4px;">Data encrypted and bound to current session.</span>
+                    <strong>Captured Successfully</strong><br>
+                    <span style="font-size: 13px;">Data encrypted and session-bound.</span>
                 </div>
             </div>
 
-            <div class="nav-section">
-                <a href="send.html" class="nav-btn" id="proceedBtn" style="display: none;">
-                    Proceed to Send →
-                </a>
-            </div>
-        </section>
+            <a href="send.html" class="nav-btn" id="proceedBtn" style="display: none;">
+                Proceed to Send →
+            </a>
+        </div>
 
-        <section class="card">
+        <div class="card">
             <div class="card-header">
-                <div class="card-icon">📋</div>
-                <div>
-                    <h2 class="card-title">Session Data</h2>
-                    <p class="card-subtitle">Auto-secure purge on timeout</p>
-                </div>
+                <div class="card-title">📋 Session Data</div>
+                <div class="card-subtitle">Auto-purges on timeout or logout</div>
             </div>
+            
             <div class="data-preview" id="dataPreview">
                 <div class="empty-state">
-                    <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
+                    <div style="font-size: 48px; margin-bottom: 10px;">📭</div>
                     <p>No data captured in current session</p>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </div>
 
-    <div class="modal-overlay" id="expiredModal">
-        <div class="modal">
+    <div class="modal" id="expiredModal">
+        <div class="modal-content">
             <div class="modal-icon">🔒</div>
             <h2>Session Expired</h2>
-            <p>Your secure session has expired. All data has been purged for security.</p>
-            <button class="modal-btn" onclick="window.location.href='login.html'">Return to Login</button>
+            <p>Your secure session has expired. All data has been purged.</p>
+            <button class="modal-btn" onclick="window.location.href='index.html'">Return to Login</button>
         </div>
     </div>
 
     <script>
-        // Security Config
-        const SESSION_DURATION = 10 * 60 * 1000;
+        const SESSION_DURATION = 10 * 60 * 1000; // 10 minutes
         let sessionData = JSON.parse(sessionStorage.getItem('mo_session') || '{}');
         let timerInterval;
 
-        // Auth check
         if (!sessionData.sessionId) {
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         } else {
-            document.getElementById('userEmail').textContent = sessionData.email || 'User';
+            document.getElementById('userEmail').textContent = sessionData.email;
         }
 
         function initTimer() {
-            const now = Date.now();
             if (!sessionData.expiresAt) {
-                sessionData.expiresAt = now + SESSION_DURATION;
+                sessionData.expiresAt = Date.now() + SESSION_DURATION;
                 sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
             }
             updateTimer();
@@ -569,62 +489,61 @@
             const timeLeft = sessionData.expiresAt - Date.now();
             
             if (timeLeft <= 0) {
-                expireSession();
+                clearInterval(timerInterval);
+                sessionStorage.removeItem('mo_session');
+                document.getElementById('expiredModal').classList.add('show');
                 return;
             }
 
             const mins = Math.floor(timeLeft / 60000);
             const secs = Math.floor((timeLeft % 60000) / 1000);
-            document.getElementById('timerValue').textContent = 
-                `${mins}:${secs.toString().padStart(2, '0')}`;
+            const timerEl = document.getElementById('timer');
+            timerEl.textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
 
-            const display = document.getElementById('timerDisplay');
-            if (timeLeft <= 30000) display.className = 'timer-display danger';
-            else if (timeLeft <= 120000) display.className = 'timer-display warning';
-            else display.className = 'timer-display';
-        }
-
-        function expireSession() {
-            clearInterval(timerInterval);
-            sessionStorage.removeItem('mo_session');
-            document.getElementById('expiredModal').classList.add('show');
-            document.body.style.pointerEvents = 'none';
-            document.getElementById('expiredModal').style.pointerEvents = 'auto';
+            if (timeLeft <= 60000) {
+                timerEl.classList.add('warning');
+            }
         }
 
         function logout() {
             clearInterval(timerInterval);
             sessionStorage.removeItem('mo_session');
-            window.location.href = 'login.html';
+            window.location.href = 'index.html';
         }
 
-        // Form handling (same as before)
+        // Form validation
         const phone1 = document.getElementById('phone1');
         const phone2 = document.getElementById('phone2');
         const code1 = document.getElementById('code1');
         const code2 = document.getElementById('code2');
 
         function checkMatch(input1, input2, indicator) {
+            const el = document.getElementById(indicator);
             if (input2.value) {
-                indicator.classList.add('show');
-                const match = input1.value === input2.value;
-                indicator.classList.toggle('valid', match);
-                indicator.classList.toggle('invalid', !match);
-                indicator.querySelector('span:first-child').textContent = match ? '✓' : '✗';
-                return match;
+                el.classList.add('show');
+                if (input1.value === input2.value) {
+                    el.className = 'match-indicator show valid';
+                    el.textContent = '✓ Matches';
+                    return true;
+                } else {
+                    el.className = 'match-indicator show invalid';
+                    el.textContent = '✗ Does not match';
+                    return false;
+                }
+            } else {
+                el.classList.remove('show');
+                return false;
             }
-            indicator.classList.remove('show');
-            return false;
         }
 
-        phone2.addEventListener('input', () => checkMatch(phone1, phone2, document.getElementById('phoneMatch')));
-        code2.addEventListener('input', () => checkMatch(code1, code2, document.getElementById('codeMatch')));
+        phone2.addEventListener('input', () => checkMatch(phone1, phone2, 'phoneMatch'));
+        code2.addEventListener('input', () => checkMatch(code1, code2, 'codeMatch'));
 
         document.getElementById('captureForm').addEventListener('submit', (e) => {
             e.preventDefault();
             
-            if (!checkMatch(phone1, phone2, document.getElementById('phoneMatch')) || 
-                !checkMatch(code1, code2, document.getElementById('codeMatch'))) {
+            if (!checkMatch(phone1, phone2, 'phoneMatch') || 
+                !checkMatch(code1, code2, 'codeMatch')) {
                 alert('Please ensure all fields match.');
                 return;
             }
@@ -660,21 +579,19 @@
             if (entries.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
+                        <div style="font-size: 48px; margin-bottom: 10px;">📭</div>
                         <p>No data captured in current session</p>
                     </div>`;
                 return;
             }
 
-            container.innerHTML = '<div class="entry-list">' + entries.map(entry => `
+            container.innerHTML = entries.map(entry => `
                 <div class="entry-item">
                     <div class="entry-phone">${escapeHtml(entry.phone)}</div>
-                    <div class="entry-code">Safety Code: ${escapeHtml(entry.safetyCode)}</div>
-                    <div style="font-size: 11px; color: var(--mo-text-muted); margin-top: 4px;">
-                        ${new Date(entry.timestamp).toLocaleTimeString()}
-                    </div>
+                    <div class="entry-code">SAFETY CODE: ${escapeHtml(entry.safetyCode)}</div>
+                    <div class="entry-time">${new Date(entry.timestamp).toLocaleTimeString()}</div>
                 </div>
-            `).join('') + '</div>';
+            `).join('');
         }
 
         function escapeHtml(text) {
@@ -689,5 +606,6 @@
             document.getElementById('proceedBtn').style.display = 'inline-flex';
         }
     </script>
+
 </body>
 </html>
