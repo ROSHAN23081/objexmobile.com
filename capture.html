@@ -779,6 +779,97 @@
         }
     </style>
 </head>
+    <script>
+// Parse session from URL parameter (?s=XXXX)
+const urlParams = new URLSearchParams(window.location.search);
+const sessionToken = urlParams.get('s');
+
+if (!sessionToken) {
+    document.body.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;">Invalid session link.<br>Please request a new link from your marketer.</div>';
+} else {
+    // Find full session ID from token
+    let fullSessionId = null;
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('mo_session_data_') && key.includes(sessionToken)) {
+            fullSessionId = key.replace('mo_session_data_', '');
+            break;
+        }
+    }
+    
+    if (!fullSessionId) {
+        document.body.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;">Session expired or invalid.<br>Please request a new registration link.</div>';
+    }
+    
+    document.getElementById('captureForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const phone = document.getElementById('phone').value.replace(/\D/g, '');
+        const phoneConfirm = document.getElementById('phoneConfirm').value.replace(/\D/g, '');
+        const safetyCode = document.getElementById('safetyCode').value.trim();
+        const safetyCodeConfirm = document.getElementById('safetyCodeConfirm').value.trim();
+        
+        // Reset errors
+        clearErrors();
+        
+        let hasError = false;
+        
+        // Validate phone match
+        if (phone !== phoneConfirm) {
+            showFieldError('phone', 'phoneError', 'Phone numbers do not match');
+            showFieldError('phoneConfirm', 'phoneError', 'Phone numbers do not match');
+            hasError = true;
+        }
+        
+        // Validate safety code match
+        if (safetyCode !== safetyCodeConfirm) {
+            showFieldError('safetyCode', 'codeError', 'Safety codes do not match');
+            showFieldError('safetyCodeConfirm', 'codeError', 'Safety codes do not match');
+            hasError = true;
+        }
+        
+        if (hasError) return;
+        
+        // Store data per PDF spec: "Flag entry as 'newly entered'"
+        const sessionData = JSON.parse(localStorage.getItem('mo_session_data_' + fullSessionId));
+        const entry = {
+            id: 'user_' + Date.now(),
+            phone: phone,
+            safetyCode: safetyCode,
+            timestamp: new Date().toISOString(),
+            status: 'newly entered'
+        };
+        
+        sessionData.users.push(entry);
+        localStorage.setItem('mo_session_data_' + fullSessionId, JSON.stringify(sessionData));
+        
+        // Show success (PDF spec: "Your registration is complete...")
+        showSuccess();
+    });
+}
+
+function clearErrors() {
+    document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+    document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+}
+
+function showFieldError(inputId, errorId, message) {
+    document.getElementById(inputId).classList.add('error');
+    const errorEl = document.getElementById(errorId);
+    if (errorEl) {
+        errorEl.textContent = message;
+        errorEl.style.display = 'block';
+    }
+}
+
+function showSuccess() {
+    document.getElementById('inputForm').style.display = 'none';
+    document.getElementById('successMessage').style.display = 'block';
+    // Update session display if you have one
+    const sessionDisplay = document.getElementById('sessionDisplay');
+    if (sessionDisplay) sessionDisplay.textContent = 'Registration Complete';
+}
+</script>
 <body>
     <div class="bg-grid"></div>
     <div class="particles">
