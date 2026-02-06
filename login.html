@@ -1,12 +1,13 @@
 <!-- ============================================ -->
-<!-- PHASE 1: LOGIN PAGE (/login.html) -->
+<!-- LOGIN PAGE - User Registration & Persistent Login (/login.html) -->
 <!-- ============================================ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Objex | Secure Login</title>
+    <title>Mobile Objex | Secure Messaging Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -27,165 +28,303 @@
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', system-ui, sans-serif;
             background: var(--mo-darker);
             min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             color: var(--mo-text);
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
-        /* Animated Background */
-        .bg-animation {
+        /* Animated Background Grid */
+        .bg-grid {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background-image: 
+                linear-gradient(rgba(245, 166, 35, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(245, 166, 35, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
             z-index: -1;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(245, 166, 35, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(245, 166, 35, 0.1) 0%, transparent 50%),
-                var(--mo-darker);
+            animation: gridMove 20s linear infinite;
         }
 
-        .bg-animation::before {
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Glowing Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            z-index: -1;
+            animation: float 10s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--mo-gold);
+            top: -100px;
+            right: -100px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: #FF6B35;
+            bottom: -50px;
+            left: -50px;
+            animation-delay: -5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, 30px) scale(1.1); }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(10, 10, 15, 0.9), transparent);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 24px;
+            color: var(--mo-dark);
+            box-shadow: 0 0 30px rgba(245, 166, 35, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-icon::before {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: repeating-linear-gradient(
-                45deg,
-                transparent,
-                transparent 2px,
-                rgba(245, 166, 35, 0.03) 2px,
-                rgba(245, 166, 35, 0.03) 4px
-            );
-            animation: slide 20s linear infinite;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 3s infinite;
         }
 
-        @keyframes slide {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
         }
 
-        /* Security Badge */
-        .security-badge {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
-            color: var(--mo-dark);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
+        .brand-text h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
             font-weight: 700;
+            background: linear-gradient(135deg, var(--mo-text), var(--mo-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(245, 166, 35, 0.3);
         }
 
-        .security-badge::before {
-            content: '✓';
-            width: 18px;
-            height: 18px;
-            background: var(--mo-dark);
-            color: var(--mo-gold);
-            border-radius: 50%;
+        .brand-text span {
+            font-size: 11px;
+            color: var(--mo-text-muted);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        /* Main Container */
+        .container {
             display: flex;
+            min-height: 100vh;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            padding: 100px 40px 40px;
+            gap: 60px;
+            max-width: 1400px;
+            margin: 0 auto;
         }
 
-        /* Login Container */
-        .login-container {
-            background: var(--mo-gray);
-            border: 1px solid rgba(245, 166, 35, 0.2);
+        /* Left Side - Hero Content */
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: rgba(245, 166, 35, 0.1);
+            border: 1px solid rgba(245, 166, 35, 0.3);
             border-radius: 20px;
-            padding: 50px;
+            font-size: 12px;
+            color: var(--mo-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+
+        .hero-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .hero-content h2 span {
+            color: var(--mo-gold);
+            text-shadow: 0 0 30px rgba(245, 166, 35, 0.5);
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            color: var(--mo-text-muted);
+            line-height: 1.8;
+            margin-bottom: 40px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: var(--mo-text-muted);
+        }
+
+        .feature::before {
+            content: '▸';
+            color: var(--mo-gold);
+            font-size: 16px;
+        }
+
+        /* Right Side - Auth Card */
+        .auth-card {
             width: 100%;
             max-width: 440px;
-            box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(245, 166, 35, 0.1),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            background: rgba(26, 26, 36, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 166, 35, 0.2);
+            border-radius: 24px;
+            padding: 40px;
             position: relative;
             overflow: hidden;
         }
 
-        .login-container::before {
+        .auth-card::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            height: 3px;
+            height: 4px;
             background: linear-gradient(90deg, var(--mo-gold), var(--mo-gold-light), var(--mo-gold));
+            background-size: 200% 100%;
+            animation: gradientMove 3s linear infinite;
         }
 
-        /* Logo */
-        .logo {
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .auth-header {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
-        .logo-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
-            border-radius: 20px;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            font-weight: bold;
-            color: var(--mo-dark);
-            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
-            position: relative;
-        }
-
-        .logo-icon::after {
-            content: '';
-            position: absolute;
-            inset: -3px;
-            border-radius: 23px;
-            background: linear-gradient(135deg, var(--mo-gold), transparent);
-            z-index: -1;
-            opacity: 0.5;
-        }
-
-        .logo h1 {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--mo-text);
+        .auth-header h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
             margin-bottom: 8px;
         }
 
-        .logo p {
+        .auth-header p {
             color: var(--mo-text-muted);
             font-size: 14px;
-            letter-spacing: 0.5px;
         }
 
-        /* Form Styles */
+        /* Tabs */
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            background: var(--mo-dark);
+            padding: 5px;
+            border-radius: 10px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            color: var(--mo-text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .auth-tab.active {
+            background: var(--mo-gold);
+            color: var(--mo-dark);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .form-label {
             display: block;
             margin-bottom: 8px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: var(--mo-text-muted);
             text-transform: uppercase;
@@ -198,24 +337,19 @@
 
         .form-input {
             width: 100%;
-            padding: 16px 16px 16px 48px;
+            padding: 14px 16px 14px 45px;
             background: var(--mo-dark);
             border: 2px solid rgba(245, 166, 35, 0.2);
-            border-radius: 12px;
+            border-radius: 10px;
             color: var(--mo-text);
             font-size: 15px;
-            transition: all 0.3s ease;
-            font-family: inherit;
+            transition: all 0.3s;
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--mo-gold);
-            box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
-        }
-
-        .form-input::placeholder {
-            color: var(--mo-text-muted);
+            box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.1);
         }
 
         .input-icon {
@@ -227,18 +361,17 @@
             font-size: 18px;
         }
 
-        /* Login Button */
-        .login-btn {
+        .auth-btn {
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             color: var(--mo-dark);
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-top: 10px;
@@ -246,103 +379,80 @@
             overflow: hidden;
         }
 
-        .login-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .login-btn:hover::before {
-            left: 100%;
-        }
-
-        .login-btn:hover {
+        .auth-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(245, 166, 35, 0.4);
         }
 
-        .login-btn:active {
-            transform: translateY(0);
-        }
-
-        .login-btn:disabled {
+        .auth-btn:disabled {
             opacity: 0.6;
             cursor: not-allowed;
             transform: none;
         }
 
-        /* Error Message */
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: var(--mo-text-muted);
+            cursor: pointer;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--mo-gold);
+            cursor: pointer;
+        }
+
         .error-message {
             background: rgba(239, 68, 68, 0.1);
             border: 1px solid var(--mo-error);
             color: var(--mo-error);
-            padding: 12px 16px;
+            padding: 12px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
             margin-bottom: 20px;
             display: none;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .error-message.show {
             display: flex;
         }
 
-        /* Demo Credentials */
-        .demo-creds {
-            margin-top: 30px;
-            padding: 20px;
-            background: rgba(245, 166, 35, 0.05);
-            border: 1px dashed rgba(245, 166, 35, 0.3);
-            border-radius: 10px;
-            text-align: center;
-        }
-
-        .demo-creds h3 {
-            font-size: 12px;
-            color: var(--mo-gold);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-
-        .cred-row {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--mo-success);
+            color: var(--mo-success);
+            padding: 12px;
+            border-radius: 8px;
             font-size: 13px;
+            margin-bottom: 20px;
+            display: none;
         }
 
-        .cred-item {
-            color: var(--mo-text-muted);
+        .success-message.show {
+            display: block;
         }
 
-        .cred-item strong {
-            color: var(--mo-text);
-            font-family: monospace;
-            background: var(--mo-dark);
-            padding: 4px 8px;
-            border-radius: 4px;
-            margin-left: 6px;
-        }
-
-        /* Footer */
-        .login-footer {
-            text-align: center;
-            margin-top: 30px;
-            font-size: 12px;
-            color: var(--mo-text-muted);
-        }
-
-        .login-footer a {
-            color: var(--mo-gold);
-            text-decoration: none;
+        /* Responsive */
+        @media (max-width: 968px) {
+            .container {
+                flex-direction: column;
+                padding-top: 120px;
+            }
+            
+            .hero-content h2 {
+                font-size: 36px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Loading Spinner */
@@ -354,159 +464,306 @@
             border-top-color: transparent;
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
-            margin-right: 10px;
+            margin-right: 8px;
         }
 
-        .login-btn.loading .spinner {
+        .auth-btn.loading .spinner {
             display: inline-block;
-        }
-
-        .login-btn.loading .btn-text {
-            display: inline-flex;
-            align-items: center;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
-        /* Responsive */
-        @media (max-width: 480px) {
-            .login-container {
-                margin: 20px;
-                padding: 30px;
-            }
-            
-            .security-badge {
-                position: relative;
-                top: auto;
-                right: auto;
-                margin-bottom: 20px;
-                justify-content: center;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="bg-animation"></div>
-    
-    <div class="security-badge">
-        MO Verified Demo
-    </div>
+    <div class="bg-grid"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-    <div class="login-container">
-        <div class="logo">
-            <div class="logo-icon">MO</div>
-            <h1>Mobile Objex</h1>
-            <p>Secure Messaging Platform</p>
+    <nav class="nav">
+        <div class="brand">
+            <div class="brand-icon">MO</div>
+            <div class="brand-text">
+                <h1>Mobile Objex</h1>
+                <span>The Future of Fraud-Free Mobile Communications</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span>🔒</span> AI-Driven Mobile Trust, Delivered
+            </div>
+            <h2>Secure Mobile <span>Messaging</span> Platform</h2>
+            <p>Stop scams before they reach consumers. Mobile Objex builds verified, trustworthy messaging with advanced fraud detection and safety mark verification.</p>
+            
+            <div class="features">
+                <div class="feature">MO Verified Safety Mark</div>
+                <div class="feature">10-Minute Secure Sessions</div>
+                <div class="feature">End-to-End Encryption</div>
+                <div class="feature">Real-time Fraud Detection</div>
+                <div class="feature">Multi-Channel Protection</div>
+                <div class="feature">Cooperative Data Platform</div>
+            </div>
         </div>
 
-        <div class="error-message" id="errorMsg">
-            <span>⚠</span>
-            <span id="errorText">Invalid credentials</span>
-        </div>
-
-        <form id="loginForm">
-            <div class="form-group">
-                <label class="form-label">MO Username</label>
-                <div class="input-wrapper">
-                    <span class="input-icon">👤</span>
-                    <input 
-                        type="text" 
-                        class="form-input" 
-                        id="username" 
-                        placeholder="Enter your MO username"
-                        required
-                        autocomplete="username"
-                    >
-                </div>
+        <div class="auth-card">
+            <div class="auth-header">
+                <h3>Welcome Back</h3>
+                <p>Access your secure messaging dashboard</p>
             </div>
 
-            <div class="form-group">
-                <label class="form-label">MO Password</label>
-                <div class="input-wrapper">
-                    <span class="input-icon">🔒</span>
-                    <input 
-                        type="password" 
-                        class="form-input" 
-                        id="password" 
-                        placeholder="Enter your password"
-                        required
-                        autocomplete="current-password"
-                    >
-                </div>
+            <div class="error-message" id="errorMsg">
+                <span>⚠</span>
+                <span id="errorText">Invalid credentials</span>
             </div>
 
-            <button type="submit" class="login-btn" id="loginBtn">
-                <span class="btn-text">
+            <div class="success-message" id="successMsg">
+                Account created successfully! Please sign in.
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchTab('login')">Sign In</button>
+                <button class="auth-tab" onclick="switchTab('register')">Create Account</button>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉</span>
+                        <input type="email" class="form-input" id="loginEmail" placeholder="you@company.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
+                    </div>
+                </div>
+
+                <label class="remember-me">
+                    <input type="checkbox" id="rememberMe" checked>
+                    <span>Remember me on this device</span>
+                </label>
+
+                <button type="submit" class="auth-btn" id="loginBtn">
                     <span class="spinner"></span>
-                    Sign In to Demo
-                </span>
-            </button>
-        </form>
+                    <span class="btn-text">Access Platform</span>
+                </button>
+            </form>
 
-        <div class="demo-creds">
-            <h3>Demo Credentials</h3>
-            <div class="cred-row">
-                <span class="cred-item">Username:<strong>demo.operator</strong></span>
-                <span class="cred-item">Password:<strong>DemoPass123!</strong></span>
-            </div>
-        </div>
+            <!-- Register Form -->
+            <form class="auth-form" id="registerForm">
+                <div class="form-group">
+                    <label class="form-label">Full Name</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">👤</span>
+                        <input type="text" class="form-input" id="regName" placeholder="John Smith" required>
+                    </div>
+                </div>
 
-        <div class="login-footer">
-            <p>Protected by Mobile Objex Security Protocols</p>
-            <p style="margin-top: 8px;">© 2026 Mobile Objex. Sacred Heart Development Demo</p>
+                <div class="form-group">
+                    <label class="form-label">Email Address</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">✉</span>
+                        <input type="email" class="form-input" id="regEmail" placeholder="you@company.com" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🔒</span>
+                        <input type="password" class="form-input" id="regPassword" placeholder="Create password (min 6 chars)" required minlength="6">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Company</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🏢</span>
+                        <input type="text" class="form-input" id="regCompany" placeholder="Your company name">
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-btn" id="regBtn">
+                    <span class="spinner"></span>
+                    <span class="btn-text">Create Secure Account</span>
+                </button>
+            </form>
         </div>
     </div>
 
     <script>
-        // Hardcoded credentials per PDF spec
-        const VALID_CREDENTIALS = {
-            'demo.operator': 'DemoPass123!'
-        };
+        // User Storage - persists in localStorage
+        const USER_STORAGE_KEY = 'mo_users';
+        const CURRENT_SESSION_KEY = 'mo_session';
+        const REMEMBER_USER_KEY = 'mo_remembered_user';
 
-        // Check if already logged in
-        if (sessionStorage.getItem('mo_session')) {
-            window.location.href = 'capture.html';
+        // Initialize default admin if no users exist
+        function initUsers() {
+            const users = JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '[]');
+            if (users.length === 0) {
+                // Add a demo admin account
+                users.push({
+                    email: 'admin@mobileobjex.com',
+                    password: 'Admin123!',
+                    name: 'System Admin',
+                    company: 'Mobile Objex',
+                    created: new Date().toISOString()
+                });
+                localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
+            }
         }
 
+        // Check for remembered user
+        window.addEventListener('load', () => {
+            initUsers();
+            
+            const remembered = localStorage.getItem(REMEMBER_USER_KEY);
+            if (remembered) {
+                const user = JSON.parse(remembered);
+                document.getElementById('loginEmail').value = user.email;
+                document.getElementById('rememberMe').checked = true;
+                
+                // Optional: Auto-login if session still valid
+                if (user.sessionValid && user.expiresAt > Date.now()) {
+                    restoreSession(user);
+                }
+            }
+        });
+
+        function switchTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.querySelectorAll('.auth-tab')[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+            
+            // Hide messages
+            document.getElementById('errorMsg').classList.remove('show');
+            document.getElementById('successMsg').classList.remove('show');
+        }
+
+        // Registration
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('regBtn');
+            const name = document.getElementById('regName').value;
+            const email = document.getElementById('regEmail').value.toLowerCase();
+            const password = document.getElementById('regPassword').value;
+            const company = document.getElementById('regCompany').value;
+
+            btn.classList.add('loading');
+            btn.disabled = true;
+
+            await new Promise(r => setTimeout(r, 800));
+
+            // Check if user exists
+            const users = JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '[]');
+            if (users.find(u => u.email === email)) {
+                showError('An account with this email already exists. Please sign in.');
+                btn.classList.remove('loading');
+                btn.disabled = false;
+                return;
+            }
+
+            // Create new user
+            users.push({
+                email,
+                password,
+                name,
+                company,
+                created: new Date().toISOString()
+            });
+            
+            localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
+            
+            // Show success and switch to login
+            document.getElementById('successMsg').classList.add('show');
+            document.getElementById('loginEmail').value = email;
+            switchTab('login');
+            
+            btn.classList.remove('loading');
+            btn.disabled = false;
+            e.target.reset();
+        });
+
+        // Login
         document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
             const btn = document.getElementById('loginBtn');
-            const errorMsg = document.getElementById('errorMsg');
-            
-            // Show loading
+            const email = document.getElementById('loginEmail').value.toLowerCase();
+            const password = document.getElementById('loginPassword').value;
+            const remember = document.getElementById('rememberMe').checked;
+
             btn.classList.add('loading');
             btn.disabled = true;
-            errorMsg.classList.remove('show');
-            
-            // Simulate network delay
-            await new Promise(r => setTimeout(r, 800));
-            
+
+            await new Promise(r => setTimeout(r, 600));
+
             // Validate credentials
-            if (VALID_CREDENTIALS[username] === password) {
-                // Create session per PDF requirements
+            const users = JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+
+            if (user) {
+                // Create session with 10-minute expiry
                 const session = {
-                    username: username,
+                    username: user.name,
+                    email: user.email,
+                    company: user.company,
                     sessionId: 'MO-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
                     loginTime: new Date().toISOString(),
+                    expiresAt: Date.now() + (10 * 60 * 1000), // 10 minutes
                     phoneNumbers: []
                 };
                 
-                sessionStorage.setItem('mo_session', JSON.stringify(session));
+                sessionStorage.setItem(CURRENT_SESSION_KEY, JSON.stringify(session));
                 
-                // Redirect to capture page
+                // Remember user if checked
+                if (remember) {
+                    localStorage.setItem(REMEMBER_USER_KEY, JSON.stringify({
+                        email: user.email,
+                        sessionValid: true,
+                        expiresAt: session.expiresAt
+                    }));
+                } else {
+                    localStorage.removeItem(REMEMBER_USER_KEY);
+                }
+                
+                // Redirect to platform
                 window.location.href = 'capture.html';
             } else {
-                errorMsg.classList.add('show');
-                document.getElementById('errorText').textContent = 'Invalid MO credentials. Please try again.';
+                showError('Invalid email or password. Please try again.');
                 btn.classList.remove('loading');
                 btn.disabled = false;
             }
         });
+
+        function restoreSession(userData) {
+            // Optional: Implement silent re-auth for remembered users
+            console.log('Restoring session for:', userData.email);
+        }
+
+        function showError(msg) {
+            const errorEl = document.getElementById('errorMsg');
+            document.getElementById('errorText').textContent = msg;
+            errorEl.classList.add('show');
+            setTimeout(() => errorEl.classList.remove('show'), 5000);
+        }
     </script>
 </body>
 </html>
