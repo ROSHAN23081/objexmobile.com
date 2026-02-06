@@ -1,5 +1,5 @@
 <!-- ============================================ -->
-<!-- SECURE CAPTURE PAGE WITH 10-MIN TIMER (/capture.html) -->
+<!-- CAPTURE PAGE - Professional Mobile Objex (/capture.html) -->
 <!-- ============================================ -->
 <!DOCTYPE html>
 <html lang="en">
@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mobile Objex | Secure Capture</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -28,14 +29,13 @@
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: var(--mo-darker);
             min-height: 100vh;
             color: var(--mo-text);
-            line-height: 1.6;
         }
 
-        /* Header */
+        /* Header with Branding */
         .header {
             background: var(--mo-gray);
             border-bottom: 1px solid rgba(245, 166, 35, 0.2);
@@ -57,53 +57,57 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .brand-icon {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
             color: var(--mo-dark);
-            font-size: 16px;
+            box-shadow: 0 0 20px rgba(245, 166, 35, 0.3);
         }
 
         .brand-text h1 {
-            font-size: 18px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
             font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--mo-text), var(--mo-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .brand-text span {
             font-size: 11px;
             color: var(--mo-text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
-        /* Security Bar */
         .security-bar {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
 
-        /* Timer Display */
         .timer-display {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 16px;
+            gap: 8px;
+            padding: 8px 14px;
             background: rgba(245, 166, 35, 0.1);
             border: 1px solid rgba(245, 166, 35, 0.3);
             border-radius: 8px;
-            font-family: monospace;
+            font-family: 'Orbitron', monospace;
             font-size: 14px;
-            font-weight: 600;
             color: var(--mo-gold);
             transition: all 0.3s;
         }
@@ -124,40 +128,32 @@
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            50% { opacity: 0.6; }
         }
 
-        .timer-icon {
-            font-size: 16px;
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .timer-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .session-badge {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            color: var(--mo-success);
+        .user-email {
+            font-size: 13px;
+            color: var(--mo-text-muted);
+            max-width: 150px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .logout-btn {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--mo-text);
-            padding: 8px 18px;
+            padding: 8px 16px;
             border-radius: 6px;
             cursor: pointer;
             font-size: 13px;
             transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .logout-btn:hover {
@@ -166,22 +162,20 @@
             color: var(--mo-error);
         }
 
-        /* Main Layout */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 30px;
+            padding: 40px 30px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 40px;
         }
 
-        /* Card Styles */
         .card {
             background: var(--mo-gray);
             border: 1px solid rgba(245, 166, 35, 0.15);
             border-radius: 16px;
-            padding: 25px;
+            padding: 30px;
             position: relative;
             overflow: hidden;
         }
@@ -200,38 +194,39 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .card-icon {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             background: rgba(245, 166, 35, 0.1);
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 24px;
         }
 
         .card-title {
+            font-family: 'Orbitron', sans-serif;
             font-size: 18px;
             font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .card-subtitle {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--mo-text-muted);
         }
 
-        /* Form Styles */
         .form-group {
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .form-label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             font-size: 12px;
             font-weight: 600;
             color: var(--mo-text-muted);
@@ -241,26 +236,19 @@
 
         .form-input {
             width: 100%;
-            padding: 12px 14px;
+            padding: 14px 16px;
             background: var(--mo-dark);
             border: 2px solid rgba(245, 166, 35, 0.2);
-            border-radius: 8px;
+            border-radius: 10px;
             color: var(--mo-text);
             font-size: 15px;
             transition: all 0.3s;
-            font-family: inherit;
         }
 
         .form-input:focus {
             outline: none;
             border-color: var(--mo-gold);
-            box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
-        }
-
-        .input-hint {
-            font-size: 11px;
-            color: var(--mo-text-muted);
-            margin-top: 4px;
+            box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.1);
         }
 
         .match-indicator {
@@ -287,166 +275,81 @@
 
         .submit-btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             color: var(--mo-dark);
+            font-family: 'Orbitron', sans-serif;
             font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .submit-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(245, 166, 35, 0.3);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
         }
 
         .success-message {
             background: rgba(16, 185, 129, 0.1);
             border: 1px solid var(--mo-success);
             color: var(--mo-success);
-            padding: 14px;
-            border-radius: 8px;
-            margin-top: 16px;
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 20px;
             display: none;
             align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            animation: slideIn 0.3s ease;
+            gap: 12px;
         }
 
         .success-message.show {
             display: flex;
         }
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Data Preview */
         .data-preview {
-            max-height: 350px;
+            max-height: 400px;
             overflow-y: auto;
         }
 
         .empty-state {
             text-align: center;
-            padding: 50px 20px;
+            padding: 60px 20px;
             color: var(--mo-text-muted);
-        }
-
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            opacity: 0.5;
         }
 
         .entry-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .entry-item {
             background: var(--mo-dark);
             border: 1px solid rgba(245, 166, 35, 0.2);
-            border-radius: 8px;
-            padding: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            animation: slideIn 0.3s ease;
+            border-radius: 10px;
+            padding: 16px;
             border-left: 3px solid var(--mo-gold);
         }
 
-        .entry-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
         .entry-phone {
-            font-size: 15px;
+            font-size: 16px;
             font-weight: 600;
-            color: var(--mo-text);
+            margin-bottom: 4px;
         }
 
         .entry-code {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--mo-gold);
             font-family: monospace;
         }
 
-        .entry-time {
-            font-size: 11px;
-            color: var(--mo-text-muted);
-        }
-
-        .entry-status {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--mo-success);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 10px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .security-features {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .security-title {
-            font-size: 11px;
-            color: var(--mo-text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
-        }
-
-        .feature-list {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: var(--mo-text-muted);
-        }
-
-        .feature-item::before {
-            content: '✓';
-            width: 18px;
-            height: 18px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--mo-success);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            flex-shrink: 0;
-        }
-
         .nav-section {
-            margin-top: 24px;
+            margin-top: 30px;
             text-align: center;
         }
 
@@ -461,7 +364,6 @@
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            font-size: 14px;
             transition: all 0.3s;
         }
 
@@ -470,7 +372,7 @@
             color: var(--mo-dark);
         }
 
-        /* Timeout Warning Modal */
+        /* Modals */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -497,12 +399,6 @@
             max-width: 450px;
             width: 90%;
             text-align: center;
-            animation: modalIn 0.3s ease;
-        }
-
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.9); }
-            to { opacity: 1; transform: scale(1); }
         }
 
         .modal-icon {
@@ -516,19 +412,12 @@
             justify-content: center;
             font-size: 32px;
             margin: 0 auto 20px;
-            animation: pulse 1s infinite;
         }
 
         .modal h2 {
-            font-size: 22px;
-            margin-bottom: 12px;
             color: var(--mo-error);
-        }
-
-        .modal p {
-            color: var(--mo-text-muted);
-            margin-bottom: 24px;
-            line-height: 1.6;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 12px;
         }
 
         .modal-btn {
@@ -537,37 +426,14 @@
             border: none;
             border-radius: 8px;
             color: white;
-            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .modal-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.3);
-        }
-
-        .extend-btn {
-            background: transparent;
-            border: 1px solid var(--mo-text-muted);
-            color: var(--mo-text);
-            margin-right: 10px;
+            margin-top: 20px;
         }
 
         @media (max-width: 900px) {
             .container {
                 grid-template-columns: 1fr;
-                padding: 20px;
-            }
-            
-            .security-bar {
-                gap: 10px;
-            }
-            
-            .timer-display {
-                font-size: 12px;
-                padding: 6px 12px;
             }
         }
     </style>
@@ -579,21 +445,18 @@
                 <div class="brand-icon">MO</div>
                 <div class="brand-text">
                     <h1>Mobile Objex</h1>
-                    <span>Secure Session Active</span>
+                    <span>Secure Messaging Platform</span>
                 </div>
             </div>
             <div class="security-bar">
                 <div class="timer-display" id="timerDisplay">
-                    <span class="timer-icon">⏱</span>
-                    <div>
-                        <div class="timer-label">Session Timeout</div>
-                        <div id="timerValue">10:00</div>
-                    </div>
+                    <span>⏱</span>
+                    <span id="timerValue">10:00</span>
                 </div>
-                <span class="session-badge" id="sessionBadge">SECURE</span>
-                <button class="logout-btn" onclick="logout()">
-                    <span>🔒</span> Logout
-                </button>
+                <div class="user-menu">
+                    <span class="user-email" id="userEmail"></span>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
+                </div>
             </div>
         </div>
     </header>
@@ -604,63 +467,51 @@
                 <div class="card-icon">📱</div>
                 <div>
                     <h2 class="card-title">Secure Data Capture</h2>
-                    <p class="card-subtitle">Session expires in 10 minutes</p>
+                    <p class="card-subtitle">Enter recipient verification details</p>
                 </div>
             </div>
 
             <form id="captureForm">
                 <div class="form-group">
-                    <label class="form-label">Phone Number *</label>
-                    <input type="tel" class="form-input" id="phone1" placeholder="+1 (555) 123-4567" required maxlength="20">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" class="form-input" id="phone1" placeholder="+1 (555) 123-4567" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Confirm Phone Number *</label>
-                    <input type="tel" class="form-input" id="phone2" placeholder="Repeat phone number" required maxlength="20">
+                    <label class="form-label">Confirm Phone Number</label>
+                    <input type="tel" class="form-input" id="phone2" placeholder="Repeat phone number" required>
                     <div class="match-indicator" id="phoneMatch">
                         <span>✓</span> <span>Match</span>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Safety Code *</label>
-                    <input type="text" class="form-input" id="code1" placeholder="Enter safety code" required maxlength="20">
+                    <label class="form-label">Safety Code</label>
+                    <input type="text" class="form-input" id="code1" placeholder="Enter verification code" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Confirm Safety Code *</label>
-                    <input type="text" class="form-input" id="code2" placeholder="Repeat safety code" required maxlength="20">
+                    <label class="form-label">Confirm Safety Code</label>
+                    <input type="text" class="form-input" id="code2" placeholder="Repeat safety code" required>
                     <div class="match-indicator" id="codeMatch">
                         <span>✓</span> <span>Match</span>
                     </div>
                 </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    Capture Securely
-                </button>
+                <button type="submit" class="submit-btn">Capture Securely</button>
             </form>
 
             <div class="success-message" id="successMsg">
                 <span>✓</span>
                 <div>
                     <strong>Captured Successfully</strong>
-                    <span style="display: block; font-size: 12px; margin-top: 4px;">Data encrypted and session-bound.</span>
-                </div>
-            </div>
-
-            <div class="security-features">
-                <h3 class="security-title">Active Protections</h3>
-                <div class="feature-list">
-                    <div class="feature-item">10-min auto-timeout</div>
-                    <div class="feature-item">Double-entry verify</div>
-                    <div class="feature-item">AES-256 encryption</div>
-                    <div class="feature-item">Session isolation</div>
+                    <span style="display: block; font-size: 12px; margin-top: 4px;">Data encrypted and bound to current session.</span>
                 </div>
             </div>
 
             <div class="nav-section">
                 <a href="send.html" class="nav-btn" id="proceedBtn" style="display: none;">
-                    Next: Send Message →
+                    Proceed to Send →
                 </a>
             </div>
         </section>
@@ -670,131 +521,73 @@
                 <div class="card-icon">📋</div>
                 <div>
                     <h2 class="card-title">Session Data</h2>
-                    <p class="card-subtitle">Auto-purges on timeout</p>
+                    <p class="card-subtitle">Auto-secure purge on timeout</p>
                 </div>
             </div>
             <div class="data-preview" id="dataPreview">
                 <div class="empty-state">
-                    <div class="empty-state-icon">📭</div>
-                    <p>No data captured</p>
-                    <p style="font-size: 12px; margin-top: 8px;">All entries expire with session</p>
+                    <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
+                    <p>No data captured in current session</p>
                 </div>
             </div>
         </section>
     </main>
 
-    <!-- Timeout Warning Modal -->
-    <div class="modal-overlay" id="timeoutModal">
-        <div class="modal">
-            <div class="modal-icon">⏰</div>
-            <h2>Session Expiring Soon</h2>
-            <p>Your secure session will expire in <strong id="remainingTime">60 seconds</strong> for security reasons. All data will be automatically purged.</p>
-            <button class="modal-btn extend-btn" onclick="extendSession()">Extend 5 Min</button>
-            <button class="modal-btn" onclick="logout()">Logout Now</button>
-        </div>
-    </div>
-
-    <!-- Session Expired Modal -->
     <div class="modal-overlay" id="expiredModal">
         <div class="modal">
             <div class="modal-icon">🔒</div>
             <h2>Session Expired</h2>
-            <p>Your session has expired for security. All captured data has been purged. Please log in again to continue.</p>
+            <p>Your secure session has expired. All data has been purged for security.</p>
             <button class="modal-btn" onclick="window.location.href='login.html'">Return to Login</button>
         </div>
     </div>
 
     <script>
-        // Session Configuration
-        const SESSION_DURATION = 10 * 60 * 1000; // 10 minutes
-        const WARNING_TIME = 60 * 1000; // 1 minute warning
-        const CHECK_INTERVAL = 1000; // Check every second
-
+        // Security Config
+        const SESSION_DURATION = 10 * 60 * 1000;
         let sessionData = JSON.parse(sessionStorage.getItem('mo_session') || '{}');
         let timerInterval;
-        let warningShown = false;
 
-        // Validate session
+        // Auth check
         if (!sessionData.sessionId) {
             window.location.href = 'login.html';
+        } else {
+            document.getElementById('userEmail').textContent = sessionData.email || 'User';
         }
 
-        // Initialize or restore timer
         function initTimer() {
             const now = Date.now();
-            
-            // If new session, set expiry
             if (!sessionData.expiresAt) {
                 sessionData.expiresAt = now + SESSION_DURATION;
                 sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
             }
-
             updateTimer();
-            timerInterval = setInterval(updateTimer, CHECK_INTERVAL);
+            timerInterval = setInterval(updateTimer, 1000);
         }
 
         function updateTimer() {
-            const now = Date.now();
-            const timeLeft = sessionData.expiresAt - now;
-
+            const timeLeft = sessionData.expiresAt - Date.now();
+            
             if (timeLeft <= 0) {
                 expireSession();
                 return;
             }
 
-            // Update display
-            const minutes = Math.floor(timeLeft / 60000);
-            const seconds = Math.floor((timeLeft % 60000) / 1000);
-            const display = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-            
-            document.getElementById('timerValue').textContent = display;
-            document.getElementById('sessionBadge').textContent = 
-                `ID: ...${sessionData.sessionId.substr(-6)}`;
+            const mins = Math.floor(timeLeft / 60000);
+            const secs = Math.floor((timeLeft % 60000) / 1000);
+            document.getElementById('timerValue').textContent = 
+                `${mins}:${secs.toString().padStart(2, '0')}`;
 
-            // Visual warnings
-            const timerDisplay = document.getElementById('timerDisplay');
-            
-            if (timeLeft <= 30000) { // Last 30 seconds
-                timerDisplay.className = 'timer-display danger';
-            } else if (timeLeft <= 120000) { // Last 2 minutes
-                timerDisplay.className = 'timer-display warning';
-            } else {
-                timerDisplay.className = 'timer-display';
-            }
-
-            // Show warning modal at 1 minute
-            if (timeLeft <= WARNING_TIME && !warningShown) {
-                showTimeoutWarning(timeLeft);
-                warningShown = true;
-            }
-        }
-
-        function showTimeoutWarning(timeLeft) {
-            const seconds = Math.ceil(timeLeft / 1000);
-            document.getElementById('remainingTime').textContent = `${seconds} seconds`;
-            document.getElementById('timeoutModal').classList.add('show');
-        }
-
-        function extendSession() {
-            // Add 5 minutes (for demo purposes - in production this might require re-auth)
-            sessionData.expiresAt = Date.now() + (5 * 60 * 1000);
-            sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
-            warningShown = false;
-            document.getElementById('timeoutModal').classList.remove('show');
-            updateTimer();
+            const display = document.getElementById('timerDisplay');
+            if (timeLeft <= 30000) display.className = 'timer-display danger';
+            else if (timeLeft <= 120000) display.className = 'timer-display warning';
+            else display.className = 'timer-display';
         }
 
         function expireSession() {
             clearInterval(timerInterval);
-            
-            // Purge all data
             sessionStorage.removeItem('mo_session');
-            
-            // Show expired modal
-            document.getElementById('timeoutModal').classList.remove('show');
             document.getElementById('expiredModal').classList.add('show');
-            
-            // Prevent further interaction
             document.body.style.pointerEvents = 'none';
             document.getElementById('expiredModal').style.pointerEvents = 'auto';
         }
@@ -805,7 +598,7 @@
             window.location.href = 'login.html';
         }
 
-        // Form handling
+        // Form handling (same as before)
         const phone1 = document.getElementById('phone1');
         const phone2 = document.getElementById('phone2');
         const code1 = document.getElementById('code1');
@@ -819,10 +612,9 @@
                 indicator.classList.toggle('invalid', !match);
                 indicator.querySelector('span:first-child').textContent = match ? '✓' : '✗';
                 return match;
-            } else {
-                indicator.classList.remove('show');
-                return false;
             }
+            indicator.classList.remove('show');
+            return false;
         }
 
         phone2.addEventListener('input', () => checkMatch(phone1, phone2, document.getElementById('phoneMatch')));
@@ -833,7 +625,7 @@
             
             if (!checkMatch(phone1, phone2, document.getElementById('phoneMatch')) || 
                 !checkMatch(code1, code2, document.getElementById('codeMatch'))) {
-                alert('Fields do not match!');
+                alert('Please ensure all fields match.');
                 return;
             }
 
@@ -842,6 +634,7 @@
                 phone: phone1.value,
                 safetyCode: code1.value,
                 username: sessionData.username,
+                email: sessionData.email,
                 sessionId: sessionData.sessionId,
                 timestamp: new Date().toISOString(),
                 status: 'newly entered'
@@ -854,7 +647,6 @@
             document.getElementById('successMsg').classList.add('show');
             updatePreview();
             e.target.reset();
-            
             document.querySelectorAll('.match-indicator').forEach(el => el.classList.remove('show'));
             document.getElementById('proceedBtn').style.display = 'inline-flex';
             
@@ -868,21 +660,19 @@
             if (entries.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-state-icon">📭</div>
-                        <p>No data captured</p>
-                        <p style="font-size: 12px; margin-top: 8px;">All entries expire with session</p>
+                        <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
+                        <p>No data captured in current session</p>
                     </div>`;
                 return;
             }
 
             container.innerHTML = '<div class="entry-list">' + entries.map(entry => `
                 <div class="entry-item">
-                    <div class="entry-info">
-                        <span class="entry-phone">${escapeHtml(entry.phone)}</span>
-                        <span class="entry-code">${escapeHtml(entry.safetyCode)}</span>
-                        <span class="entry-time">${new Date(entry.timestamp).toLocaleTimeString()}</span>
+                    <div class="entry-phone">${escapeHtml(entry.phone)}</div>
+                    <div class="entry-code">Safety Code: ${escapeHtml(entry.safetyCode)}</div>
+                    <div style="font-size: 11px; color: var(--mo-text-muted); margin-top: 4px;">
+                        ${new Date(entry.timestamp).toLocaleTimeString()}
                     </div>
-                    <span class="entry-status">${entry.status}</span>
                 </div>
             `).join('') + '</div>';
         }
@@ -893,34 +683,11 @@
             return div.innerHTML;
         }
 
-        // Activity tracking to reset timer (optional security feature)
-        let activityTimeout;
-        document.addEventListener('mousemove', () => {
-            // Uncomment below to reset timer on activity (optional)
-            // resetActivityTimer();
-        });
-
-        function resetActivityTimer() {
-            clearTimeout(activityTimeout);
-            activityTimeout = setTimeout(() => {
-                // Optional: Warn about inactivity
-            }, 60000);
-        }
-
-        // Initialize
         initTimer();
         updatePreview();
         if ((sessionData.phoneNumbers || []).length > 0) {
             document.getElementById('proceedBtn').style.display = 'inline-flex';
         }
-
-        // Warn before unload if data exists
-        window.addEventListener('beforeunload', (e) => {
-            if ((sessionData.phoneNumbers || []).length > 0) {
-                e.preventDefault();
-                e.returnValue = 'You have captured data that will be lost.';
-            }
-        });
     </script>
 </body>
 </html>
