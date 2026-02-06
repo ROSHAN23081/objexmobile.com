@@ -1,10 +1,15 @@
+<!-- ============================================ -->
+<!-- CLEAN INDEX.HTML (/index.html) -->
+<!-- ============================================ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mobile Objex | Secure Messaging Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,668 +17,521 @@
             box-sizing: border-box;
         }
 
-        :root {
-            --mo-gold: #F5A623;
-            --mo-gold-light: #FFB84D;
-            --mo-dark: #0A0A0F;
-            --mo-darker: #050508;
-            --mo-gray: #1A1A24;
-            --mo-text: #E8E8EC;
-            --mo-text-muted: #888899;
-            --mo-success: #10B981;
-            --mo-error: #EF4444;
-        }
-
         body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: var(--mo-darker);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0a0f;
+            color: #ffffff;
             min-height: 100vh;
-            color: var(--mo-text);
-            position: relative;
-            overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        .bg-grid {
-            position: fixed;
+        /* Header */
+        header {
+            background: rgba(26, 26, 36, 0.95);
+            border-bottom: 1px solid rgba(245, 166, 35, 0.2);
+            padding: 20px 0;
+            position: sticky;
             top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: 
-                linear-gradient(rgba(245, 166, 35, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(245, 166, 35, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
-            animation: gridMove 20s linear infinite;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.4;
-            z-index: -1;
-            animation: float 10s ease-in-out infinite;
-        }
-
-        .orb-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--mo-gold);
-            top: -100px;
-            right: -100px;
-        }
-
-        .orb-2 {
-            width: 300px;
-            height: 300px;
-            background: #FF6B35;
-            bottom: -50px;
-            left: -50px;
-            animation-delay: -5s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-30px, 30px) scale(1.1); }
-        }
-
-        .nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             z-index: 100;
-            background: linear-gradient(to bottom, rgba(10, 10, 15, 0.9), transparent);
+            backdrop-filter: blur(10px);
         }
 
-        .brand {
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
             display: flex;
             align-items: center;
             gap: 15px;
         }
 
-        .brand-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
-            border-radius: 12px;
+        .logo-box {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #f5a623, #ffb84d);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Orbitron', monospace;
             font-weight: 900;
+            font-size: 20px;
+            color: #0a0a0f;
+            box-shadow: 0 0 20px rgba(245, 166, 35, 0.4);
+        }
+
+        .brand-title {
+            font-family: 'Orbitron', monospace;
             font-size: 24px;
-            color: var(--mo-dark);
-            box-shadow: 0 0 30px rgba(245, 166, 35, 0.4);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .brand-icon::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shimmer 3s infinite;
-        }
-
-        @keyframes shimmer {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
-        }
-
-        .brand-text h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 28px;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--mo-text), var(--mo-gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #f5a623;
             letter-spacing: 2px;
-            text-transform: uppercase;
+            margin: 0;
         }
 
-        .brand-text span {
-            font-size: 11px;
-            color: var(--mo-text-muted);
-            letter-spacing: 3px;
+        .brand-subtitle {
+            font-size: 12px;
+            color: #888899;
             text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: -5px;
         }
 
+        /* Main Layout */
         .container {
-            display: flex;
-            min-height: 100vh;
-            align-items: center;
-            justify-content: center;
-            padding: 100px 40px 40px;
-            gap: 60px;
-            max-width: 1400px;
+            max-width: 1200px;
             margin: 0 auto;
-        }
-
-        .hero-content {
-            flex: 1;
-            max-width: 600px;
-        }
-
-        .hero-badge {
-            display: inline-flex;
+            padding: 60px 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
             align-items: center;
-            gap: 8px;
+            min-height: calc(100vh - 85px);
+        }
+
+        /* Left Side - Hero */
+        .hero-badge {
+            display: inline-block;
             padding: 8px 16px;
             background: rgba(245, 166, 35, 0.1);
             border: 1px solid rgba(245, 166, 35, 0.3);
             border-radius: 20px;
-            font-size: 12px;
-            color: var(--mo-gold);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 30px;
+            font-size: 13px;
+            color: #f5a623;
+            margin-bottom: 25px;
+            font-weight: 500;
         }
 
-        .hero-content h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 48px;
+        .hero-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 42px;
             font-weight: 700;
-            line-height: 1.2;
+            line-height: 1.3;
             margin-bottom: 20px;
-            text-transform: uppercase;
+            color: #ffffff;
         }
 
-        .hero-content h2 span {
-            color: var(--mo-gold);
-            text-shadow: 0 0 30px rgba(245, 166, 35, 0.5);
+        .hero-title span {
+            color: #f5a623;
+            text-shadow: 0 0 20px rgba(245, 166, 35, 0.3);
         }
 
-        .hero-content p {
-            font-size: 18px;
-            color: var(--mo-text-muted);
+        .hero-text {
+            font-size: 17px;
+            color: #a0a0b0;
+            margin-bottom: 35px;
             line-height: 1.8;
-            margin-bottom: 40px;
         }
 
-        .features {
+        .feature-list {
+            list-style: none;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            gap: 15px;
         }
 
-        .feature {
+        .feature-list li {
+            color: #888899;
+            font-size: 15px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            color: var(--mo-text-muted);
+            gap: 10px;
         }
 
-        .feature::before {
-            content: '▸';
-            color: var(--mo-gold);
-            font-size: 16px;
+        .feature-list li::before {
+            content: "→";
+            color: #f5a623;
+            font-weight: bold;
         }
 
+        /* Right Side - Auth Card */
         .auth-card {
-            width: 100%;
-            max-width: 440px;
-            background: rgba(26, 26, 36, 0.8);
-            backdrop-filter: blur(20px);
+            background: #1a1a24;
             border: 1px solid rgba(245, 166, 35, 0.2);
-            border-radius: 24px;
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .auth-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--mo-gold), var(--mo-gold-light), var(--mo-gold));
-            background-size: 200% 100%;
-            animation: gradientMove 3s linear infinite;
-        }
-
-        @keyframes gradientMove {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
         .auth-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        .auth-header h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 24px;
+        .auth-header h2 {
+            font-family: 'Orbitron', monospace;
+            font-size: 22px;
             margin-bottom: 8px;
+            color: #ffffff;
         }
 
         .auth-header p {
-            color: var(--mo-text-muted);
+            color: #888899;
             font-size: 14px;
         }
 
-        .auth-tabs {
+        /* Tabs */
+        .tabs {
             display: flex;
             gap: 10px;
-            margin-bottom: 30px;
-            background: var(--mo-dark);
+            margin-bottom: 25px;
+            background: #0a0a0f;
             padding: 5px;
             border-radius: 10px;
         }
 
-        .auth-tab {
+        .tab-btn {
             flex: 1;
             padding: 12px;
-            background: transparent;
             border: none;
-            color: var(--mo-text-muted);
+            background: transparent;
+            color: #888899;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
             border-radius: 8px;
             transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
         }
 
-        .auth-tab.active {
-            background: var(--mo-gold);
-            color: var(--mo-dark);
+        .tab-btn.active {
+            background: #f5a623;
+            color: #0a0a0f;
         }
 
-        .auth-form {
+        /* Forms */
+        .form-panel {
             display: none;
         }
 
-        .auth-form.active {
+        .form-panel.active {
             display: block;
         }
 
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
 
-        .form-label {
+        label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
             font-size: 12px;
-            font-weight: 600;
-            color: var(--mo-text-muted);
+            color: #888899;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
-        .input-wrapper {
-            position: relative;
-        }
-
-        .form-input {
+        input {
             width: 100%;
-            padding: 14px 16px 14px 45px;
-            background: var(--mo-dark);
+            padding: 14px 16px;
+            background: #0a0a0f;
             border: 2px solid rgba(245, 166, 35, 0.2);
             border-radius: 10px;
-            color: var(--mo-text);
+            color: #ffffff;
             font-size: 15px;
+            font-family: 'Inter', sans-serif;
             transition: all 0.3s;
         }
 
-        .form-input:focus {
+        input:focus {
             outline: none;
-            border-color: var(--mo-gold);
-            box-shadow: 0 0 0 4px rgba(245, 166, 35, 0.1);
+            border-color: #f5a623;
+            box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
         }
 
-        .input-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--mo-gold);
-            font-size: 18px;
+        input::placeholder {
+            color: #555;
         }
 
-        .auth-btn {
+        .remember {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #888899;
+            cursor: pointer;
+        }
+
+        .remember input {
+            width: auto;
+            accent-color: #f5a623;
+        }
+
+        .btn-primary {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            background: linear-gradient(135deg, #f5a623, #ffb84d);
             border: none;
             border-radius: 10px;
-            color: var(--mo-dark);
+            color: #0a0a0f;
             font-size: 16px;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
+            font-family: 'Orbitron', monospace;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-top: 10px;
-            font-family: 'Orbitron', sans-serif;
         }
 
-        .auth-btn:hover {
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.4);
+            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
         }
 
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-top: 20px;
+        .alert {
+            padding: 12px;
+            border-radius: 8px;
             font-size: 14px;
-            color: var(--mo-text-muted);
-            cursor: pointer;
+            margin-bottom: 20px;
+            display: none;
         }
 
-        .remember-me input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: var(--mo-gold);
-            cursor: pointer;
-        }
-
-        .error-message {
+        .alert-error {
             background: rgba(239, 68, 68, 0.1);
-            border: 1px solid var(--mo-error);
-            color: var(--mo-error);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            margin-bottom: 20px;
-            display: none;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
         }
 
-        .error-message.show {
-            display: block;
-        }
-
-        .success-message {
+        .alert-success {
             background: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--mo-success);
-            color: var(--mo-success);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 13px;
-            margin-bottom: 20px;
-            display: none;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
         }
 
-        .success-message.show {
+        .alert.show {
             display: block;
         }
 
-        @media (max-width: 968px) {
+        /* Responsive */
+        @media (max-width: 900px) {
             .container {
-                flex-direction: column;
-                padding-top: 120px;
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 40px 20px;
             }
-            
-            .hero-content h2 {
-                font-size: 36px;
+
+            .hero-title {
+                font-size: 32px;
             }
-            
-            .features {
+
+            .feature-list {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="bg-grid"></div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
 
-    <nav class="nav">
-        <div class="brand">
-            <div class="brand-icon">MO</div>
-            <div class="brand-text">
-                <h1>Mobile Objex</h1>
-                <span>The Future of Fraud-Free Mobile Communications</span>
+    <header>
+        <div class="header-content">
+            <div class="logo-box">MO</div>
+            <div>
+                <h1 class="brand-title">MOBILE OBJEX</h1>
+                <div class="brand-subtitle">Fraud-Free Mobile Communications</div>
             </div>
         </div>
-    </nav>
+    </header>
 
     <div class="container">
-        <div class="hero-content">
-            <div class="hero-badge">
-                <span>🔒</span> AI-Driven Mobile Trust, Delivered
-            </div>
-            <h2>Secure Mobile <span>Messaging</span> Platform</h2>
-            <p>Stop scams before they reach consumers. Mobile Objex builds verified, trustworthy messaging with advanced fraud detection and safety mark verification.</p>
+        <!-- Left Side -->
+        <div>
+            <div class="hero-badge">🔒 AI-Driven Mobile Trust, Delivered</div>
+            <h1 class="hero-title">Secure Mobile <span>Messaging</span> Platform</h1>
+            <p class="hero-text">
+                Stop scams before they reach consumers. Mobile Objex builds verified, 
+                trustworthy messaging with advanced fraud detection and safety mark verification.
+            </p>
             
-            <div class="features">
-                <div class="feature">MO Verified Safety Mark</div>
-                <div class="feature">10-Minute Secure Sessions</div>
-                <div class="feature">End-to-End Encryption</div>
-                <div class="feature">Real-time Fraud Detection</div>
-                <div class="feature">Multi-Channel Protection</div>
-                <div class="feature">Cooperative Data Platform</div>
-            </div>
+            <ul class="feature-list">
+                <li>MO Verified Safety Mark</li>
+                <li>10-Minute Secure Sessions</li>
+                <li>End-to-End Encryption</li>
+                <li>Real-time Fraud Detection</li>
+                <li>Multi-Channel Protection</li>
+                <li>Cooperative Data Platform</li>
+            </ul>
         </div>
 
+        <!-- Right Side - Auth -->
         <div class="auth-card">
             <div class="auth-header">
-                <h3>Welcome Back</h3>
+                <h2>Welcome Back</h2>
                 <p>Access your secure messaging dashboard</p>
             </div>
 
-            <div class="error-message" id="errorMsg">
+            <div class="alert alert-error" id="errorMsg">
                 ⚠ <span id="errorText">Invalid credentials</span>
             </div>
 
-            <div class="success-message" id="successMsg">
+            <div class="alert alert-success" id="successMsg">
                 ✓ Account created successfully! Please sign in.
             </div>
 
-            <div class="auth-tabs">
-                <button class="auth-tab active" onclick="switchTab('login')">Sign In</button>
-                <button class="auth-tab" onclick="switchTab('register')">Create Account</button>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('login')">Sign In</button>
+                <button class="tab-btn" onclick="switchTab('register')">Create Account</button>
             </div>
 
             <!-- Login Form -->
-            <form class="auth-form active" id="loginForm">
+            <form class="form-panel active" id="loginForm">
                 <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <div class="input-wrapper">
-                        <span class="input-icon">✉</span>
-                        <input type="email" class="form-input" id="loginEmail" placeholder="you@company.com" required>
-                    </div>
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="you@company.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <div class="input-wrapper">
-                        <span class="input-icon">🔒</span>
-                        <input type="password" class="form-input" id="loginPassword" placeholder="Enter your password" required>
-                    </div>
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
                 </div>
 
-                <label class="remember-me">
+                <label class="remember">
                     <input type="checkbox" id="rememberMe" checked>
                     <span>Remember me on this device</span>
                 </label>
 
-                <button type="submit" class="auth-btn">Access Platform</button>
+                <button type="submit" class="btn-primary">Access Platform</button>
             </form>
 
             <!-- Register Form -->
-            <form class="auth-form" id="registerForm">
+            <form class="form-panel" id="registerForm">
                 <div class="form-group">
-                    <label class="form-label">Full Name</label>
-                    <div class="input-wrapper">
-                        <span class="input-icon">👤</span>
-                        <input type="text" class="form-input" id="regName" placeholder="John Smith" required>
-                    </div>
+                    <label>Full Name</label>
+                    <input type="text" id="regName" placeholder="John Smith" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Email Address</label>
-                    <div class="input-wrapper">
-                        <span class="input-icon">✉</span>
-                        <input type="email" class="form-input" id="regEmail" placeholder="you@company.com" required>
-                    </div>
+                    <label>Email Address</label>
+                    <input type="email" id="regEmail" placeholder="you@company.com" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Password</label>
-                    <div class="input-wrapper">
-                        <span class="input-icon">🔒</span>
-                        <input type="password" class="form-input" id="regPassword" placeholder="Create password (min 6 chars)" required minlength="6">
-                    </div>
+                    <label>Password</label>
+                    <input type="password" id="regPassword" placeholder="Create password (min 6 chars)" required minlength="6">
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">Company</label>
-                    <div class="input-wrapper">
-                        <span class="input-icon">🏢</span>
-                        <input type="text" class="form-input" id="regCompany" placeholder="Your company name">
-                    </div>
+                    <label>Company (Optional)</label>
+                    <input type="text" id="regCompany" placeholder="Your company name">
                 </div>
 
-                <button type="submit" class="auth-btn">Create Secure Account</button>
+                <button type="submit" class="btn-primary">Create Account</button>
             </form>
         </div>
     </div>
 
     <script>
-        // User Storage
-        const USER_STORAGE_KEY = 'mo_users';
-        const CURRENT_SESSION_KEY = 'mo_session';
-        const REMEMBER_USER_KEY = 'mo_remembered_user';
+        // User storage
+        const USER_KEY = 'mo_users';
+        const SESSION_KEY = 'mo_session';
+        const REMEMBER_KEY = 'mo_remember';
 
-        function initUsers() {
-            const users = JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '[]');
-            if (users.length === 0) {
-                users.push({
-                    email: 'admin@mobileobjex.com',
-                    password: 'Admin123!',
-                    name: 'System Admin',
-                    company: 'Mobile Objex',
-                    created: new Date().toISOString()
-                });
-                localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
-            }
+        // Initialize with admin
+        if (!localStorage.getItem(USER_KEY)) {
+            localStorage.setItem(USER_KEY, JSON.stringify([{
+                email: 'admin@mobileobjex.com',
+                password: 'Admin123!',
+                name: 'Admin',
+                company: 'Mobile Objex'
+            }]));
         }
 
+        // Load remembered email
         window.addEventListener('load', () => {
-            initUsers();
-            const remembered = localStorage.getItem(REMEMBER_USER_KEY);
+            const remembered = localStorage.getItem(REMEMBER_KEY);
             if (remembered) {
-                const user = JSON.parse(remembered);
-                document.getElementById('loginEmail').value = user.email;
+                document.getElementById('loginEmail').value = JSON.parse(remembered).email;
             }
         });
 
         function switchTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.form-panel').forEach(f => f.classList.remove('active'));
             
             if (tab === 'login') {
-                document.querySelectorAll('.auth-tab')[0].classList.add('active');
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
                 document.getElementById('loginForm').classList.add('active');
             } else {
-                document.querySelectorAll('.auth-tab')[1].classList.add('active');
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
                 document.getElementById('registerForm').classList.add('active');
             }
             
+            hideAlerts();
+        }
+
+        function hideAlerts() {
             document.getElementById('errorMsg').classList.remove('show');
             document.getElementById('successMsg').classList.remove('show');
         }
 
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        function showError(msg) {
+            document.getElementById('errorText').textContent = msg;
+            document.getElementById('errorMsg').classList.add('show');
+        }
+
+        // Register
+        document.getElementById('registerForm').addEventListener('submit', (e) => {
             e.preventDefault();
+            hideAlerts();
             
-            const name = document.getElementById('regName').value;
+            const users = JSON.parse(localStorage.getItem(USER_KEY));
             const email = document.getElementById('regEmail').value.toLowerCase();
-            const password = document.getElementById('regPassword').value;
-            const company = document.getElementById('regCompany').value;
-
-            await new Promise(r => setTimeout(r, 500));
-
-            const users = JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '[]');
+            
             if (users.find(u => u.email === email)) {
-                showError('An account with this email already exists.');
+                showError('Email already registered. Please sign in.');
                 return;
             }
-
+            
             users.push({
-                email,
-                password,
-                name,
-                company,
+                email: email,
+                password: document.getElementById('regPassword').value,
+                name: document.getElementById('regName').value,
+                company: document.getElementById('regCompany').value,
                 created: new Date().toISOString()
             });
             
-            localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(users));
-            
+            localStorage.setItem(USER_KEY, JSON.stringify(users));
             document.getElementById('successMsg').classList.add('show');
             document.getElementById('loginEmail').value = email;
             switchTab('login');
             e.target.reset();
         });
 
-        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        // Login
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
             e.preventDefault();
+            hideAlerts();
             
             const email = document.getElementById('loginEmail').value.toLowerCase();
             const password = document.getElementById('loginPassword').value;
-            const remember = document.getElementById('rememberMe').checked;
-
-            await new Promise(r => setTimeout(r, 500));
-
-            const users = JSON.parse(localStorage.getItem(USER_STORAGE_KEY) || '[]');
+            const users = JSON.parse(localStorage.getItem(USER_KEY));
             const user = users.find(u => u.email === email && u.password === password);
-
+            
             if (user) {
+                // Create session with 10-min expiry
                 const session = {
                     username: user.name,
                     email: user.email,
-                    company: user.company,
-                    sessionId: 'MO-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
-                    loginTime: new Date().toISOString(),
-                    expiresAt: Date.now() + (10 * 60 * 1000), // 10 minutes
+                    sessionId: 'MO-' + Date.now(),
+                    expiresAt: Date.now() + (10 * 60 * 1000),
                     phoneNumbers: []
                 };
+                sessionStorage.setItem(SESSION_KEY, JSON.stringify(session));
                 
-                sessionStorage.setItem(CURRENT_SESSION_KEY, JSON.stringify(session));
-                
-                if (remember) {
-                    localStorage.setItem(REMEMBER_USER_KEY, JSON.stringify({
-                        email: user.email
-                    }));
+                // Remember email if checked
+                if (document.getElementById('rememberMe').checked) {
+                    localStorage.setItem(REMEMBER_KEY, JSON.stringify({email}));
                 } else {
-                    localStorage.removeItem(REMEMBER_USER_KEY);
+                    localStorage.removeItem(REMEMBER_KEY);
                 }
                 
                 window.location.href = 'capture.html';
             } else {
-                showError('Invalid email or password. Please try again.');
+                showError('Invalid email or password.');
             }
         });
-
-        function showError(msg) {
-            const errorEl = document.getElementById('errorMsg');
-            document.getElementById('errorText').textContent = msg;
-            errorEl.classList.add('show');
-            setTimeout(() => errorEl.classList.remove('show'), 5000);
-        }
     </script>
+
 </body>
 </html>
