@@ -1,5 +1,5 @@
 <!-- ============================================ -->
-<!-- SECURE SEND PAGE WITH 10-MIN TIMER (/send.html) -->
+<!-- SEND PAGE - Professional Mobile Objex (/send.html) -->
 <!-- ============================================ -->
 <!DOCTYPE html>
 <html lang="en">
@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mobile Objex | Secure Send</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -28,11 +29,10 @@
         }
 
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             background: var(--mo-darker);
             min-height: 100vh;
             color: var(--mo-text);
-            line-height: 1.6;
         }
 
         .header {
@@ -56,32 +56,39 @@
         .brand {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
         .brand-icon {
-            width: 40px;
-            height: 40px;
+            width: 42px;
+            height: 42px;
             background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
             color: var(--mo-dark);
-            font-size: 16px;
+            box-shadow: 0 0 20px rgba(245, 166, 35, 0.3);
         }
 
         .brand-text h1 {
-            font-size: 18px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 20px;
             font-weight: 700;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--mo-text), var(--mo-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .brand-text span {
             font-size: 11px;
             color: var(--mo-text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         .security-bar {
@@ -98,9 +105,8 @@
             background: rgba(245, 166, 35, 0.1);
             border: 1px solid rgba(245, 166, 35, 0.3);
             border-radius: 8px;
-            font-family: monospace;
-            font-size: 13px;
-            font-weight: 600;
+            font-family: 'Orbitron', monospace;
+            font-size: 14px;
             color: var(--mo-gold);
             transition: all 0.3s;
         }
@@ -132,9 +138,6 @@
             border-radius: 6px;
             text-decoration: none;
             font-size: 13px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
         }
 
         .logout-btn {
@@ -157,17 +160,17 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 30px;
+            padding: 40px 30px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 30px;
+            gap: 40px;
         }
 
         .card {
             background: var(--mo-gray);
             border: 1px solid rgba(245, 166, 35, 0.15);
             border-radius: 16px;
-            padding: 25px;
+            padding: 30px;
             position: relative;
             overflow: hidden;
         }
@@ -186,27 +189,29 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .card-icon {
-            width: 44px;
-            height: 44px;
+            width: 48px;
+            height: 48px;
             background: rgba(245, 166, 35, 0.1);
-            border-radius: 10px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 24px;
         }
 
         .card-title {
+            font-family: 'Orbitron', sans-serif;
             font-size: 18px;
             font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .card-subtitle {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--mo-text-muted);
         }
 
@@ -276,7 +281,7 @@
 
         .message-area {
             width: 100%;
-            min-height: 180px;
+            min-height: 200px;
             padding: 16px;
             background: var(--mo-dark);
             border: 2px solid rgba(245, 166, 35, 0.2);
@@ -299,22 +304,26 @@
             margin-top: 8px;
         }
 
-        .code-notice {
+        .security-notice {
             background: rgba(245, 166, 35, 0.1);
             border: 1px dashed rgba(245, 166, 35, 0.4);
-            border-radius: 8px;
-            padding: 14px;
-            margin-top: 16px;
+            border-radius: 10px;
+            padding: 16px;
+            margin-top: 20px;
             display: flex;
             align-items: center;
             gap: 12px;
-            font-size: 13px;
         }
 
-        .code-notice strong {
+        .security-notice strong {
             color: var(--mo-gold);
             display: block;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
+        }
+
+        .security-notice span {
+            font-size: 13px;
+            color: var(--mo-text-muted);
         }
 
         .send-btn {
@@ -324,15 +333,16 @@
             border: none;
             border-radius: 10px;
             color: var(--mo-dark);
-            font-size: 15px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
             font-weight: 700;
             cursor: pointer;
             margin-top: 20px;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: all 0.3s;
         }
 
         .send-btn:hover:not(:disabled) {
@@ -345,37 +355,12 @@
             cursor: not-allowed;
         }
 
-        .send-btn.sending .spinner {
-            display: block;
-        }
-
-        .spinner {
-            display: none;
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--mo-dark);
-            border-top-color: transparent;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
         .empty-state {
             text-align: center;
-            padding: 50px 20px;
+            padding: 60px 20px;
             color: var(--mo-text-muted);
         }
 
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
-        /* Modals */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -387,7 +372,6 @@
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            backdrop-filter: blur(5px);
         }
 
         .modal-overlay.show {
@@ -401,14 +385,19 @@
             max-width: 450px;
             width: 90%;
             text-align: center;
+        }
+
+        .modal.success-modal {
+            border: 2px solid var(--mo-success);
+        }
+
+        .modal.error-modal {
             border: 2px solid var(--mo-error);
         }
 
         .modal-icon {
             width: 70px;
             height: 70px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 2px solid var(--mo-error);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -417,48 +406,19 @@
             margin: 0 auto 20px;
         }
 
-        .modal h2 {
-            color: var(--mo-error);
-            margin-bottom: 12px;
-        }
-
-        .modal p {
-            color: var(--mo-text-muted);
-            margin-bottom: 24px;
-            line-height: 1.6;
-        }
-
-        .modal-btn {
-            padding: 12px 30px;
-            background: var(--mo-error);
-            border: none;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .success-modal {
-            border-color: var(--mo-success);
-        }
-
         .success-modal .modal-icon {
             background: rgba(16, 185, 129, 0.1);
-            border-color: var(--mo-success);
+            border: 2px solid var(--mo-success);
         }
 
-        .success-modal h2 {
-            color: var(--mo-success);
-        }
-
-        .success-modal .modal-btn {
-            background: var(--mo-success);
+        .error-modal .modal-icon {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--mo-error);
         }
 
         @media (max-width: 900px) {
             .container {
                 grid-template-columns: 1fr;
-                padding: 20px;
             }
         }
     </style>
@@ -470,7 +430,7 @@
                 <div class="brand-icon">MO</div>
                 <div class="brand-text">
                     <h1>Mobile Objex</h1>
-                    <span>Operator Console</span>
+                    <span>Secure Messaging Platform</span>
                 </div>
             </div>
             <div class="security-bar">
@@ -478,7 +438,7 @@
                     <span>⏱</span>
                     <span id="timerValue">10:00</span>
                 </div>
-                <a href="capture.html" class="back-btn">← Capture</a>
+                <a href="capture.html" class="back-btn">← Back</a>
                 <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
         </div>
@@ -490,7 +450,7 @@
                 <div class="card-icon">👥</div>
                 <div>
                     <h2 class="card-title">Select Recipients</h2>
-                    <p class="card-subtitle">Session-bound only</p>
+                    <p class="card-subtitle">Choose from current session</p>
                 </div>
             </div>
             <div id="recipientsContainer"></div>
@@ -501,89 +461,66 @@
                 <div class="card-icon">✉️</div>
                 <div>
                     <h2 class="card-title">Compose Message</h2>
-                    <p class="card-subtitle">Auto-appends safety code</p>
+                    <p class="card-subtitle">Verified secure delivery</p>
                 </div>
             </div>
 
-            <textarea class="message-area" id="messageText" placeholder="Enter secure message..." maxlength="1600"></textarea>
+            <textarea class="message-area" id="messageText" placeholder="Enter your secure message..." maxlength="1600"></textarea>
             <div class="char-count"><span id="charCount">0</span> / 1600</div>
 
-            <div class="code-notice">
-                <span style="font-size: 20px;">🔒</span>
+            <div class="security-notice">
+                <span style="font-size: 24px;">🔒</span>
                 <div>
-                    <strong>Security Notice</strong>
-                    <span>Recipient's unique safety code will be auto-appended for verification.</span>
+                    <strong>MO Safety Code Protection</strong>
+                    <span>Recipient's unique verification code will be automatically appended to confirm authenticity.</span>
                 </div>
             </div>
 
             <button class="send-btn" id="sendBtn" onclick="sendMessage()" disabled>
-                <span class="spinner"></span>
-                <span class="btn-text">Send Secure Message</span>
+                Send Secure Message
             </button>
         </section>
     </main>
 
-    <!-- Timeout Modal -->
-    <div class="modal-overlay" id="timeoutModal">
-        <div class="modal">
-            <div class="modal-icon">⏰</div>
-            <h2>Session Expiring</h2>
-            <p>Session expires in <strong id="remainingTime">60s</strong>. Data will be purged.</p>
-            <button class="modal-btn" onclick="extendSession()">Extend 5 Min</button>
-        </div>
-    </div>
-
-    <!-- Expired Modal -->
-    <div class="modal-overlay" id="expiredModal">
-        <div class="modal">
-            <div class="modal-icon">🔒</div>
-            <h2>Session Expired</h2>
-            <p>Security timeout reached. All data purged.</p>
-            <button class="modal-btn" onclick="window.location.href='login.html'">Re-login</button>
-        </div>
-    </div>
-
-    <!-- Success Modal -->
     <div class="modal-overlay" id="successModal">
         <div class="modal success-modal">
             <div class="modal-icon">✓</div>
-            <h2>Messages Sent</h2>
-            <p id="successDetails">Delivered successfully with safety codes.</p>
-            <button class="modal-btn" onclick="closeSuccess()">Continue</button>
+            <h2 style="color: var(--mo-success); font-family: Orbitron; margin-bottom: 12px;">Messages Sent</h2>
+            <p id="successDetails" style="color: var(--mo-text-muted); margin-bottom: 24px;"></p>
+            <button class="send-btn" onclick="closeModal()" style="margin-top: 0; width: auto; padding: 12px 30px;">Continue</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="expiredModal">
+        <div class="modal error-modal">
+            <div class="modal-icon">🔒</div>
+            <h2 style="color: var(--mo-error); font-family: Orbitron; margin-bottom: 12px;">Session Expired</h2>
+            <p style="color: var(--mo-text-muted); margin-bottom: 24px;">Your secure session has expired. Please log in again.</p>
+            <button class="send-btn" onclick="window.location.href='login.html'" style="margin-top: 0; width: auto; padding: 12px 30px; background: var(--mo-error);">Return to Login</button>
         </div>
     </div>
 
     <script>
-        // Security Configuration
-        const SESSION_DURATION = 10 * 60 * 1000; // 10 minutes
-        const WARNING_TIME = 60 * 1000; // 1 minute warning
-        
+        const SESSION_DURATION = 10 * 60 * 1000;
         let sessionData = JSON.parse(sessionStorage.getItem('mo_session') || '{}');
         let selectedRecipients = new Set();
         let timerInterval;
-        let warningShown = false;
 
-        // Auth check
         if (!sessionData.sessionId) {
             window.location.href = 'login.html';
         }
 
         function initTimer() {
-            const now = Date.now();
-            
             if (!sessionData.expiresAt) {
-                sessionData.expiresAt = now + SESSION_DURATION;
+                sessionData.expiresAt = Date.now() + SESSION_DURATION;
                 sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
             }
-
             updateTimer();
             timerInterval = setInterval(updateTimer, 1000);
         }
 
         function updateTimer() {
-            const now = Date.now();
-            const timeLeft = sessionData.expiresAt - now;
-
+            const timeLeft = sessionData.expiresAt - Date.now();
             if (timeLeft <= 0) {
                 expireSession();
                 return;
@@ -595,33 +532,14 @@
                 `${mins}:${secs.toString().padStart(2, '0')}`;
 
             const display = document.getElementById('timerDisplay');
-            
-            if (timeLeft <= 30000) {
-                display.className = 'timer-display danger';
-            } else if (timeLeft <= 120000) {
-                display.className = 'timer-display warning';
-            } else {
-                display.className = 'timer-display';
-            }
-
-            if (timeLeft <= WARNING_TIME && !warningShown) {
-                document.getElementById('remainingTime').textContent = Math.ceil(timeLeft / 1000) + 's';
-                document.getElementById('timeoutModal').classList.add('show');
-                warningShown = true;
-            }
-        }
-
-        function extendSession() {
-            sessionData.expiresAt = Date.now() + (5 * 60 * 1000);
-            sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
-            warningShown = false;
-            document.getElementById('timeoutModal').classList.remove('show');
+            if (timeLeft <= 30000) display.className = 'timer-display danger';
+            else if (timeLeft <= 120000) display.className = 'timer-display warning';
+            else display.className = 'timer-display';
         }
 
         function expireSession() {
             clearInterval(timerInterval);
             sessionStorage.removeItem('mo_session');
-            document.getElementById('timeoutModal').classList.remove('show');
             document.getElementById('expiredModal').classList.add('show');
             document.body.style.pointerEvents = 'none';
             document.getElementById('expiredModal').style.pointerEvents = 'auto';
@@ -633,7 +551,6 @@
             window.location.href = 'login.html';
         }
 
-        // Recipients
         function loadRecipients() {
             const container = document.getElementById('recipientsContainer');
             const entries = (sessionData.phoneNumbers || []).filter(e => e.status === 'newly entered');
@@ -641,10 +558,10 @@
             if (entries.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-state-icon">📭</div>
-                        <h3>No Recipients</h3>
-                        <p>No available recipients in current session.</p>
-                        <a href="capture.html" class="back-btn" style="display: inline-flex; margin-top: 16px;">Capture First →</a>
+                        <div style="font-size: 48px; margin-bottom: 16px;">📭</div>
+                        <h3>No Recipients Available</h3>
+                        <p>No verified recipients in current session.</p>
+                        <a href="capture.html" style="display: inline-block; margin-top: 16px; color: var(--mo-gold); text-decoration: none;">← Back to Capture</a>
                     </div>`;
                 return;
             }
@@ -652,7 +569,7 @@
             container.innerHTML = '<div class="recipients-list">' + entries.map(entry => `
                 <div class="recipient-item" onclick="toggleRecipient(${entry.id}, this)" data-id="${entry.id}">
                     <div class="recipient-phone">${escapeHtml(entry.phone)}</div>
-                    <div class="recipient-code">Code: ${escapeHtml(entry.safetyCode)}</div>
+                    <div class="recipient-code">Safety Code: ${escapeHtml(entry.safetyCode)}</div>
                     <div class="recipient-meta">
                         <span>${new Date(entry.timestamp).toLocaleTimeString()}</span>
                         <span>Click to select</span>
@@ -686,8 +603,8 @@
             const btn = document.getElementById('sendBtn');
             const text = document.getElementById('messageText').value.trim();
             
-            btn.classList.add('sending');
             btn.disabled = true;
+            btn.textContent = 'Sending...';
 
             await new Promise(r => setTimeout(r, 1500));
 
@@ -706,13 +623,13 @@
             sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
             
             document.getElementById('successDetails').textContent = 
-                `${successCount} message(s) delivered with MO Safety Code verification.`;
+                `${successCount} secure message(s) delivered with MO verification.`;
             document.getElementById('successModal').classList.add('show');
             
-            btn.classList.remove('sending');
+            btn.textContent = 'Send Secure Message';
         }
 
-        function closeSuccess() {
+        function closeModal() {
             document.getElementById('successModal').classList.remove('show');
             document.getElementById('messageText').value = '';
             document.getElementById('charCount').textContent = '0';
@@ -727,7 +644,6 @@
             return div.innerHTML;
         }
 
-        // Init
         initTimer();
         loadRecipients();
     </script>
