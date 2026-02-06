@@ -4,31 +4,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Objex | Secure Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Mobile Objex</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg-primary: #0a0a0f;
-            --bg-secondary: #14141c;
-            --bg-card: #1c1c26;
+            --bg: #000000;
+            --surface: rgba(28, 28, 30, 0.65);
+            --surface-solid: #1c1c1e;
             --text-primary: #ffffff;
-            --text-secondary: #9ca3af;
-            --accent: #f5a623;
-            --accent-light: #ffb84d;
-            --border: rgba(245, 166, 35, 0.2);
-            --success: #10b981;
-            --error: #ef4444;
-            --shadow: rgba(0, 0, 0, 0.5);
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --accent: #ff9f0a;
+            --accent-hover: #ffb340;
+            --border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(255, 255, 255, 0.05);
+            --success: #30d158;
+            --error: #ff453a;
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
 
         [data-theme="light"] {
-            --bg-primary: #f8f9fa;
-            --bg-secondary: #ffffff;
-            --bg-card: #ffffff;
-            --text-primary: #1a1a2e;
-            --text-secondary: #6b7280;
-            --border: rgba(245, 166, 35, 0.4);
-            --shadow: rgba(0, 0, 0, 0.1);
+            --bg: #f5f5f7;
+            --surface: rgba(255, 255, 255, 0.72);
+            --surface-solid: #ffffff;
+            --text-primary: #1d1d1f;
+            --text-secondary: rgba(0, 0, 0, 0.5);
+            --accent: #ff9500;
+            --accent-hover: #ffb340;
+            --border: rgba(0, 0, 0, 0.08);
+            --glass: rgba(255, 255, 255, 0.4);
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
         * {
@@ -38,32 +43,88 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', sans-serif;
+            background: var(--bg);
             color: var(--text-primary);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            transition: background 0.3s, color 0.3s;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
         }
 
-        /* Header */
-        .header {
-            background: var(--bg-secondary);
-            border-bottom: 1px solid var(--border);
-            padding: 16px 0;
-            position: sticky;
+        /* Animated Background */
+        .bg-mesh {
+            position: fixed;
             top: 0;
-            z-index: 100;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
         }
 
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: var(--accent);
+            top: -200px;
+            right: -200px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: #ff6b00;
+            bottom: -150px;
+            left: -150px;
+            animation-delay: -5s;
+            opacity: 0.3;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: #ffd60a;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: -10s;
+            opacity: 0.2;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(30px, -30px) scale(1.1); }
+            66% { transform: translate(-20px, 20px) scale(0.9); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border);
+        }
+
+        [data-theme="light"] nav {
+            background: rgba(255, 255, 255, 0.5);
         }
 
         .logo {
@@ -71,239 +132,339 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
+            color: var(--text-primary);
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent), #ff6b00);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 4px 12px rgba(245, 166, 35, 0.3);
+            font-size: 18px;
+            box-shadow: 0 4px 15px rgba(255, 159, 10, 0.3);
         }
 
         .logo-text {
-            font-size: 24px;
-            font-weight: 800;
+            font-size: 22px;
+            font-weight: 600;
             letter-spacing: -0.5px;
         }
 
-        .logo-text span {
-            color: var(--accent);
+        .nav-controls {
+            display: flex;
+            gap: 16px;
+            align-items: center;
         }
 
-        .theme-toggle {
-            background: var(--bg-card);
+        .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--glass);
             border: 1px solid var(--border);
             color: var(--text-primary);
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: all 0.2s;
-        }
-
-        .theme-toggle:hover {
-            border-color: var(--accent);
-        }
-
-        /* Main Layout */
-        .container {
-            flex: 1;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 40px 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
         }
 
-        .login-wrapper {
+        .icon-btn:hover {
+            background: var(--accent);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Main Container */
+        .container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 40px 40px;
+            position: relative;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--surface);
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 48px;
             width: 100%;
             max-width: 420px;
+            box-shadow: var(--shadow);
+            animation: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .login-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 20px 60px var(--shadow);
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .login-header {
+        .header-section {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 40px;
         }
 
-        .login-header h1 {
-            font-size: 28px;
+        .header-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent), #ff6b00);
+            border-radius: 24px;
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            box-shadow: 0 20px 40px rgba(255, 159, 10, 0.3);
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 20px 40px rgba(255, 159, 10, 0.3); }
+            50% { box-shadow: 0 20px 60px rgba(255, 159, 10, 0.5); }
+        }
+
+        h1 {
+            font-size: 32px;
             font-weight: 700;
             margin-bottom: 8px;
+            letter-spacing: -0.5px;
         }
 
-        .login-header p {
+        .subtitle {
             color: var(--text-secondary);
-            font-size: 15px;
+            font-size: 16px;
+            font-weight: 400;
         }
 
+        /* Form Elements */
         .form-group {
             margin-bottom: 20px;
+            position: relative;
         }
 
-        label {
-            display: block;
-            margin-bottom: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .input-wrapper {
+            position: relative;
         }
 
         input {
             width: 100%;
-            padding: 14px 16px;
-            background: var(--bg-secondary);
-            border: 2px solid var(--border);
-            border-radius: 10px;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
             color: var(--text-primary);
-            font-size: 15px;
+            font-size: 16px;
             font-family: inherit;
-            transition: all 0.2s;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        [data-theme="light"] input {
+            background: rgba(0, 0, 0, 0.03);
         }
 
         input:focus {
-            outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+            background: rgba(255, 159, 10, 0.05);
+            box-shadow: 0 0 0 4px rgba(255, 159, 10, 0.1);
         }
 
+        input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        /* Primary Button */
         .btn-primary {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            padding: 16px;
+            background: var(--accent);
             border: none;
-            border-radius: 10px;
-            color: #0a0a0f;
-            font-size: 16px;
-            font-weight: 700;
+            border-radius: 12px;
+            color: white;
+            font-size: 17px;
+            font-weight: 600;
             cursor: pointer;
+            transition: all 0.3s ease;
             margin-top: 8px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary:hover {
+            background: var(--accent-hover);
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 159, 10, 0.4);
         }
 
         .btn-primary:active {
             transform: translateY(0);
         }
 
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Alerts */
         .alert {
-            padding: 12px 16px;
-            border-radius: 8px;
+            padding: 14px 18px;
+            border-radius: 12px;
             font-size: 14px;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             display: none;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
         }
 
         .alert-error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
+            background: rgba(255, 69, 58, 0.1);
+            border: 1px solid rgba(255, 69, 58, 0.3);
             color: var(--error);
-        }
-
-        .alert-success {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: var(--success);
         }
 
         .alert.show {
             display: flex;
         }
 
-        .security-badges {
-            display: flex;
-            justify-content: center;
+        /* Features Grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 16px;
-            margin-top: 24px;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        .feature {
+            text-align: center;
             font-size: 12px;
             color: var(--text-secondary);
         }
 
-        .badge {
-            display: flex;
-            align-items: center;
-            gap: 4px;
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
         }
 
-        @media (max-width: 480px) {
-            .login-card {
-                padding: 24px;
+        /* Responsive */
+        @media (max-width: 640px) {
+            .container {
+                padding: 100px 20px 20px;
             }
             
-            .logo-text {
-                font-size: 20px;
+            .glass-card {
+                padding: 32px 24px;
+            }
+            
+            nav {
+                padding: 16px 20px;
+            }
+            
+            h1 {
+                font-size: 28px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="bg-mesh">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
 
-    <header class="header">
-        <div class="header-content">
-            <a href="#" class="logo">
-                <div class="logo-icon">🛡️</div>
-                <div class="logo-text">Mobile<span>Objex</span></div>
-            </a>
-            <button class="theme-toggle" onclick="toggleTheme()">
-                <span id="theme-icon">☀️</span>
-                <span id="theme-text">Light</span>
+    <nav>
+        <a href="#" class="logo">
+            <div class="logo-icon">🛡️</div>
+            <div class="logo-text">Mobile Objex</div>
+        </a>
+        <div class="nav-controls">
+            <button class="icon-btn" onclick="toggleTheme()" title="Toggle Theme">
+                <i class="fas fa-moon" id="themeIcon"></i>
             </button>
         </div>
-    </header>
+    </nav>
 
     <div class="container">
-        <div class="login-wrapper">
-            <div class="login-card">
-                <div class="login-header">
-                    <h1>Welcome to Mobile Objex</h1>
-                    <p>Secure messaging platform authentication</p>
+        <div class="glass-card">
+            <div class="header-section">
+                <div class="header-icon">🔐</div>
+                <h1>Welcome</h1>
+                <p class="subtitle">Secure Messaging Platform</p>
+            </div>
+
+            <div class="alert alert-error" id="errorMsg">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorText">Invalid credentials</span>
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="text" id="moUsername" placeholder="MO Username" required autocomplete="username">
+                        <i class="fas fa-user input-icon"></i>
+                    </div>
                 </div>
 
-                <div class="alert alert-error" id="errorMsg">
-                    <span>⚠️</span>
-                    <span id="errorText">Invalid credentials</span>
+                <div class="form-group">
+                    <div class="input-wrapper">
+                        <input type="password" id="moPassword" placeholder="Password" required autocomplete="current-password">
+                        <i class="fas fa-lock input-icon"></i>
+                    </div>
                 </div>
 
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label>MO Username</label>
-                        <input type="text" id="moUsername" placeholder="Enter MO Username" required autocomplete="username">
-                    </div>
+                <button type="submit" class="btn-primary" id="loginBtn">
+                    Continue
+                </button>
+            </form>
 
-                    <div class="form-group">
-                        <label>MO Password</label>
-                        <input type="password" id="moPassword" placeholder="Enter password" required autocomplete="current-password">
-                    </div>
-
-                    <button type="submit" class="btn-primary">Authenticate</button>
-                </form>
-
-                <div class="security-badges">
-                    <div class="badge">🔒 SSL Encrypted</div>
-                    <div class="badge">⏱️ 10min Session</div>
-                    <div class="badge">🛡️ Secure</div>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-shield-alt feature-icon"></i>
+                    <div>Secure</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-clock feature-icon"></i>
+                    <div>10min Session</div>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-mobile-alt feature-icon"></i>
+                    <div>SMS Ready</div>
                 </div>
             </div>
         </div>
@@ -314,7 +475,7 @@
         function initTheme() {
             const saved = localStorage.getItem('theme') || 'dark';
             document.documentElement.setAttribute('data-theme', saved);
-            updateThemeButton(saved);
+            updateThemeIcon(saved);
         }
 
         function toggleTheme() {
@@ -322,69 +483,58 @@
             const next = current === 'dark' ? 'light' : 'dark';
             document.documentElement.setAttribute('data-theme', next);
             localStorage.setItem('theme', next);
-            updateThemeButton(next);
+            updateThemeIcon(next);
         }
 
-        function updateThemeButton(theme) {
-            const icon = document.getElementById('theme-icon');
-            const text = document.getElementById('theme-text');
-            if (theme === 'dark') {
-                icon.textContent = '☀️';
-                text.textContent = 'Light';
-            } else {
-                icon.textContent = '🌙';
-                text.textContent = 'Dark';
-            }
+        function updateThemeIcon(theme) {
+            const icon = document.getElementById('themeIcon');
+            icon.className = theme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
         }
 
         initTheme();
 
-        // Authentication
+        // Login Logic
         const VALID_USERS = {
             'demo.operator': 'DemoPass123!',
             'sacred.heart': 'SH2026!',
-            'admin': 'admin123'
+            'admin': 'admin123',
+            'roshan': 'Roshan2024!'
         };
 
-        document.getElementById('loginForm').addEventListener('submit', (e) => {
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const username = document.getElementById('moUsername').value.trim();
             const password = document.getElementById('moPassword').value;
+            const btn = document.getElementById('loginBtn');
             const errorMsg = document.getElementById('errorMsg');
             
-            // Simulate network delay
-            const btn = e.target.querySelector('.btn-primary');
-            const originalText = btn.textContent;
-            btn.textContent = 'Authenticating...';
             btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
             
-            setTimeout(() => {
-                if (VALID_USERS[username] === password) {
-                    // Create session per PDF specs
-                    const session = {
-                        moUsername: username,
-                        sessionId: 'MO-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
-                        loginTime: new Date().toISOString(),
-                        expiresAt: Date.now() + (10 * 60 * 1000), // 10 minutes
-                        phoneNumbers: []
-                    };
-                    
-                    sessionStorage.setItem('mo_session', JSON.stringify(session));
-                    window.location.href = 'capture.html';
-                } else {
-                    errorMsg.classList.add('show');
-                    document.getElementById('errorText').textContent = 'Invalid MO Username or Password';
-                    btn.textContent = originalText;
-                    btn.disabled = false;
-                    
-                    setTimeout(() => {
-                        errorMsg.classList.remove('show');
-                    }, 5000);
-                }
-            }, 800);
+            await new Promise(r => setTimeout(r, 800));
+            
+            if (VALID_USERS[username] === password) {
+                const session = {
+                    moUsername: username,
+                    sessionId: 'MO-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+                    loginTime: new Date().toISOString(),
+                    expiresAt: Date.now() + (10 * 60 * 1000),
+                    phoneNumbers: []
+                };
+                sessionStorage.setItem('mo_session', JSON.stringify(session));
+                window.location.href = 'capture.html';
+            } else {
+                errorMsg.classList.add('show');
+                document.getElementById('errorText').textContent = 'Invalid MO Username or Password';
+                btn.disabled = false;
+                btn.textContent = 'Continue';
+                
+                setTimeout(() => {
+                    errorMsg.classList.remove('show');
+                }, 4000);
+            }
         });
     </script>
-
 </body>
 </html>
