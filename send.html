@@ -837,6 +837,141 @@
         }
     </style>
 </head>
+    <script>
+// Check authentication
+const sessionStr = localStorage.getItem('mo_current_session');
+if (!sessionStr) {
+    window.location.href = 'login.html';
+}
+
+const session = JSON.parse(sessionStr);
+
+// Display user info
+const userDisplay = document.getElementById('usernameDisplay');
+if (userDisplay) userDisplay.textContent = session.name || session.username;
+
+// Display short URL
+const urlDisplay = document.getElementById('shortUrl');
+if (urlDisplay) urlDisplay.textContent = session.shortUrl;
+
+// Load session data
+const sessionDataStr = localStorage.getItem('mo_session_data_' + session.sessionId);
+const sessionData = sessionDataStr ? JSON.parse(sessionDataStr) : { users: [] };
+
+function renderUserList() {
+    const userList = document.getElementById('userList');
+    const sendBtn = document.getElementById('sendBtn');
+    
+    if (!userList) return;
+    
+    if (sessionData.users.length === 0) {
+        userList.innerHTML = '<div class="empty-state">No users registered yet.<br>Share the link to capture phone numbers.</div>';
+        if (sendBtn) sendBtn.disabled = true;
+    } else {
+        userList.innerHTML = sessionData.users.map(user => `
+            <div class="user-item">
+                <div class="user-details">
+                    <span class="phone">${user.phone}</span>
+                    <span class="code">${user.safetyCode}</span>
+                </div>
+                <span class="status">${user.status}</span>
+            </div>
+        `).join('');
+        if (sendBtn) sendBtn.disabled = false;
+    }
+}
+
+renderUserList();
+
+// Message composition with safety code preview
+const messageInput = document.getElementById('messageContent');
+const charCount = document.getElementById('charCount');
+const previewText = document.getElementById('previewText');
+
+if (messageInput) {
+    messageInput.addEventListener('input', function() {
+        const text = this.value;
+        if (charCount) charCount.textContent = text.length;
+        
+        // PDF spec: "Prefix messages with Safety Codes"
+        if (previewText) {
+            previewText.innerHTML = text.trim() ? 
+                `<span class="safety-prefix">[SafetyCode]</span> ${text}` : 
+                '<span class="safety-prefix">[SafetyCode]</span> Your message will appear here...';
+        }
+    });
+}
+
+// Send message handler
+const messageForm = document.getElementById('messageForm');
+if (messageForm) {
+    messageForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const message = messageInput.value.trim();
+        if (!message || sessionData.users.length === 0) return;
+        
+        // PDF spec: "Retrieve user Safety Codes from database. Prefix messages with Safety Codes."
+        const messages = sessionData.users.map(user => ({
+            phone: user.phone,
+            content: `${user.safetyCode} ${message}`, // Prefixed per spec
+            safetyCode: user.safetyCode,
+            timestamp: new Date().toISOString(),
+            status: 'Sent'
+        }));
+        
+        // Store messages
+        if (!sessionData.messages) sessionData.messages = [];
+        sessionData.messages.push(...messages);
+        localStorage.setItem('mo_session_data_' + session.sessionId, JSON.stringify(sessionData));
+        
+        // Show success
+        showToast('Messages sent successfully!');
+        messageInput.value = '';
+        if (charCount) charCount.textContent = '0';
+        if (previewText) previewText.innerHTML = '<span class="safety-prefix">[SafetyCode]</span> Your message will appear here...';
+    });
+}
+
+function copyUrl() {
+    navigator.clipboard.writeText(session.shortUrl).then(() => {
+        const btn = document.querySelector('.btn-copy');
+        const original = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => btn.textContent = original, 2000);
+    });
+}
+
+function logout() {
+    // PDF spec: "Delete URL and user info of this session"
+    if (confirm('Logout will clear all session data. Continue?')) {
+        localStorage.removeItem('mo_session_data_' + session.sessionId);
+        localStorage.removeItem('mo_current_session');
+        window.location.href = 'login.html';
+    }
+}
+
+function showToast(msg) {
+    const toast = document.getElementById('successToast');
+    if (toast) {
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => toast.style.display = 'none', 3000);
+    }
+}
+
+// Real-time updates (check for new users every 3 seconds)
+setInterval(() => {
+    const updated = localStorage.getItem('mo_session_data_' + session.sessionId);
+    if (updated) {
+        const data = JSON.parse(updated);
+        if (data.users.length !== sessionData.users.length) {
+            sessionData.users = data.users;
+            renderUserList();
+        }
+    }
+}, 3000);
+</script>
 <body>
     <div class="bg-grid"></div>
     <div class="particles">
