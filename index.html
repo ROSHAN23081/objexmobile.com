@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Objex | Fraud-Free Mobile Communications</title>
-    <meta name="description" content="AI-Driven Mobile Trust. Stop scams before they reach consumers with MO Verified Safety Mark.">
+    <title>Mobile Objex | The Trust Infrastructure for Mobile Messaging</title>
+    <meta name="description" content="AI-Driven Mobile Trust. Stop scams before they reach consumers with the MO Verified Safety Mark.">
     <style>
         :root {
             --primary-yellow: #F4B942;
-            --primary-yellow-hover: #E5AA33;
             --primary-glow: rgba(244, 185, 66, 0.6);
-            --bg-dark: #0a0a0f;
-            --bg-light: #f5f5f7;
-            --card-dark: rgba(20, 20, 30, 0.85);
-            --card-light: rgba(255, 255, 255, 0.95);
-            --text-dark: #ffffff;
-            --text-light: #1a1a1f;
-            --accent-glow: rgba(244, 185, 66, 0.4);
-            --border-dark: rgba(244, 185, 66, 0.3);
-            --border-light: rgba(0, 0, 0, 0.1);
+            --bg-dark: #050508;
+            --bg-card: rgba(15, 15, 25, 0.7);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --border-glow: rgba(244, 185, 66, 0.3);
         }
 
         * {
@@ -27,107 +22,27 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: var(--bg-dark);
-            color: var(--text-dark);
-            line-height: 1.6;
+            color: var(--text-primary);
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        /* Animated Background Grid */
-        .bg-grid {
+        /* Canvas Background for Interactive Network */
+        #network-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: 
-                linear-gradient(rgba(244, 185, 66, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(244, 185, 66, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
             z-index: 0;
-            animation: gridMove 20s linear infinite;
-        }
-
-        @keyframes gridMove {
-            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
-            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
-        }
-
-        /* Floating Particles */
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             pointer-events: none;
-            z-index: 1;
-            overflow: hidden;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary-yellow);
-            border-radius: 50%;
-            opacity: 0.3;
-            animation: float-particle 15s infinite;
-            box-shadow: 0 0 10px var(--primary-yellow);
-        }
-
-        .particle:nth-child(1) { left: 10%; top: 100%; animation-delay: 0s; animation-duration: 12s; }
-        .particle:nth-child(2) { left: 20%; top: 100%; animation-delay: 2s; animation-duration: 18s; }
-        .particle:nth-child(3) { left: 30%; top: 100%; animation-delay: 4s; animation-duration: 14s; }
-        .particle:nth-child(4) { left: 40%; top: 100%; animation-delay: 6s; animation-duration: 16s; }
-        .particle:nth-child(5) { left: 50%; top: 100%; animation-delay: 8s; animation-duration: 13s; }
-        .particle:nth-child(6) { left: 60%; top: 100%; animation-delay: 10s; animation-duration: 17s; }
-        .particle:nth-child(7) { left: 70%; top: 100%; animation-delay: 12s; animation-duration: 15s; }
-        .particle:nth-child(8) { left: 80%; top: 100%; animation-delay: 14s; animation-duration: 19s; }
-        .particle:nth-child(9) { left: 90%; top: 100%; animation-delay: 16s; animation-duration: 11s; }
-        .particle:nth-child(10) { left: 5%; top: 100%; animation-delay: 18s; animation-duration: 20s; }
-
-        @keyframes float-particle {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-        }
-
-        /* Animated Orbs */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            z-index: 0;
-            animation: orb-pulse 8s ease-in-out infinite;
-        }
-
-        .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--primary-yellow) 0%, transparent 70%);
-            top: -200px;
-            right: -200px;
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, var(--primary-yellow) 0%, transparent 70%);
-            bottom: -100px;
-            left: -100px;
-            animation-delay: 4s;
-        }
-
-        @keyframes orb-pulse {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.2); opacity: 0.5; }
         }
 
         /* Navigation */
@@ -140,16 +55,8 @@
             justify-content: space-between;
             align-items: center;
             z-index: 1000;
-            background: rgba(10, 10, 15, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(244, 185, 66, 0.1);
-            transition: all 0.4s ease;
-            animation: slideDown 0.5s ease-out;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
+            background: linear-gradient(to bottom, rgba(5,5,8,0.9), transparent);
+            backdrop-filter: blur(10px);
         }
 
         .nav-logo {
@@ -159,74 +66,47 @@
             font-size: 24px;
             font-weight: 800;
             text-decoration: none;
-            color: var(--text-dark);
-            transition: all 0.3s ease;
+            color: var(--text-primary);
         }
 
-        .nav-logo:hover {
-            transform: scale(1.05);
-        }
-
-        .nav-logo span {
-            color: var(--primary-yellow);
-            text-shadow: 0 0 10px var(--primary-glow);
-        }
-
-        .logo-icon-small {
+        .logo-mark {
             width: 40px;
             height: 40px;
-            background: linear-gradient(135deg, #F4B942 0%, #FFD700 100%);
-            background-size: 200% 200%;
-            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary-yellow), #FFD700);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            animation: gradient-shift 3s ease infinite;
-            box-shadow: 0 4px 15px rgba(244, 185, 66, 0.4);
+            box-shadow: 0 0 20px var(--primary-glow);
+            animation: pulse-glow 3s infinite;
         }
 
-        @keyframes gradient-shift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .shield-small {
-            width: 20px;
-            height: 24px;
-            background: #0a0a0f;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 65%, 50% 100%, 0% 65%, 0% 25%);
-            position: relative;
-        }
-
-        .shield-small::after {
-            content: '';
-            position: absolute;
-            width: 50%;
-            height: 100%;
-            right: 0;
-            background: rgba(244, 185, 66, 0.3);
-            clip-path: polygon(100% 0%, 100% 100%, 0% 100%, 0% 0%);
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px var(--primary-glow); }
+            50% { box-shadow: 0 0 40px var(--primary-glow), 0 0 60px rgba(244, 185, 66, 0.3); }
         }
 
         .nav-links {
             display: flex;
-            gap: 30px;
+            gap: 40px;
             align-items: center;
         }
 
-        .nav-links a {
-            color: rgba(255, 255, 255, 0.8);
+        .nav-link {
+            color: var(--text-secondary);
             text-decoration: none;
-            font-weight: 500;
-            transition: all 0.3s;
             font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
             position: relative;
         }
 
-        .nav-links a::after {
+        .nav-link:hover {
+            color: var(--primary-yellow);
+        }
+
+        .nav-link::after {
             content: '';
             position: absolute;
             bottom: -5px;
@@ -234,521 +114,467 @@
             width: 0;
             height: 2px;
             background: var(--primary-yellow);
-            transition: width 0.3s ease;
+            transition: width 0.3s;
+            box-shadow: 0 0 10px var(--primary-yellow);
         }
 
-        .nav-links a:hover::after {
+        .nav-link:hover::after {
             width: 100%;
         }
 
-        .nav-links a:hover {
+        .btn-access {
+            background: transparent;
+            border: 1px solid var(--primary-yellow);
             color: var(--primary-yellow);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #F4B942 0%, #E5AA33 100%);
-            background-size: 200% 200%;
-            color: #0a0a0f;
-            padding: 12px 24px;
+            padding: 10px 24px;
             border-radius: 8px;
             text-decoration: none;
-            font-weight: 700;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(244, 185, 66, 0.3);
-            animation: gradient-shift 3s ease infinite;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(244, 185, 66, 0.5), 0 0 40px rgba(244, 185, 66, 0.3);
+        .btn-access:hover {
+            background: var(--primary-yellow);
+            color: #000;
+            box-shadow: 0 0 30px var(--primary-glow);
+            transform: translateY(-2px);
         }
 
-        /* Hero Section */
+        /* Hero Section - Cinematic */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 120px 50px 80px;
             position: relative;
             z-index: 10;
+            padding: 120px 50px 80px;
+            overflow: hidden;
         }
 
         .hero-content {
-            max-width: 1200px;
+            max-width: 1400px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 80px;
             align-items: center;
         }
 
-        .hero-text h1 {
-            font-size: 56px;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #ffffff 0%, var(--primary-yellow) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: fadeIn 1s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-text p {
-            font-size: 20px;
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 40px;
-            line-height: 1.6;
-            animation: fadeIn 1s ease-out 0.2s both;
-        }
-
-        .hero-stats {
-            display: flex;
-            gap: 40px;
-            margin-bottom: 40px;
-            animation: fadeIn 1s ease-out 0.4s both;
-        }
-
-        .stat {
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .stat:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-number {
-            font-size: 36px;
-            font-weight: 800;
-            color: var(--primary-yellow);
-            display: block;
-            text-shadow: 0 0 20px rgba(244, 185, 66, 0.5);
-            animation: countUp 2s ease-out;
-        }
-
-        @keyframes countUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .stat-label {
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(244, 185, 66, 0.1);
+            border: 1px solid var(--border-glow);
+            padding: 8px 16px;
+            border-radius: 50px;
             font-size: 12px;
+            color: var(--primary-yellow);
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 30px;
+            animation: fadeInUp 0.8s ease-out;
         }
 
+        .hero h1 {
+            font-size: 64px;
+            line-height: 1.1;
+            font-weight: 800;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #fff 0%, var(--primary-yellow) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-description {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 540px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .btn-primary {
+            background: var(--primary-yellow);
+            color: #000;
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(244, 185, 66, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(244, 185, 66, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 16px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--primary-yellow);
+            color: var(--primary-yellow);
+        }
+
+        /* Stats Ticker */
+        .stats-ticker {
+            display: flex;
+            gap: 60px;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            animation: fadeInUp 0.8s ease-out 0.8s both;
+        }
+
+        .stat-item h3 {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--primary-yellow);
+            text-shadow: 0 0 20px rgba(244, 185, 66, 0.3);
+        }
+
+        .stat-item p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 5px;
+        }
+
+        /* 3D Visualization Container */
         .hero-visual {
             position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 1s ease-out 0.6s both;
-        }
-
-        .phone-mockup {
-            width: 300px;
             height: 600px;
-            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1e 100%);
-            border-radius: 40px;
-            border: 4px solid rgba(244, 185, 66, 0.3);
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 50px 100px rgba(0, 0, 0, 0.5), 0 0 40px rgba(244, 185, 66, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .phone-mockup:hover {
-            transform: translateY(-10px) rotate(2deg);
-            box-shadow: 0 60px 120px rgba(0, 0, 0, 0.6), 0 0 60px rgba(244, 185, 66, 0.3);
-        }
-
-        .phone-screen {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            bottom: 20px;
-            background: linear-gradient(180deg, #1e1e2e 0%, #0a0a0f 100%);
-            border-radius: 30px;
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .safety-mark {
-            width: 120px;
-            height: 120px;
-            background: linear-gradient(135deg, #F4B942 0%, #FFD700 100%);
-            background-size: 200% 200%;
-            border-radius: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-top: 40px;
-            box-shadow: 0 20px 40px rgba(244, 185, 66, 0.4);
-            animation: float 3s ease-in-out infinite, gradient-shift 3s ease infinite;
+            animation: fadeIn 1s ease-out 0.5s both;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .shield-large {
-            width: 60px;
-            height: 70px;
-            background: #0a0a0f;
-            clip-path: polygon(50% 0%, 100% 25%, 100% 65%, 50% 100%, 0% 65%, 0% 25%);
+        .shield-container {
             position: relative;
+            width: 400px;
+            height: 400px;
         }
 
-        .shield-large::after {
-            content: '✓';
+        .main-shield {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #F4B942;
-            font-size: 32px;
-            font-weight: bold;
-        }
-
-        .message-bubble {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 15px;
-            border-radius: 15px;
-            font-size: 13px;
-            width: 100%;
-            border-left: 4px solid var(--primary-yellow);
-            animation: slideIn 0.5s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .verified-badge {
+            width: 200px;
+            height: 240px;
+            background: linear-gradient(135deg, rgba(244, 185, 66, 0.2), rgba(244, 185, 66, 0.05));
+            border: 2px solid var(--primary-yellow);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 65%, 50% 100%, 0% 65%, 0% 25%);
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: var(--primary-yellow);
-            font-size: 12px;
-            font-weight: 600;
-            animation: pulse 2s infinite;
+            justify-content: center;
+            font-size: 80px;
+            box-shadow: 0 0 60px var(--primary-glow);
+            animation: float 6s ease-in-out infinite;
+            backdrop-filter: blur(10px);
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) translateY(0); }
+            50% { transform: translate(-50%, -50%) translateY(-20px); }
         }
 
-        /* Features Section */
-        .features {
-            padding: 100px 50px;
+        .orbit-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(244, 185, 66, 0.2);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        .orbit-ring:nth-child(1) { width: 300px; height: 300px; }
+        .orbit-ring:nth-child(2) { width: 350px; height: 350px; animation-direction: reverse; animation-duration: 25s; }
+        .orbit-ring:nth-child(3) { width: 400px; height: 400px; animation-duration: 30s; }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .orbit-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-yellow);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary-yellow);
+        }
+
+        /* Problem Section - Dark Reality */
+        .problem-section {
+            padding: 120px 50px;
             position: relative;
             z-index: 10;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5));
         }
 
         .section-header {
             text-align: center;
-            margin-bottom: 80px;
-            animation: fadeIn 0.6s ease-out;
+            max-width: 800px;
+            margin: 0 auto 80px;
         }
 
-        .section-header h2 {
-            font-size: 42px;
-            margin-bottom: 16px;
+        .section-tag {
+            color: #ff3b30;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .section-title {
+            font-size: 48px;
             font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
         }
 
-        .section-header p {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.6);
-            max-width: 600px;
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
+        .problem-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 59, 48, 0.2);
+            border-radius: 16px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
         }
 
-        .feature-card {
-            background: var(--card-dark);
-            border: 1px solid var(--border-dark);
+        .problem-card:hover {
+            transform: translateY(-10px);
+            border-color: #ff3b30;
+            box-shadow: 0 20px 40px rgba(255, 59, 48, 0.2);
+        }
+
+        .problem-stat {
+            font-size: 56px;
+            font-weight: 800;
+            color: #ff3b30;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 59, 48, 0.3);
+        }
+
+        .problem-label {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .problem-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Solution Section - The Shield */
+        .solution-section {
+            padding: 120px 50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .solution-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .solution-tag {
+            color: var(--primary-yellow);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .solution-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(244, 185, 66, 0.2);
             border-radius: 20px;
             padding: 40px;
-            transition: all 0.4s ease;
+            display: flex;
+            gap: 24px;
+            transition: all 0.4s;
             backdrop-filter: blur(10px);
-            animation: slideUp 0.6s ease-out both;
-            position: relative;
-            overflow: hidden;
         }
 
-        .feature-card:nth-child(1) { animation-delay: 0.1s; }
-        .feature-card:nth-child(2) { animation-delay: 0.2s; }
-        .feature-card:nth-child(3) { animation-delay: 0.3s; }
-        .feature-card:nth-child(4) { animation-delay: 0.4s; }
-        .feature-card:nth-child(5) { animation-delay: 0.5s; }
-        .feature-card:nth-child(6) { animation-delay: 0.6s; }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--primary-yellow), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.6s ease;
-        }
-
-        .feature-card:hover::before {
-            transform: translateX(100%);
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
+        .solution-card:hover {
             border-color: var(--primary-yellow);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(244, 185, 66, 0.2);
+            transform: translateX(10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .feature-icon {
+        .solution-icon {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, rgba(244, 185, 66, 0.2) 0%, rgba(244, 185, 66, 0.1) 100%);
-            border: 1px solid var(--border-dark);
-            border-radius: 15px;
+            background: rgba(244, 185, 66, 0.1);
+            border: 1px solid var(--border-glow);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 28px;
-            margin-bottom: 24px;
-            transition: all 0.3s ease;
+            flex-shrink: 0;
         }
 
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1) rotate(5deg);
-            background: linear-gradient(135deg, rgba(244, 185, 66, 0.3) 0%, rgba(244, 185, 66, 0.2) 100%);
-        }
-
-        .feature-card h3 {
-            font-size: 22px;
+        .solution-content h3 {
+            font-size: 24px;
             margin-bottom: 12px;
             color: var(--primary-yellow);
         }
 
-        .feature-card p {
-            color: rgba(255, 255, 255, 0.7);
+        .solution-content p {
+            color: var(--text-secondary);
+            font-size: 16px;
             line-height: 1.6;
         }
 
-        /* Process Section */
-        .process {
-            padding: 100px 50px;
+        /* How It Works - Timeline */
+        .process-section {
+            padding: 120px 50px;
             position: relative;
             z-index: 10;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.5), transparent);
         }
 
-        .process-steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-            margin-top: 60px;
-        }
-
-        .step {
-            text-align: center;
-            position: relative;
-            animation: fadeIn 0.6s ease-out both;
-        }
-
-        .step:nth-child(1) { animation-delay: 0.1s; }
-        .step:nth-child(2) { animation-delay: 0.2s; }
-        .step:nth-child(3) { animation-delay: 0.3s; }
-        .step:nth-child(4) { animation-delay: 0.4s; }
-
-        .step:not(:last-child)::after {
-            content: '→';
-            position: absolute;
-            right: -20px;
-            top: 40px;
-            color: var(--primary-yellow);
-            font-size: 24px;
-            opacity: 0.5;
-            animation: bounce 2s infinite;
-        }
-
-        @media (max-width: 968px) {
-            .step:not(:last-child)::after {
-                display: none;
-            }
-            .process-steps {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 600px) {
-            .process-steps {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .step-number {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, rgba(244, 185, 66, 0.2) 0%, rgba(244, 185, 66, 0.1) 100%);
-            border: 2px solid var(--primary-yellow);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 800;
-            color: var(--primary-yellow);
-            margin: 0 auto 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 20px rgba(244, 185, 66, 0.3);
-        }
-
-        .step:hover .step-number {
-            transform: scale(1.1);
-            box-shadow: 0 0 40px rgba(244, 185, 66, 0.5);
-        }
-
-        .step h3 {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-
-        .step p {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.6);
-        }
-
-        /* Security Section */
-        .security {
-            padding: 100px 50px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .security-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
+        .timeline {
             max-width: 1000px;
             margin: 0 auto;
+            position: relative;
         }
 
-        .security-visual {
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--primary-yellow), transparent);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
             display: flex;
-            justify-content: center;
-            animation: fadeIn 0.6s ease-out;
+            justify-content: flex-end;
+            padding-right: 50%;
+            position: relative;
+            margin-bottom: 80px;
         }
 
-        .security-shield {
-            width: 250px;
-            height: 250px;
-            background: linear-gradient(135deg, rgba(244, 185, 66, 0.1) 0%, rgba(244, 185, 66, 0.05) 100%);
-            border: 3px solid var(--primary-yellow);
+        .timeline-item:nth-child(even) {
+            justify-content: flex-start;
+            padding-right: 0;
+            padding-left: 50%;
+        }
+
+        .timeline-content {
+            max-width: 400px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 16px;
+            padding: 30px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.05);
+            border-color: var(--primary-yellow);
+            box-shadow: 0 0 30px rgba(244, 185, 66, 0.2);
+        }
+
+        .timeline-number {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: var(--primary-yellow);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            animation: pulse-glow 3s infinite;
+            font-weight: 800;
+            font-size: 20px;
+            color: #000;
+            top: 30px;
+            box-shadow: 0 0 20px var(--primary-glow);
         }
 
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(244, 185, 66, 0.4); }
-            50% { box-shadow: 0 0 0 30px rgba(244, 185, 66, 0); }
+        .timeline-item:nth-child(odd) .timeline-number {
+            right: -25px;
+            transform: translateX(50%);
         }
 
-        .shield-inner {
-            font-size: 100px;
-        }
-
-        .security-text h2 {
-            font-size: 36px;
-            margin-bottom: 20px;
-            animation: fadeIn 0.6s ease-out;
-        }
-
-        .security-text p {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 20px;
-            font-size: 16px;
-            animation: fadeIn 0.6s ease-out 0.2s both;
-        }
-
-        .security-list {
-            list-style: none;
-        }
-
-        .security-list li {
-            padding: 10px 0;
-            padding-left: 30px;
-            position: relative;
-            color: rgba(255, 255, 255, 0.9);
-            animation: slideIn 0.6s ease-out both;
-        }
-
-        .security-list li:nth-child(1) { animation-delay: 0.3s; }
-        .security-list li:nth-child(2) { animation-delay: 0.4s; }
-        .security-list li:nth-child(3) { animation-delay: 0.5s; }
-        .security-list li:nth-child(4) { animation-delay: 0.6s; }
-        .security-list li:nth-child(5) { animation-delay: 0.7s; }
-
-        .security-list li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--primary-yellow);
-            font-weight: bold;
-            font-size: 18px;
+        .timeline-item:nth-child(even) .timeline-number {
+            left: -25px;
+            transform: translateX(-50%);
         }
 
         /* CTA Section */
-        .cta {
-            padding: 100px 50px;
+        .cta-section {
+            padding: 150px 50px;
             text-align: center;
             position: relative;
             z-index: 10;
         }
 
         .cta-box {
-            background: linear-gradient(135deg, rgba(244, 185, 66, 0.1) 0%, rgba(244, 185, 66, 0.05) 100%);
-            border: 1px solid var(--border-dark);
-            border-radius: 30px;
-            padding: 60px;
             max-width: 800px;
             margin: 0 auto;
-            backdrop-filter: blur(10px);
-            animation: fadeIn 0.6s ease-out;
+            background: var(--bg-card);
+            border: 1px solid var(--border-glow);
+            border-radius: 24px;
+            padding: 60px;
+            backdrop-filter: blur(20px);
             position: relative;
             overflow: hidden;
         }
@@ -756,47 +582,68 @@
         .cta-box::before {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, transparent, var(--primary-yellow), transparent);
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            border-radius: 32px;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(244, 185, 66, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
         }
 
-        .cta-box:hover::before {
-            opacity: 0.3;
-            animation: border-glow 2s linear infinite;
+        .cta-content {
+            position: relative;
+            z-index: 1;
         }
 
-        @keyframes border-glow {
-            0%, 100% { filter: blur(10px); }
-            50% { filter: blur(20px); }
-        }
-
-        .cta h2 {
-            font-size: 36px;
+        .cta-title {
+            font-size: 42px;
+            font-weight: 800;
             margin-bottom: 20px;
         }
 
-        .cta p {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 30px;
+        .cta-text {
             font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
         }
 
         /* Footer */
         footer {
-            padding: 40px 50px;
-            border-top: 1px solid var(--border-dark);
+            padding: 60px 50px 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
             text-align: center;
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 14px;
+            color: var(--text-secondary);
             position: relative;
             z-index: 10;
+        }
+
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-logo span {
+            color: var(--primary-yellow);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* Responsive */
@@ -806,12 +653,41 @@
                 text-align: center;
             }
 
-            .hero-text h1 {
-                font-size: 40px;
+            .hero h1 {
+                font-size: 42px;
             }
 
-            .security-content {
+            .hero-description {
+                margin: 0 auto 40px;
+            }
+
+            .hero-visual {
+                display: none;
+            }
+
+            .problem-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .solution-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline::before {
+                left: 30px;
+            }
+
+            .timeline-item,
+            .timeline-item:nth-child(even) {
+                padding-left: 80px;
+                padding-right: 0;
+                justify-content: flex-start;
+            }
+
+            .timeline-number {
+                left: 30px !important;
+                right: auto !important;
+                transform: translateX(-50%) !important;
             }
 
             nav {
@@ -821,214 +697,329 @@
             .nav-links {
                 display: none;
             }
-
-            .hero-stats {
-                justify-content: center;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .hero-text h1 {
-                font-size: 32px;
-            }
-
-            .stat-number {
-                font-size: 28px;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="bg-grid"></div>
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
+    <canvas id="network-canvas"></canvas>
 
     <nav>
-        <a href="index.html" class="nav-logo">
-            <div class="logo-icon-small">
-                <div class="shield-small"></div>
+        <a href="#" class="nav-logo">
+            <div class="logo-mark">
+                <div style="width: 24px; height: 28px; background: #000; clip-path: polygon(50% 0%, 100% 25%, 100% 65%, 50% 100%, 0% 65%, 0% 25%); display: flex; align-items: center; justify-content: center;">
+                    <span style="color: var(--primary-yellow); font-size: 16px;">✓</span>
+                </div>
             </div>
-            Mobile<span>Objex</span>
+            Mobile<span style="color: var(--primary-yellow);">Objex</span>
         </a>
         <div class="nav-links">
-            <a href="#features">Platform</a>
-            <a href="#process">How It Works</a>
-            <a href="#security">Security</a>
-            <a href="login.html" class="btn-primary">Platform Access</a>
+            <a href="#problem" class="nav-link">The Problem</a>
+            <a href="#solution" class="nav-link">Our Solution</a>
+            <a href="#process" class="nav-link">How It Works</a>
+            <a href="login.html" class="btn-access">Access Platform</a>
         </div>
     </nav>
 
     <section class="hero">
         <div class="hero-content">
             <div class="hero-text">
-                <h1>The Future of Fraud-Free Mobile Communications</h1>
-                <p>AI-Driven Mobile Trust, Delivered. Stop scams in mobile messages—texts, emails, and app alerts—before they reach consumers with the MO Verified Safety Mark.</p>
+                <div class="hero-badge">
+                    <span>🛡️</span>
+                    <span>The First Verified Safety Mark for Mobile</span>
+                </div>
+                <h1>The Trust Infrastructure for Mobile Messaging</h1>
+                <p class="hero-description">
+                    Stop scams before they reach consumers. Mobile Objex verifies legitimate messages with the MO Safety Mark, creating a fraud-free ecosystem for SMS, RCS, Email, and App Notifications.
+                </p>
+                <div class="hero-cta">
+                    <a href="login.html" class="btn-primary">Access Secure Platform</a>
+                    <a href="#solution" class="btn-secondary">Explore Technology</a>
+                </div>
                 
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">30%</span>
-                        <span class="stat-label">Of US consumers<br>scammed annually</span>
+                <div class="stats-ticker">
+                    <div class="stat-item">
+                        <h3 class="counter" data-target="30">0</h3>
+                        <p>% of US consumers<br>scammed annually</p>
                     </div>
-                    <div class="stat">
-                        <span class="stat-number">$7T+</span>
-                        <span class="stat-label">Lost to fraud<br>worldwide</span>
+                    <div class="stat-item">
+                        <h3>$<span class="counter" data-target="7">0</span>T+</h3>
+                        <p>Lost to fraud<br>worldwide</p>
                     </div>
-                    <div class="stat">
-                        <span class="stat-number">99.7%</span>
-                        <span class="stat-label">Message delivery<br>accuracy</span>
+                    <div class="stat-item">
+                        <h3 class="counter" data-target="99">0</h3>
+                        <p>.7% Verification<br>Accuracy</p>
                     </div>
                 </div>
-
-                <a href="login.html" class="btn-primary" style="display: inline-block; margin-top: 10px;">Access Secure Platform</a>
             </div>
             
             <div class="hero-visual">
-                <div class="phone-mockup">
-                    <div class="phone-screen">
-                        <div class="safety-mark">
-                            <div class="shield-large"></div>
-                        </div>
-                        <div class="message-bubble">
-                            <strong>Your package has arrived!</strong><br>
-                            Track your delivery with verified tracking number...
-                        </div>
-                        <div class="verified-badge">
-                            <span>🛡️</span>
-                            <span>MO VERIFIED SAFETY MARK</span>
-                        </div>
-                    </div>
+                <div class="shield-container">
+                    <div class="orbit-ring"><div class="orbit-dot" style="top: -4px; left: 50%; transform: translateX(-50%);"></div></div>
+                    <div class="orbit-ring"><div class="orbit-dot" style="bottom: -4px; left: 50%; transform: translateX(-50%);"></div></div>
+                    <div class="orbit-ring"><div class="orbit-dot" style="top: 50%; right: -4px; transform: translateY(-50%);"></div></div>
+                    <div class="main-shield">🛡️</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="features" id="features">
-        <div class="container">
-            <div class="section-header">
-                <h2>A Modular Platform to Restore Mobile Trust</h2>
-                <p>Mobile Objex combines verification technology, clean room data services, and consumer education to create the first comprehensive fraud prevention platform for mobile messaging.</p>
+    <section class="problem-section" id="problem">
+        <div class="section-header">
+            <span class="section-tag">The Crisis</span>
+            <h2 class="section-title">Mobile Messaging is Under Attack</h2>
+            <p style="color: var(--text-secondary); font-size: 20px; max-width: 600px; margin: 0 auto;">
+                Fraudsters exploit the trust consumers place in mobile communications. Every unverified message is a potential threat.
+            </p>
+        </div>
+        
+        <div class="problem-grid">
+            <div class="problem-card">
+                <div class="problem-stat">30%</div>
+                <div class="problem-label">Of US Consumers</div>
+                <div class="problem-desc">Report being scammed via mobile messages annually. The most vulnerable point of contact.</div>
+            </div>
+            <div class="problem-card">
+                <div class="problem-stat">$7T+</div>
+                <div class="problem-label">Global Fraud Loss</div>
+                <div class="problem-desc">Projected annual losses to fraud worldwide. Mobile scams are the fastest growing vector.</div>
+            </div>
+            <div class="problem-card">
+                <div class="problem-stat">76%</div>
+                <div class="problem-label">Of Scams Start</div>
+                <div class="problem-desc">With a simple mobile message. Text, email, or app notification - the entry point is always mobile.</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="solution-section" id="solution">
+        <div class="solution-header">
+            <span class="solution-tag">The Solution</span>
+            <h2 class="section-title">Introducing the MO Verified Safety Mark</h2>
+            <p style="color: var(--text-secondary); font-size: 20px; max-width: 700px; margin: 0 auto;">
+                The first cooperative verification platform that lets consumers know: <strong style="color: var(--primary-yellow);">This message is safe.</strong>
+            </p>
+        </div>
+
+        <div class="solution-grid">
+            <div class="solution-card">
+                <div class="solution-icon">🛡️</div>
+                <div class="solution-content">
+                    <h3>Verified Safety Mark</h3>
+                    <p>A visible badge of trust. When consumers see the MO mark, they know the message has been verified by our AI and cooperative data platform. Instant recognition, instant trust.</p>
+                </div>
             </div>
             
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🛡️</div>
-                    <h3>MO Verified Safety Mark</h3>
-                    <p>A simple, visible badge that tells people a message is legit. Backed by a secure data system where brands share anonymous information to spot new scams early and stop them fast.</p>
+            <div class="solution-card">
+                <div class="solution-icon">🔐</div>
+                <div class="solution-content">
+                    <h3>Clean Room Architecture</h3>
+                    <p>Your data never mixes with others. Our API-first approach deduplicates, validates, and anonymizes data before it enters the cooperative. Privacy by design, not by promise.</p>
                 </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🔐</div>
-                    <h3>Clean Room Data Services</h3>
-                    <p>API-based data hygiene for message readiness. Deduplication, validation, and optimization performed before data enters our cooperative platform. No personal data is stored.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
-                    <h3>AI-Driven Analysis</h3>
-                    <p>Multiple specialized AI analysts work in parallel—examining fundamentals, technicals, momentum, and regime to reduce bias and improve fraud detection accuracy.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Cooperative Data Platform</h3>
-                    <p>Mobile-first cooperative database powering trend detection, risk scoring, and industry benchmarking. All data is anonymized, normalized, and encrypted at ingestion.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">🎮</div>
-                    <h3>Education & Awareness</h3>
-                    <p>Gamified learning with the "It's a Scam" mobile game and media campaigns. Build opt-in engagement while educating consumers on fraud detection and prevention.</p>
-                </div>
-                
-                <div class="feature-card">
-                    <div class="feature-icon">📡</div>
-                    <h3>Omni-Channel Protection</h3>
-                    <p>Built for SMS, RCS, Email, App Messaging, and Social. Verified safety across every touchpoint where your customers communicate, ensuring consistent brand trust.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="process" id="process">
-        <div class="container">
-            <div class="section-header">
-                <h2>How It Works</h2>
-                <p>Four simple steps to secure, verified mobile messaging</p>
             </div>
             
-            <div class="process-steps">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <h3>Upload</h3>
-                    <p>Brand uploads campaign data securely to our encrypted platform</p>
+            <div class="solution-card">
+                <div class="solution-icon">🤖</div>
+                <div class="solution-content">
+                    <h3>Multi-Agent AI Analysis</h3>
+                    <p>Four specialized AI analysts examine every message: Pattern detection, behavioral analysis, sender verification, and content scoring. Bias is eliminated through parallel processing.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <h3>Scan</h3>
-                    <p>AI analyzes for fraud patterns and validates message authenticity</p>
+            </div>
+            
+            <div class="solution-card">
+                <div class="solution-icon">📊</div>
+                <div class="solution-content">
+                    <h3>Cooperative Intelligence</h3>
+                    <p>Brands anonymously share fraud patterns, creating a real-time shield that learns faster than scammers. One attack detected protects the entire network instantly.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <h3>Verify</h3>
-                    <p>Apply MO Safety Mark verification badge to approved messages</p>
+            </div>
+            
+            <div class="solution-card">
+                <div class="solution-icon">🎮</div>
+                <div class="solution-content">
+                    <h3>Gamified Education</h3>
+                    <p>Our "It's a Scam" mobile game and TV show educate consumers while they engage. Turn security awareness into entertainment. Trusted by schools and enterprises.</p>
                 </div>
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h3>Deliver</h3>
-                    <p>Send trusted messages safely to consumers with full tracking</p>
+            </div>
+            
+            <div class="solution-card">
+                <div class="solution-icon">📡</div>
+                <div class="solution-content">
+                    <h3>Omni-Channel Coverage</h3>
+                    <p>One platform, every channel. SMS, RCS, Email, App Push Notifications, and Social DMs - all verified under one safety standard. Consistent trust everywhere.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="security" id="security">
-        <div class="security-content">
-            <div class="security-visual">
-                <div class="security-shield">
-                    <div class="shield-inner">🔒</div>
+    <section class="process-section" id="process">
+        <div class="section-header" style="margin-bottom: 80px;">
+            <span class="solution-tag">How It Works</span>
+            <h2 class="section-title">From Upload to Verified in Seconds</h2>
+        </div>
+
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3 style="font-size: 24px; margin-bottom: 10px; color: var(--primary-yellow);">Upload</h3>
+                    <p style="color: var(--text-secondary);">Brand uploads campaign data via secure API. Data is immediately anonymized and encrypted. No PII is ever stored.</p>
                 </div>
+                <div class="timeline-number">1</div>
             </div>
-            <div class="security-text">
-                <h2>Built-in Privacy & Security</h2>
-                <p>Our cooperative model ensures maximum security with built-in privacy protections. One-way data flow from brands into the Co-op with data anonymized, normalized, and encrypted at ingestion.</p>
-                <p>Used exclusively for macro-level trend insights, not client-level data access. Mobile Objex does not store or expose identifiable consumer records, ensuring brands retain full compliance control (GDPR, CCPA).</p>
-                <ul class="security-list">
-                    <li>End-to-end encryption for all data transfers</li>
-                    <li>Anonymized data processing</li>
-                    <li>10-minute secure session timeouts</li>
-                    <li>No personal consumer data storage</li>
-                    <li>Full regulatory compliance (GDPR/CCPA)</li>
-                </ul>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3 style="font-size: 24px; margin-bottom: 10px; color: var(--primary-yellow);">Scan</h3>
+                    <p style="color: var(--text-secondary);">Multi-agent AI analyzes patterns, checks against known fraud vectors, and validates sender reputation across the cooperative network.</p>
+                </div>
+                <div class="timeline-number">2</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3 style="font-size: 24px; margin-bottom: 10px; color: var(--primary-yellow);">Verify</h3>
+                    <p style="color: var(--text-secondary);">Approved messages receive the MO Verified Safety Mark. Failed messages are quarantined for review with detailed threat analysis.</p>
+                </div>
+                <div class="timeline-number">3</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-content">
+                    <h3 style="font-size: 24px; margin-bottom: 10px; color: var(--primary-yellow);">Deliver</h3>
+                    <p style="color: var(--text-secondary);">Verified messages reach consumers with the Safety Mark displayed. Real-time delivery confirmation and engagement tracking.</p>
+                </div>
+                <div class="timeline-number">4</div>
             </div>
         </div>
     </section>
 
-    <section class="cta">
+    <section class="cta-section">
         <div class="cta-box">
-            <h2>Ready to Eliminate Mobile Fraud?</h2>
-            <p>Join leading brands in not-for-profits, telecom, retail, fintech, healthcare, and logistics who trust Mobile Objex to protect their mobile communications.</p>
-            <a href="login.html" class="btn-primary" style="display: inline-block;">Access Platform</a>
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Eliminate Mobile Fraud?</h2>
+                <p class="cta-text">
+                    Join leading brands in telecom, retail, fintech, healthcare, and logistics who trust Mobile Objex to protect their mobile communications and rebuild consumer trust.
+                </p>
+                <a href="login.html" class="btn-primary" style="display: inline-block; padding: 18px 40px; font-size: 18px;">
+                    Access Secure Platform
+                </a>
+                <p style="margin-top: 20px; font-size: 14px; color: var(--text-secondary);">
+                    Protected by Mobile Objex Secure Infrastructure • End-to-end encrypted
+                </p>
+            </div>
         </div>
     </section>
 
     <footer>
-        <p>&copy; 2024 Mobile Objex. All rights reserved. | AI-Driven Mobile Trust Platform</p>
+        <div class="footer-logo">Mobile<span>Objex</span></div>
+        <p style="margin-bottom: 10px;">AI-Driven Mobile Trust Platform</p>
+        <p style="font-size: 12px;">&copy; 2024 Mobile Objex. All rights reserved. | Fraud-Free Mobile Communications</p>
     </footer>
 
     <script>
-        // Smooth scrolling for anchor links
+        // Interactive Network Background
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const particleCount = 80;
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 2 + 1;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            
+            draw() {
+                ctx.fillStyle = 'rgba(244, 185, 66, 0.5)';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                
+                for (let j = i; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(244, 185, 66, ${0.2 - distance/750})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Counter Animation
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200;
+        
+        const animateCounters = () => {
+            counters.forEach(counter => {
+                const target = +counter.getAttribute('data-target');
+                const count = +counter.innerText;
+                const inc = target / speed;
+                
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + inc);
+                    setTimeout(animateCounters, 20);
+                } else {
+                    counter.innerText = target;
+                }
+            });
+        };
+        
+        // Trigger counters when in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateCounters();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+        
+        observer.observe(document.querySelector('.stats-ticker'));
+
+        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
