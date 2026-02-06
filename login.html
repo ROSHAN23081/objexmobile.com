@@ -670,6 +670,51 @@ function showError(msg) {
     }
 }
 </script>
+    <script>
+// Hardcoded MO users per PDF spec
+const MO_USERS = [
+    { username: 'admin', password: 'admin123', name: 'Administrator' },
+    { username: 'sales1', password: 'sales123', name: 'Sales Team' },
+    { username: 'marketer', password: 'market123', name: 'Marketing' }
+];
+
+document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const username = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+    
+    const user = MO_USERS.find(u => u.username === username && u.password === password);
+    
+    if (user) {
+        // Create unique session per PDF specs
+        const sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        const shortCode = sessionId.substr(5, 8);
+        
+        const sessionData = {
+            username: user.username,
+            name: user.name,
+            sessionId: sessionId,
+            shortCode: shortCode,
+            shortUrl: window.location.origin + '/capture.html?s=' + shortCode,
+            loginTime: new Date().toISOString()
+        };
+        
+        // Store session
+        localStorage.setItem('mo_current_session', JSON.stringify(sessionData));
+        localStorage.setItem('mo_session_data_' + sessionId, JSON.stringify({
+            users: [],
+            messages: [],
+            created: new Date().toISOString()
+        }));
+        
+        // Redirect to send.html (campaign page)
+        window.location.href = 'send.html';
+    } else {
+        alert('Invalid credentials. Please try again.');
+    }
+});
+</script>
 <body>
     <div class="bg-grid"></div>
     <div class="particles">
