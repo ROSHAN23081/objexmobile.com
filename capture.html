@@ -1,0 +1,718 @@
+<!-- ============================================ -->
+<!-- PHASE 2: PAGE 1 - PHONE & SAFETY CODE CAPTURE (/capture.html) -->
+<!-- ============================================ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Objex | Secure Capture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --mo-gold: #F5A623;
+            --mo-gold-light: #FFB84D;
+            --mo-dark: #0A0A0F;
+            --mo-darker: #050508;
+            --mo-gray: #1A1A24;
+            --mo-text: #E8E8EC;
+            --mo-text-muted: #888899;
+            --mo-success: #10B981;
+            --mo-error: #EF4444;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--mo-darker);
+            min-height: 100vh;
+            color: var(--mo-text);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: var(--mo-gray);
+            border-bottom: 1px solid rgba(245, 166, 35, 0.2);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: var(--mo-dark);
+            font-size: 18px;
+        }
+
+        .brand-text h1 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .brand-text span {
+            font-size: 12px;
+            color: var(--mo-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* User Info */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .session-badge {
+            background: rgba(245, 166, 35, 0.1);
+            border: 1px solid rgba(245, 166, 35, 0.3);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--mo-gold);
+        }
+
+        .logout-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--mo-text);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--mo-error);
+            color: var(--mo-error);
+        }
+
+        /* Main Layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 30px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* Card Styles */
+        .card {
+            background: var(--mo-gray);
+            border: 1px solid rgba(245, 166, 35, 0.15);
+            border-radius: 16px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--mo-gold), var(--mo-gold-light));
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(245, 166, 35, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .card-subtitle {
+            font-size: 13px;
+            color: var(--mo-text-muted);
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--mo-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--mo-dark);
+            border: 2px solid rgba(245, 166, 35, 0.2);
+            border-radius: 10px;
+            color: var(--mo-text);
+            font-size: 15px;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--mo-gold);
+            box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
+        }
+
+        .input-hint {
+            font-size: 12px;
+            color: var(--mo-text-muted);
+            margin-top: 6px;
+        }
+
+        .match-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 13px;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .match-indicator.show {
+            opacity: 1;
+        }
+
+        .match-indicator.valid {
+            color: var(--mo-success);
+        }
+
+        .match-indicator.invalid {
+            color: var(--mo-error);
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            border: none;
+            border-radius: 10px;
+            color: var(--mo-dark);
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Success Message */
+        .success-message {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--mo-success);
+            color: var(--mo-success);
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .success-message.show {
+            display: flex;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Session Data Preview */
+        .data-preview {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--mo-text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .entry-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .entry-item {
+            background: var(--mo-dark);
+            border: 1px solid rgba(245, 166, 35, 0.2);
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.3s ease;
+        }
+
+        .entry-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .entry-phone {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--mo-text);
+        }
+
+        .entry-code {
+            font-size: 13px;
+            color: var(--mo-gold);
+            font-family: monospace;
+        }
+
+        .entry-time {
+            font-size: 12px;
+            color: var(--mo-text-muted);
+        }
+
+        .entry-status {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--mo-success);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Security Features */
+        .security-features {
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .security-title {
+            font-size: 12px;
+            color: var(--mo-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13px;
+            color: var(--mo-text-muted);
+        }
+
+        .feature-item::before {
+            content: '✓';
+            width: 20px;
+            height: 20px;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--mo-success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            flex-shrink: 0;
+        }
+
+        /* Navigation to Send Page */
+        .nav-section {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            background: transparent;
+            border: 2px solid var(--mo-gold);
+            color: var(--mo-gold);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: var(--mo-gold);
+            color: var(--mo-dark);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="brand">
+                <div class="brand-icon">MO</div>
+                <div class="brand-text">
+                    <h1>Mobile Objex</h1>
+                    <span>Secure Messaging Demo</span>
+                </div>
+            </div>
+            <div class="user-info">
+                <span class="session-badge" id="sessionBadge">Session: Active</span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Capture Form -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">📱</div>
+                <div>
+                    <h2 class="card-title">Phone & Safety Code Capture</h2>
+                    <p class="card-subtitle">Enter recipient details securely</p>
+                </div>
+            </div>
+
+            <form id="captureForm">
+                <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input 
+                        type="tel" 
+                        class="form-input" 
+                        id="phone1" 
+                        placeholder="e.g., +1 (555) 123-4567"
+                        required
+                        maxlength="20"
+                    >
+                    <p class="input-hint">Enter the recipient's mobile number</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Repeat Phone Number</label>
+                    <input 
+                        type="tel" 
+                        class="form-input" 
+                        id="phone2" 
+                        placeholder="Confirm phone number"
+                        required
+                        maxlength="20"
+                    >
+                    <div class="match-indicator" id="phoneMatch">
+                        <span>✓</span>
+                        <span>Numbers match</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Safety Code</label>
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        id="code1" 
+                        placeholder="Enter safety code (e.g., SHIELD-2026)"
+                        required
+                        maxlength="20"
+                    >
+                    <p class="input-hint">Create a unique verification code for this recipient</p>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Repeat Safety Code</label>
+                    <input 
+                        type="text" 
+                        class="form-input" 
+                        id="code2" 
+                        placeholder="Confirm safety code"
+                        required
+                        maxlength="20"
+                    >
+                    <div class="match-indicator" id="codeMatch">
+                        <span>✓</span>
+                        <span>Codes match</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    Securely Capture Data
+                </button>
+            </form>
+
+            <div class="success-message" id="successMsg">
+                <span style="font-size: 24px;">✓</span>
+                <div>
+                    <strong>Data Captured Successfully</strong>
+                    <p style="font-size: 13px; margin-top: 4px;">This entry is now associated with your current session.</p>
+                </div>
+            </div>
+
+            <div class="security-features">
+                <h3 class="security-title">Security Features</h3>
+                <div class="feature-list">
+                    <div class="feature-item">Double-entry verification</div>
+                    <div class="feature-item">AES-256-GCM encryption</div>
+                    <div class="feature-item">Auto-purge on logout</div>
+                    <div class="feature-item">Session-bound data</div>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <a href="send.html" class="nav-btn" id="proceedBtn" style="display: none;">
+                    Proceed to Message Send →
+                </a>
+            </div>
+        </section>
+
+        <!-- Session Preview -->
+        <section class="card">
+            <div class="card-header">
+                <div class="card-icon">📋</div>
+                <div>
+                    <h2 class="card-title">Session Data Preview</h2>
+                    <p class="card-subtitle">Captured in current session only</p>
+                </div>
+            </div>
+
+            <div class="data-preview" id="dataPreview">
+                <div class="empty-state">
+                    <div class="empty-state-icon">📭</div>
+                    <p>No data captured in this session yet</p>
+                    <p style="font-size: 13px; margin-top: 8px;">Entries will appear here after submission</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Check authentication
+        const sessionData = JSON.parse(sessionStorage.getItem('mo_session') || '{}');
+        if (!sessionData.sessionId) {
+            window.location.href = 'login.html';
+        }
+
+        // Update session badge
+        document.getElementById('sessionBadge').textContent = 
+            `Session: ${sessionData.sessionId?.substr(-6) || 'Active'}`;
+
+        // Real-time validation
+        const phone1 = document.getElementById('phone1');
+        const phone2 = document.getElementById('phone2');
+        const code1 = document.getElementById('code1');
+        const code2 = document.getElementById('code2');
+        const phoneMatch = document.getElementById('phoneMatch');
+        const codeMatch = document.getElementById('codeMatch');
+
+        function checkMatch(input1, input2, indicator) {
+            if (input2.value) {
+                indicator.classList.add('show');
+                if (input1.value === input2.value) {
+                    indicator.classList.add('valid');
+                    indicator.classList.remove('invalid');
+                    indicator.querySelector('span:first-child').textContent = '✓';
+                    indicator.querySelector('span:last-child').textContent = 'Matches';
+                    return true;
+                } else {
+                    indicator.classList.add('invalid');
+                    indicator.classList.remove('valid');
+                    indicator.querySelector('span:first-child').textContent = '✗';
+                    indicator.querySelector('span:last-child').textContent = 'Does not match';
+                    return false;
+                }
+            } else {
+                indicator.classList.remove('show');
+                return false;
+            }
+        }
+
+        phone2.addEventListener('input', () => checkMatch(phone1, phone2, phoneMatch));
+        code2.addEventListener('input', () => checkMatch(code1, code2, codeMatch));
+
+        // Form submission
+        document.getElementById('captureForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Validate matches
+            if (!checkMatch(phone1, phone2, phoneMatch) || !checkMatch(code1, code2, codeMatch)) {
+                alert('Please ensure all fields match before submitting.');
+                return;
+            }
+
+            // Create entry per PDF spec
+            const entry = {
+                phone: phone1.value,
+                safetyCode: code1.value,
+                username: sessionData.username,
+                sessionId: sessionData.sessionId,
+                timestamp: new Date().toISOString(),
+                status: 'newly entered',
+                id: Date.now()
+            };
+
+            // Store in session
+            if (!sessionData.phoneNumbers) sessionData.phoneNumbers = [];
+            sessionData.phoneNumbers.push(entry);
+            sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
+
+            // Show success
+            document.getElementById('successMsg').classList.add('show');
+            
+            // Update preview
+            updatePreview();
+            
+            // Reset form
+            e.target.reset();
+            phoneMatch.classList.remove('show');
+            codeMatch.classList.remove('show');
+
+            // Show proceed button
+            document.getElementById('proceedBtn').style.display = 'inline-flex';
+
+            // Hide success after 3 seconds
+            setTimeout(() => {
+                document.getElementById('successMsg').classList.remove('show');
+            }, 3000);
+        });
+
+        function updatePreview() {
+            const container = document.getElementById('dataPreview');
+            const entries = sessionData.phoneNumbers || [];
+
+            if (entries.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <p>No data captured in this session yet</p>
+                        <p style="font-size: 13px; margin-top: 8px;">Entries will appear here after submission</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '<div class="entry-list">' + entries.map(entry => `
+                <div class="entry-item">
+                    <div class="entry-info">
+                        <span class="entry-phone">${escapeHtml(entry.phone)}</span>
+                        <span class="entry-code">Code: ${escapeHtml(entry.safetyCode)}</span>
+                        <span class="entry-time">${new Date(entry.timestamp).toLocaleTimeString()}</span>
+                    </div>
+                    <span class="entry-status">${entry.status}</span>
+                </div>
+            `).join('') + '</div>';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function logout() {
+            // Per PDF: Session is closed, data is deleted
+            sessionStorage.removeItem('mo_session');
+            window.location.href = 'login.html';
+        }
+
+        // Initialize
+        updatePreview();
+        if ((sessionData.phoneNumbers || []).length > 0) {
+            document.getElementById('proceedBtn').style.display = 'inline-flex';
+        }
+    </script>
+</body>
+</html>
