@@ -1,0 +1,457 @@
+<!-- ============================================ -->
+<!-- PHASE 4: INDEX/LANDING PAGE (/index.html) - Optional Overview -->
+<!-- ============================================ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Objex | Sacred Heart Development Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --mo-gold: #F5A623;
+            --mo-gold-light: #FFB84D;
+            --mo-dark: #0A0A0F;
+            --mo-darker: #050508;
+            --mo-gray: #1A1A24;
+            --mo-text: #E8E8EC;
+            --mo-text-muted: #888899;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--mo-darker);
+            min-height: 100vh;
+            color: var(--mo-text);
+            line-height: 1.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(245, 166, 35, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(245, 166, 35, 0.1) 0%, transparent 50%),
+                var(--mo-darker);
+            z-index: -1;
+        }
+
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(245, 166, 35, 0.03) 2px,
+                rgba(245, 166, 35, 0.03) 4px
+            );
+            animation: slide 20s linear infinite;
+        }
+
+        @keyframes slide {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Logo Animation */
+        .logo-container {
+            margin-bottom: 40px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: var(--mo-dark);
+            margin: 0 auto 30px;
+            box-shadow: 
+                0 20px 60px rgba(245, 166, 35, 0.3),
+                0 0 0 1px rgba(245, 166, 35, 0.5),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 33px;
+            background: linear-gradient(135deg, var(--mo-gold), transparent);
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(10px);
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--mo-text), var(--mo-gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: var(--mo-text-muted);
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+
+        /* Demo Credentials */
+        .demo-creds {
+            background: var(--mo-gray);
+            border: 1px solid rgba(245, 166, 35, 0.2);
+            border-radius: 16px;
+            padding: 30px 50px;
+            margin-bottom: 40px;
+        }
+
+        .demo-creds h3 {
+            font-size: 14px;
+            color: var(--mo-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .cred-grid {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .cred-item {
+            text-align: left;
+        }
+
+        .cred-label {
+            font-size: 12px;
+            color: var(--mo-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .cred-value {
+            font-family: monospace;
+            font-size: 16px;
+            color: var(--mo-text);
+            background: var(--mo-dark);
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(245, 166, 35, 0.2);
+        }
+
+        /* CTA Button */
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 50px;
+            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            border: none;
+            border-radius: 12px;
+            color: var(--mo-dark);
+            font-size: 18px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 40px rgba(245, 166, 35, 0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px rgba(245, 166, 35, 0.4);
+        }
+
+        /* Features Grid */
+        .features {
+            padding: 80px 40px;
+            background: var(--mo-dark);
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--mo-gray);
+            border: 1px solid rgba(245, 166, 35, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: rgba(245, 166, 35, 0.3);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(245, 166, 35, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--mo-text-muted);
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Flow Diagram */
+        .flow {
+            padding: 80px 40px;
+        }
+
+        .flow-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .flow h2 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+        }
+
+        .flow-steps {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .flow-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--mo-gold), var(--mo-gold-light));
+            z-index: 0;
+        }
+
+        .flow-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: var(--mo-gray);
+            border: 2px solid var(--mo-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--mo-gold);
+            margin: 0 auto 20px;
+        }
+
+        .flow-step h4 {
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .flow-step p {
+            font-size: 14px;
+            color: var(--mo-text-muted);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--mo-text-muted);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .cred-grid {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .flow-steps {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .flow-steps::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero">
+        <div class="hero-bg"></div>
+        
+        <div class="logo-container">
+            <div class="logo">MO</div>
+        </div>
+        
+        <h1>Sacred Heart Development Demo</h1>
+        <p>Experience the future of fraud-free mobile communications with Mobile Objex's secure messaging platform.</p>
+        
+        <div class="demo-creds">
+            <h3>Demo Access Credentials</h3>
+            <div class="cred-grid">
+                <div class="cred-item">
+                    <div class="cred-label">Username</div>
+                    <div class="cred-value">demo.operator</div>
+                </div>
+                <div class="cred-item">
+                    <div class="cred-label">Password</div>
+                    <div class="cred-value">DemoPass123!</div>
+                </div>
+            </div>
+        </div>
+        
+        <a href="login.html" class="cta-btn">
+            Start Demo →
+        </a>
+    </section>
+
+    <section class="features">
+        <div class="features-container">
+            <h2>Demo Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>MO Authentication</h3>
+                    <p>Secure login system with session-based access control. Each user gets an isolated session context.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Phone & Safety Code Capture</h3>
+                    <p>Double-entry verification prevents typos. Data is timestamped and session-bound.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✉️</div>
+                    <h3>Secure Message Send</h3>
+                    <p>Send verified messages with automatic safety code appending. Only current session recipients.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Session Isolation</h3>
+                    <p>No cross-session access. Data auto-purges on logout. Full compliance with MO security protocols.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="flow">
+        <div class="flow-container">
+            <h2>Demo Flow</h2>
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <h4>Login</h4>
+                    <p>Authenticate with MO credentials</p>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <h4>Capture</h4>
+                    <p>Enter phone & safety code</p>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <h4>Verify</h4>
+                    <p>Review session data</p>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <h4>Send</h4>
+                    <p>Deliver secure message</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Mobile Objex. Sacred Heart Development Demo.</p>
+        <p style="margin-top: 10px; font-size: 12px;">Built for secure mobile messaging verification.</p>
+    </footer>
+</body>
+</html>
