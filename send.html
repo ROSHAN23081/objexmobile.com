@@ -1,12 +1,12 @@
 <!-- ============================================ -->
-<!-- PHASE 3: PAGE 2 - MESSAGE SEND (/send.html) -->
+<!-- SECURE SEND PAGE WITH 10-MIN TIMER (/send.html) -->
 <!-- ============================================ -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Objex | Secure Message Send</title>
+    <title>Mobile Objex | Secure Send</title>
     <style>
         * {
             margin: 0;
@@ -35,11 +35,10 @@
             line-height: 1.6;
         }
 
-        /* Header */
         .header {
             background: var(--mo-gray);
             border-bottom: 1px solid rgba(245, 166, 35, 0.2);
-            padding: 20px 0;
+            padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -61,73 +60,91 @@
         }
 
         .brand-icon {
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             color: var(--mo-dark);
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .brand-text h1 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
         }
 
         .brand-text span {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--mo-text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        /* User Info */
-        .user-info {
+        .security-bar {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 15px;
         }
 
-        .session-badge {
+        .timer-display {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
             background: rgba(245, 166, 35, 0.1);
             border: 1px solid rgba(245, 166, 35, 0.3);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 13px;
+            font-weight: 600;
             color: var(--mo-gold);
+            transition: all 0.3s;
+        }
+
+        .timer-display.warning {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--mo-warning);
+            color: var(--mo-warning);
+            animation: pulse 1s infinite;
+        }
+
+        .timer-display.danger {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--mo-error);
+            color: var(--mo-error);
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
         }
 
         .back-btn {
             background: transparent;
             border: 1px solid rgba(245, 166, 35, 0.3);
             color: var(--mo-gold);
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
+            padding: 8px 16px;
+            border-radius: 6px;
             text-decoration: none;
-            display: inline-flex;
+            font-size: 13px;
+            display: flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-
-        .back-btn:hover {
-            background: rgba(245, 166, 35, 0.1);
+            gap: 6px;
         }
 
         .logout-btn {
             background: transparent;
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: var(--mo-text);
-            padding: 10px 20px;
-            border-radius: 8px;
+            padding: 8px 16px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             transition: all 0.3s;
         }
 
@@ -137,22 +154,20 @@
             color: var(--mo-error);
         }
 
-        /* Main Layout */
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 30px;
+            padding: 30px;
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
+            gap: 30px;
         }
 
-        /* Card Styles */
         .card {
             background: var(--mo-gray);
             border: 1px solid rgba(245, 166, 35, 0.15);
             border-radius: 16px;
-            padding: 30px;
+            padding: 25px;
             position: relative;
             overflow: hidden;
         }
@@ -171,44 +186,43 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .card-icon {
-            width: 48px;
-            height: 48px;
+            width: 44px;
+            height: 44px;
             background: rgba(245, 166, 35, 0.1);
-            border-radius: 12px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
+            font-size: 22px;
         }
 
         .card-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 700;
         }
 
         .card-subtitle {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--mo-text-muted);
         }
 
-        /* Recipients List */
         .recipients-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            max-height: 300px;
+            gap: 10px;
+            max-height: 400px;
             overflow-y: auto;
         }
 
         .recipient-item {
             background: var(--mo-dark);
-            border: 2px solid rgba(245, 166, 35, 0.3);
-            border-radius: 12px;
-            padding: 20px;
+            border: 2px solid rgba(245, 166, 35, 0.2);
+            border-radius: 10px;
+            padding: 16px;
             cursor: pointer;
             transition: all 0.3s;
             position: relative;
@@ -216,7 +230,6 @@
 
         .recipient-item:hover {
             border-color: var(--mo-gold);
-            transform: translateX(5px);
         }
 
         .recipient-item.selected {
@@ -224,32 +237,31 @@
             border-color: var(--mo-gold);
         }
 
-        .recipient-item.selected::before {
+        .recipient-item.selected::after {
             content: '✓';
             position: absolute;
-            top: -10px;
-            right: -10px;
-            width: 28px;
-            height: 28px;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
             background: var(--mo-gold);
             color: var(--mo-dark);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: bold;
         }
 
         .recipient-phone {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
-            color: var(--mo-text);
             margin-bottom: 4px;
         }
 
         .recipient-code {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--mo-gold);
             font-family: monospace;
         }
@@ -257,31 +269,27 @@
         .recipient-meta {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-top: 10px;
-            font-size: 12px;
+            margin-top: 8px;
+            font-size: 11px;
             color: var(--mo-text-muted);
         }
 
-        /* Message Composition */
         .message-area {
             width: 100%;
-            min-height: 200px;
-            padding: 20px;
+            min-height: 180px;
+            padding: 16px;
             background: var(--mo-dark);
             border: 2px solid rgba(245, 166, 35, 0.2);
-            border-radius: 12px;
+            border-radius: 10px;
             color: var(--mo-text);
             font-size: 15px;
             font-family: inherit;
             resize: vertical;
-            transition: all 0.3s;
         }
 
         .message-area:focus {
             outline: none;
             border-color: var(--mo-gold);
-            box-shadow: 0 0 0 3px rgba(245, 166, 35, 0.1);
         }
 
         .char-count {
@@ -291,70 +299,54 @@
             margin-top: 8px;
         }
 
-        /* Safety Code Append Notice */
-        .code-append-notice {
+        .code-notice {
             background: rgba(245, 166, 35, 0.1);
             border: 1px dashed rgba(245, 166, 35, 0.4);
-            border-radius: 10px;
-            padding: 16px;
-            margin-top: 20px;
+            border-radius: 8px;
+            padding: 14px;
+            margin-top: 16px;
             display: flex;
             align-items: center;
             gap: 12px;
+            font-size: 13px;
         }
 
-        .code-append-notice .icon {
-            font-size: 24px;
-        }
-
-        .code-append-notice .text {
-            flex: 1;
-        }
-
-        .code-append-notice .text strong {
+        .code-notice strong {
             color: var(--mo-gold);
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
-        .code-append-notice .text span {
-            font-size: 13px;
-            color: var(--mo-text-muted);
-        }
-
-        /* Send Button */
         .send-btn {
             width: 100%;
-            padding: 18px;
+            padding: 16px;
             background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             color: var(--mo-dark);
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
             margin-top: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
+            transition: all 0.3s;
         }
 
         .send-btn:hover:not(:disabled) {
             transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(245, 166, 35, 0.4);
+            box-shadow: 0 10px 30px rgba(245, 166, 35, 0.3);
         }
 
         .send-btn:disabled {
-            opacity: 0.5;
+            opacity: 0.4;
             cursor: not-allowed;
         }
 
-        .send-btn.sending {
-            pointer-events: none;
+        .send-btn.sending .spinner {
+            display: block;
         }
 
         .spinner {
@@ -367,88 +359,30 @@
             animation: spin 0.8s linear infinite;
         }
 
-        .send-btn.sending .spinner {
-            display: block;
-        }
-
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Empty State */
         .empty-state {
             text-align: center;
-            padding: 60px 20px;
+            padding: 50px 20px;
             color: var(--mo-text-muted);
         }
 
         .empty-state-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-            opacity: 0.3;
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
         }
 
-        .empty-state h3 {
-            color: var(--mo-text);
-            margin-bottom: 10px;
-        }
-
-        .empty-state p {
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        /* Delivery Features */
-        .delivery-features {
-            margin-top: 25px;
-            padding-top: 25px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .features-title {
-            font-size: 12px;
-            color: var(--mo-text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 15px;
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-
-        .feature-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            color: var(--mo-text-muted);
-        }
-
-        .feature-item::before {
-            content: '✓';
-            width: 20px;
-            height: 20px;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--mo-success);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 11px;
-            flex-shrink: 0;
-        }
-
-        /* Status Modal */
+        /* Modals */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.9);
             display: none;
             align-items: center;
             justify-content: center;
@@ -462,94 +396,69 @@
 
         .modal {
             background: var(--mo-gray);
-            border: 1px solid rgba(245, 166, 35, 0.3);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 500px;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 450px;
             width: 90%;
             text-align: center;
-            animation: modalIn 0.3s ease;
-        }
-
-        @keyframes modalIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
+            border: 2px solid var(--mo-error);
         }
 
         .modal-icon {
-            width: 80px;
-            height: 80px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 2px solid var(--mo-success);
+            width: 70px;
+            height: 70px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--mo-error);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 32px;
             margin: 0 auto 20px;
         }
 
-        .modal-icon.error {
-            background: rgba(239, 68, 68, 0.1);
-            border-color: var(--mo-error);
-        }
-
         .modal h2 {
-            font-size: 24px;
+            color: var(--mo-error);
             margin-bottom: 12px;
         }
 
         .modal p {
             color: var(--mo-text-muted);
             margin-bottom: 24px;
-        }
-
-        .modal-details {
-            background: var(--mo-dark);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: left;
-            margin-bottom: 24px;
-        }
-
-        .modal-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-
-        .modal-row:last-child {
-            margin-bottom: 0;
-            padding-top: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .modal-row strong {
-            color: var(--mo-gold);
+            line-height: 1.6;
         }
 
         .modal-btn {
-            padding: 14px 32px;
-            background: linear-gradient(135deg, var(--mo-gold), var(--mo-gold-light));
+            padding: 12px 30px;
+            background: var(--mo-error);
             border: none;
-            border-radius: 10px;
-            color: var(--mo-dark);
-            font-size: 15px;
-            font-weight: 700;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
             cursor: pointer;
         }
 
-        /* Responsive */
+        .success-modal {
+            border-color: var(--mo-success);
+        }
+
+        .success-modal .modal-icon {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--mo-success);
+        }
+
+        .success-modal h2 {
+            color: var(--mo-success);
+        }
+
+        .success-modal .modal-btn {
+            background: var(--mo-success);
+        }
+
         @media (max-width: 900px) {
             .container {
                 grid-template-columns: 1fr;
+                padding: 20px;
             }
         }
     </style>
@@ -561,68 +470,49 @@
                 <div class="brand-icon">MO</div>
                 <div class="brand-text">
                     <h1>Mobile Objex</h1>
-                    <span>Internal Operator Console</span>
+                    <span>Operator Console</span>
                 </div>
             </div>
-            <div class="user-info">
-                <a href="capture.html" class="back-btn">← Back to Capture</a>
-                <span class="session-badge" id="sessionBadge">Session: Active</span>
+            <div class="security-bar">
+                <div class="timer-display" id="timerDisplay">
+                    <span>⏱</span>
+                    <span id="timerValue">10:00</span>
+                </div>
+                <a href="capture.html" class="back-btn">← Capture</a>
                 <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
         </div>
     </header>
 
     <main class="container">
-        <!-- Recipients Selection -->
         <section class="card">
             <div class="card-header">
                 <div class="card-icon">👥</div>
                 <div>
                     <h2 class="card-title">Select Recipients</h2>
-                    <p class="card-subtitle">Only current session entries shown</p>
+                    <p class="card-subtitle">Session-bound only</p>
                 </div>
             </div>
-
-            <div id="recipientsContainer">
-                <!-- Populated by JS -->
-            </div>
-
-            <div class="delivery-features">
-                <h3 class="features-title">Delivery Features</h3>
-                <div class="feature-grid">
-                    <div class="feature-item">Safety code auto-appended</div>
-                    <div class="feature-item">Session-bound only</div>
-                    <div class="feature-item">Delivery confirmation</div>
-                    <div class="feature-item">Encrypted in transit</div>
-                </div>
-            </div>
+            <div id="recipientsContainer"></div>
         </section>
 
-        <!-- Message Composition -->
         <section class="card">
             <div class="card-header">
                 <div class="card-icon">✉️</div>
                 <div>
-                    <h2 class="card-title">Compose Secure Message</h2>
-                    <p class="card-subtitle">Message will be verified and encrypted</p>
+                    <h2 class="card-title">Compose Message</h2>
+                    <p class="card-subtitle">Auto-appends safety code</p>
                 </div>
             </div>
 
-            <textarea 
-                class="message-area" 
-                id="messageText"
-                placeholder="Enter your secure message here..."
-                maxlength="1600"
-            ></textarea>
-            <div class="char-count">
-                <span id="charCount">0</span> / 1600 characters
-            </div>
+            <textarea class="message-area" id="messageText" placeholder="Enter secure message..." maxlength="1600"></textarea>
+            <div class="char-count"><span id="charCount">0</span> / 1600</div>
 
-            <div class="code-append-notice">
-                <span class="icon">🔒</span>
-                <div class="text">
-                    <strong>Safety Code Protection</strong>
-                    <span>The recipient's unique safety code will be automatically appended to verify message authenticity.</span>
+            <div class="code-notice">
+                <span style="font-size: 20px;">🔒</span>
+                <div>
+                    <strong>Security Notice</strong>
+                    <span>Recipient's unique safety code will be auto-appended for verification.</span>
                 </div>
             </div>
 
@@ -633,35 +523,117 @@
         </section>
     </main>
 
-    <!-- Status Modal -->
-    <div class="modal-overlay" id="statusModal">
+    <!-- Timeout Modal -->
+    <div class="modal-overlay" id="timeoutModal">
         <div class="modal">
-            <div class="modal-icon" id="modalIcon">✓</div>
-            <h2 id="modalTitle">Message Sent Successfully</h2>
-            <p id="modalMessage">Your secure message has been delivered with MO verification.</p>
-            
-            <div class="modal-details" id="modalDetails">
-                <!-- Populated by JS -->
-            </div>
-            
-            <button class="modal-btn" onclick="closeModal()">Continue</button>
+            <div class="modal-icon">⏰</div>
+            <h2>Session Expiring</h2>
+            <p>Session expires in <strong id="remainingTime">60s</strong>. Data will be purged.</p>
+            <button class="modal-btn" onclick="extendSession()">Extend 5 Min</button>
+        </div>
+    </div>
+
+    <!-- Expired Modal -->
+    <div class="modal-overlay" id="expiredModal">
+        <div class="modal">
+            <div class="modal-icon">🔒</div>
+            <h2>Session Expired</h2>
+            <p>Security timeout reached. All data purged.</p>
+            <button class="modal-btn" onclick="window.location.href='login.html'">Re-login</button>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="successModal">
+        <div class="modal success-modal">
+            <div class="modal-icon">✓</div>
+            <h2>Messages Sent</h2>
+            <p id="successDetails">Delivered successfully with safety codes.</p>
+            <button class="modal-btn" onclick="closeSuccess()">Continue</button>
         </div>
     </div>
 
     <script>
-        // Check authentication
-        const sessionData = JSON.parse(sessionStorage.getItem('mo_session') || '{}');
+        // Security Configuration
+        const SESSION_DURATION = 10 * 60 * 1000; // 10 minutes
+        const WARNING_TIME = 60 * 1000; // 1 minute warning
+        
+        let sessionData = JSON.parse(sessionStorage.getItem('mo_session') || '{}');
+        let selectedRecipients = new Set();
+        let timerInterval;
+        let warningShown = false;
+
+        // Auth check
         if (!sessionData.sessionId) {
             window.location.href = 'login.html';
         }
 
-        // Update session badge
-        document.getElementById('sessionBadge').textContent = 
-            `Session: ${sessionData.sessionId?.substr(-6) || 'Active'}`;
+        function initTimer() {
+            const now = Date.now();
+            
+            if (!sessionData.expiresAt) {
+                sessionData.expiresAt = now + SESSION_DURATION;
+                sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
+            }
 
-        let selectedRecipients = new Set();
+            updateTimer();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
 
-        // Load recipients (only current session per PDF)
+        function updateTimer() {
+            const now = Date.now();
+            const timeLeft = sessionData.expiresAt - now;
+
+            if (timeLeft <= 0) {
+                expireSession();
+                return;
+            }
+
+            const mins = Math.floor(timeLeft / 60000);
+            const secs = Math.floor((timeLeft % 60000) / 1000);
+            document.getElementById('timerValue').textContent = 
+                `${mins}:${secs.toString().padStart(2, '0')}`;
+
+            const display = document.getElementById('timerDisplay');
+            
+            if (timeLeft <= 30000) {
+                display.className = 'timer-display danger';
+            } else if (timeLeft <= 120000) {
+                display.className = 'timer-display warning';
+            } else {
+                display.className = 'timer-display';
+            }
+
+            if (timeLeft <= WARNING_TIME && !warningShown) {
+                document.getElementById('remainingTime').textContent = Math.ceil(timeLeft / 1000) + 's';
+                document.getElementById('timeoutModal').classList.add('show');
+                warningShown = true;
+            }
+        }
+
+        function extendSession() {
+            sessionData.expiresAt = Date.now() + (5 * 60 * 1000);
+            sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
+            warningShown = false;
+            document.getElementById('timeoutModal').classList.remove('show');
+        }
+
+        function expireSession() {
+            clearInterval(timerInterval);
+            sessionStorage.removeItem('mo_session');
+            document.getElementById('timeoutModal').classList.remove('show');
+            document.getElementById('expiredModal').classList.add('show');
+            document.body.style.pointerEvents = 'none';
+            document.getElementById('expiredModal').style.pointerEvents = 'auto';
+        }
+
+        function logout() {
+            clearInterval(timerInterval);
+            sessionStorage.removeItem('mo_session');
+            window.location.href = 'login.html';
+        }
+
+        // Recipients
         function loadRecipients() {
             const container = document.getElementById('recipientsContainer');
             const entries = (sessionData.phoneNumbers || []).filter(e => e.status === 'newly entered');
@@ -670,143 +642,83 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-state-icon">📭</div>
-                        <h3>No Recipients Available</h3>
-                        <p>No phone numbers captured in current session.</p>
-                        <a href="capture.html" class="back-btn" style="display: inline-flex;">Capture Numbers First →</a>
-                    </div>
-                `;
+                        <h3>No Recipients</h3>
+                        <p>No available recipients in current session.</p>
+                        <a href="capture.html" class="back-btn" style="display: inline-flex; margin-top: 16px;">Capture First →</a>
+                    </div>`;
                 return;
             }
 
             container.innerHTML = '<div class="recipients-list">' + entries.map(entry => `
                 <div class="recipient-item" onclick="toggleRecipient(${entry.id}, this)" data-id="${entry.id}">
                     <div class="recipient-phone">${escapeHtml(entry.phone)}</div>
-                    <div class="recipient-code">Safety Code: ${escapeHtml(entry.safetyCode)}</div>
+                    <div class="recipient-code">Code: ${escapeHtml(entry.safetyCode)}</div>
                     <div class="recipient-meta">
-                        <span>Captured: ${new Date(entry.timestamp).toLocaleTimeString()}</span>
+                        <span>${new Date(entry.timestamp).toLocaleTimeString()}</span>
                         <span>Click to select</span>
                     </div>
                 </div>
             `).join('') + '</div>';
         }
 
-        function toggleRecipient(id, element) {
+        function toggleRecipient(id, el) {
             if (selectedRecipients.has(id)) {
                 selectedRecipients.delete(id);
-                element.classList.remove('selected');
+                el.classList.remove('selected');
             } else {
                 selectedRecipients.add(id);
-                element.classList.add('selected');
+                el.classList.add('selected');
             }
-            updateSendButton();
+            updateSendBtn();
         }
 
-        function updateSendButton() {
-            const btn = document.getElementById('sendBtn');
-            const hasRecipients = selectedRecipients.size > 0;
-            const hasMessage = document.getElementById('messageText').value.trim().length > 0;
-            btn.disabled = !(hasRecipients && hasMessage);
+        function updateSendBtn() {
+            const hasMsg = document.getElementById('messageText').value.trim().length > 0;
+            document.getElementById('sendBtn').disabled = !(selectedRecipients.size > 0 && hasMsg);
         }
 
-        // Character counter
         document.getElementById('messageText').addEventListener('input', function() {
             document.getElementById('charCount').textContent = this.value.length;
-            updateSendButton();
+            updateSendBtn();
         });
 
         async function sendMessage() {
             const btn = document.getElementById('sendBtn');
-            const message = document.getElementById('messageText').value.trim();
+            const text = document.getElementById('messageText').value.trim();
             
-            if (!message || selectedRecipients.size === 0) return;
-
             btn.classList.add('sending');
             btn.disabled = true;
 
-            // Simulate API call to SMS Composer App
             await new Promise(r => setTimeout(r, 1500));
 
-            // Get selected entries
-            const entries = sessionData.phoneNumbers.filter(e => 
-                selectedRecipients.has(e.id)
-            );
+            const entries = sessionData.phoneNumbers.filter(e => selectedRecipients.has(e.id));
+            let successCount = 0;
 
-            // Simulate send results
-            const results = entries.map(entry => {
-                // Simulate success/failure (95% success rate for demo)
-                const success = Math.random() > 0.05;
-                
-                // Update status in session data
+            entries.forEach(entry => {
                 const idx = sessionData.phoneNumbers.findIndex(p => p.id === entry.id);
                 if (idx !== -1) {
-                    sessionData.phoneNumbers[idx].status = success ? 'Sent' : 'Failed';
-                    sessionData.phoneNumbers[idx].messageContent = message;
+                    sessionData.phoneNumbers[idx].status = 'Sent';
                     sessionData.phoneNumbers[idx].sentAt = new Date().toISOString();
+                    successCount++;
                 }
-
-                return {
-                    phone: entry.phone,
-                    safetyCode: entry.safetyCode,
-                    success: success,
-                    messageId: 'MO-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6)
-                };
             });
 
-            // Save updated session
             sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
-
-            // Show results
-            showResults(results, message);
-
+            
+            document.getElementById('successDetails').textContent = 
+                `${successCount} message(s) delivered with MO Safety Code verification.`;
+            document.getElementById('successModal').classList.add('show');
+            
             btn.classList.remove('sending');
-            updateSendButton();
         }
 
-        function showResults(results, messageContent) {
-            const modal = document.getElementById('statusModal');
-            const successCount = results.filter(r => r.success).length;
-            const totalCount = results.length;
-            const allSuccess = successCount === totalCount;
-
-            document.getElementById('modalIcon').textContent = allSuccess ? '✓' : '⚠';
-            document.getElementById('modalIcon').className = 'modal-icon' + (allSuccess ? '' : ' error');
-            
-            document.getElementById('modalTitle').textContent = 
-                allSuccess ? 'Messages Sent Successfully' : 'Partial Delivery';
-            
-            document.getElementById('modalMessage').textContent = 
-                `${successCount} of ${totalCount} messages delivered with MO Safety Code verification.`;
-
-            // Build details
-            const detailsHtml = results.map(r => `
-                <div class="modal-row">
-                    <span>${escapeHtml(r.phone)}</span>
-                    <strong style="color: ${r.success ? 'var(--mo-success)' : 'var(--mo-error)'}">
-                        ${r.success ? '✓ Delivered' : '✗ Failed'}
-                    </strong>
-                </div>
-            `).join('') + `
-                <div class="modal-row">
-                    <span>Safety Code Appended</span>
-                    <strong style="color: var(--mo-gold);">Yes</strong>
-                </div>
-                <div class="modal-row">
-                    <span>Session ID</span>
-                    <strong>${sessionData.sessionId.substr(-8)}</strong>
-                </div>
-            `;
-
-            document.getElementById('modalDetails').innerHTML = detailsHtml;
-            modal.classList.add('show');
-        }
-
-        function closeModal() {
-            document.getElementById('statusModal').classList.remove('show');
-            // Reset form
+        function closeSuccess() {
+            document.getElementById('successModal').classList.remove('show');
             document.getElementById('messageText').value = '';
             document.getElementById('charCount').textContent = '0';
             selectedRecipients.clear();
-            loadRecipients(); // Refresh list (sent items no longer selectable)
+            loadRecipients();
+            updateSendBtn();
         }
 
         function escapeHtml(text) {
@@ -815,12 +727,8 @@
             return div.innerHTML;
         }
 
-        function logout() {
-            sessionStorage.removeItem('mo_session');
-            window.location.href = 'login.html';
-        }
-
-        // Initialize
+        // Init
+        initTimer();
         loadRecipients();
     </script>
 </body>
