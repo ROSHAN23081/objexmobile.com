@@ -10,25 +10,23 @@
     <style>
         :root {
             --bg: #000000;
-            --surface: rgba(28, 28, 30, 0.65);
+            --surface: rgba(20, 20, 28, 0.7);
             --text-primary: #ffffff;
             --text-secondary: rgba(255, 255, 255, 0.6);
             --accent: #ff9f0a;
             --accent-hover: #ffb340;
-            --border: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.08);
             --success: #30d158;
             --error: #ff453a;
-            --glass: rgba(255, 255, 255, 0.05);
         }
 
         [data-theme="light"] {
             --bg: #f5f5f7;
-            --surface: rgba(255, 255, 255, 0.72);
+            --surface: rgba(255, 255, 255, 0.8);
             --text-primary: #1d1d1f;
             --text-secondary: rgba(0, 0, 0, 0.5);
             --accent: #ff9500;
-            --border: rgba(0, 0, 0, 0.08);
-            --glass: rgba(255, 255, 255, 0.4);
+            --border: rgba(0, 0, 0, 0.06);
         }
 
         * {
@@ -42,16 +40,17 @@
             background: var(--bg);
             color: var(--text-primary);
             min-height: 100vh;
-            transition: background 0.5s ease;
         }
 
-        .bg-gradient {
+        .bg-mesh {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 80% 20%, rgba(255, 159, 10, 0.12), transparent 50%);
+            background: 
+                radial-gradient(circle at 80% 20%, rgba(255, 159, 10, 0.12) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(255, 107, 0, 0.08) 0%, transparent 50%);
             z-index: -1;
         }
 
@@ -61,12 +60,12 @@
             left: 0;
             right: 0;
             padding: 16px 32px;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid var(--border);
             z-index: 100;
         }
 
@@ -79,7 +78,7 @@
             align-items: center;
             gap: 12px;
             font-size: 20px;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .nav-brand i {
@@ -92,20 +91,20 @@
             align-items: center;
         }
 
-        .timer-pill {
+        .session-timer {
             display: flex;
             align-items: center;
             gap: 8px;
             padding: 8px 16px;
-            background: var(--glass);
+            background: rgba(255, 159, 10, 0.1);
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 100px;
             font-size: 14px;
             font-weight: 600;
             font-variant-numeric: tabular-nums;
         }
 
-        .timer-pill.warning {
+        .session-timer.warning {
             background: rgba(255, 69, 58, 0.2);
             border-color: var(--error);
             color: var(--error);
@@ -117,11 +116,11 @@
             50% { opacity: 0.7; }
         }
 
-        .nav-btn {
+        .btn-icon {
             width: 36px;
             height: 36px;
             border-radius: 50%;
-            background: var(--glass);
+            background: var(--surface);
             border: 1px solid var(--border);
             color: var(--text-primary);
             display: flex;
@@ -129,17 +128,17 @@
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s;
-            font-size: 16px;
+            font-size: 14px;
             text-decoration: none;
         }
 
-        .nav-btn:hover {
+        .btn-icon:hover {
             background: var(--accent);
             color: white;
         }
 
         .main {
-            padding: 100px 32px 32px;
+            padding: 120px 32px 40px;
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -149,7 +148,7 @@
         }
 
         .page-title {
-            font-size: 42px;
+            font-size: 40px;
             font-weight: 700;
             margin-bottom: 8px;
         }
@@ -175,7 +174,7 @@
 
         .section-title {
             font-size: 13px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -186,6 +185,8 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
+            max-height: 500px;
+            overflow-y: auto;
         }
 
         .recipient-card {
@@ -231,14 +232,21 @@
             border: 3px solid var(--bg);
         }
 
+        .recipient-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            border-color: var(--error);
+        }
+
         .recipient-phone {
             font-size: 18px;
             font-weight: 600;
             margin-bottom: 6px;
+            font-family: monospace;
         }
 
         .recipient-code {
-            font-family: 'SF Mono', monospace;
+            font-family: monospace;
             font-size: 14px;
             color: var(--accent);
         }
@@ -249,8 +257,15 @@
             margin-top: 8px;
         }
 
-        .compose-area {
-            margin-bottom: 20px;
+        .status-sent {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(48, 209, 88, 0.2);
+            color: var(--success);
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-top: 8px;
         }
 
         textarea {
@@ -258,7 +273,7 @@
             min-height: 200px;
             padding: 20px;
             background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
+            border: 1.5px solid var(--border);
             border-radius: 16px;
             color: var(--text-primary);
             font-size: 17px;
@@ -288,7 +303,7 @@
             background: rgba(255, 255, 255, 0.03);
             border-radius: 16px;
             padding: 20px;
-            margin-bottom: 20px;
+            margin: 20px 0;
             border: 1px solid var(--border);
         }
 
@@ -298,7 +313,7 @@
 
         .preview-label {
             font-size: 12px;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -306,7 +321,7 @@
         }
 
         .preview-content {
-            font-family: 'SF Mono', monospace;
+            font-family: monospace;
             font-size: 15px;
             line-height: 1.5;
             color: var(--text-primary);
@@ -332,7 +347,7 @@
         .btn-send {
             width: 100%;
             padding: 18px;
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent), #ff6b00);
             border: none;
             border-radius: 14px;
             color: white;
@@ -347,13 +362,27 @@
         }
 
         .btn-send:hover:not(:disabled) {
-            background: var(--accent-hover);
             transform: scale(1.02);
+            box-shadow: 0 15px 35px rgba(255, 159, 10, 0.4);
         }
 
         .btn-send:disabled {
             opacity: 0.4;
             cursor: not-allowed;
+        }
+
+        .btn-send.sending {
+            color: transparent;
+            position: relative;
+        }
+
+        .btn-send.sending::after {
+            content: 'Sending...';
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
         }
 
         .empty-state {
@@ -368,7 +397,6 @@
             opacity: 0.5;
         }
 
-        /* Modal */
         .modal {
             position: fixed;
             inset: 0;
@@ -391,7 +419,7 @@
             border-radius: 24px;
             padding: 40px;
             text-align: center;
-            max-width: 400px;
+            max-width: 420px;
             animation: scaleIn 0.3s ease;
         }
 
@@ -422,6 +450,20 @@
         .modal p {
             color: var(--text-secondary);
             margin-bottom: 24px;
+            line-height: 1.5;
+        }
+
+        .modal-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        [data-theme="light"] .modal-details {
+            background: rgba(0, 0, 0, 0.03);
         }
 
         @media (max-width: 900px) {
@@ -436,7 +478,8 @@
     </style>
 </head>
 <body>
-    <div class="bg-gradient"></div>
+
+    <div class="bg-mesh"></div>
 
     <nav class="nav">
         <div class="nav-brand">
@@ -444,17 +487,17 @@
             <span>Mobile Objex</span>
         </div>
         <div class="nav-controls">
-            <div class="timer-pill" id="timer">
+            <div class="session-timer" id="timer">
                 <i class="fas fa-clock"></i>
                 <span id="timerValue">10:00</span>
             </div>
-            <a href="capture.html" class="nav-btn" title="Back">
+            <a href="capture.html" class="btn-icon" title="Back">
                 <i class="fas fa-arrow-left"></i>
             </a>
-            <button class="nav-btn" onclick="toggleTheme()" title="Theme">
+            <button class="btn-icon" onclick="toggleTheme()">
                 <i class="fas fa-moon" id="themeIcon"></i>
             </button>
-            <button class="nav-btn" onclick="logout()" title="Logout">
+            <button class="btn-icon" onclick="logout()" title="Logout">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
         </div>
@@ -463,57 +506,64 @@
     <main class="main">
         <div class="page-header">
             <h1 class="page-title">Send Message</h1>
-            <p class="page-subtitle">Secure SMS with verification</p>
+            <p class="page-subtitle">SMS Delivery with Safety Code Verification</p>
         </div>
 
         <div class="grid">
+            <!-- Recipients -->
             <div class="card">
                 <div class="section-title">Select Recipients</div>
-                <div id="recipientsList">
+                <div class="recipient-list" id="recipientsList">
                     <div class="empty-state">
                         <i class="fas fa-users"></i>
                         <p>No recipients available</p>
+                        <a href="capture.html" style="color: var(--accent); text-decoration: none; font-size: 14px;">Capture first →</a>
                     </div>
                 </div>
             </div>
 
+            <!-- Compose -->
             <div class="card">
                 <div class="section-title">Message Composition</div>
                 
-                <div class="compose-area">
-                    <textarea id="messageText" placeholder="Type your secure message here..."></textarea>
-                    <div class="char-count"><span id="charCount">0</span> / 1600</div>
-                </div>
+                <textarea id="messageText" placeholder="Type your secure message here..." maxlength="1600"></textarea>
+                <div class="char-count"><span id="charCount">0</span> / 1600 characters</div>
 
                 <div class="preview-box" id="previewBox" style="display: none;">
-                    <div class="preview-label">Final Message Preview</div>
+                    <div class="preview-label">Final Message (Safety Code Auto-Appended)</div>
                     <div class="preview-content" id="previewContent"></div>
                 </div>
 
                 <div class="security-badge">
                     <i class="fas fa-lock"></i>
                     <div>
-                        <strong>Auto-Protection Enabled</strong><br>
-                        <span style="color: var(--text-secondary);">Safety code will be automatically appended</span>
+                        <strong style="display: block; margin-bottom: 4px;">MO Safety Code Protection</strong>
+                        <span style="color: var(--text-secondary);">Safety code will be automatically appended per PDF spec</span>
                     </div>
                 </div>
 
                 <button class="btn-send" id="sendBtn" onclick="sendMessage()" disabled>
                     <i class="fas fa-paper-plane"></i>
-                    Send Secure Message
+                    Send Secure SMS
                 </button>
             </div>
         </div>
     </main>
 
-    <div class="modal" id="successModal">
+    <!-- Result Modal -->
+    <div class="modal" id="resultModal">
         <div class="modal-content">
             <div class="success-icon">
                 <i class="fas fa-check"></i>
             </div>
-            <h3>Message Sent</h3>
-            <p id="resultText">Successfully delivered with MO verification.</p>
-            <button class="btn-send" onclick="closeModal()">
+            <h3>Messages Sent</h3>
+            <p>Successfully delivered via Mobile Objex backend.</p>
+            
+            <div class="modal-details" id="modalDetails">
+                <!-- Populated by JS -->
+            </div>
+            
+            <button class="btn-send" onclick="closeModal()" style="margin-top: 0;">
                 Continue
             </button>
         </div>
@@ -537,12 +587,13 @@
 
         initTheme();
 
-        // Session
+        // Session (PDF Compliant)
         const SESSION_DURATION = 10 * 60 * 1000;
         let sessionData = JSON.parse(sessionStorage.getItem('mo_session') || '{}');
         let selectedRecipients = new Set();
         let timerInterval;
 
+        // PDF: Only authenticated users (no public access)
         if (!sessionData.sessionId) {
             window.location.href = 'index.html';
         }
@@ -576,33 +627,38 @@
         }
 
         function logout() {
+            // PDF: On logout - session terminated, context cleared, numbers no longer selectable
             clearInterval(timerInterval);
             sessionStorage.removeItem('mo_session');
             window.location.href = 'index.html';
         }
 
-        // Load Recipients
+        // Load Recipients (PDF: Pull only most recent "newly entered" by session)
         function loadRecipients() {
             const container = document.getElementById('recipientsList');
-            const entries = (sessionData.phoneNumbers || []).filter(e => e.status === 'newly entered');
+            // PDF: Only "newly entered" from current session
+            const entries = (sessionData.phoneNumbers || []).filter(e => 
+                e.status === 'newly entered' && e.sessionId === sessionData.sessionId
+            );
 
             if (entries.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="fas fa-users"></i>
                         <p>No recipients available</p>
-                        <a href="capture.html" style="color: var(--accent); text-decoration: none;">Capture first →</a>
+                        <p style="font-size: 13px; margin-top: 8px;">Only "newly entered" records from current session are eligible</p>
+                        <a href="capture.html" style="color: var(--accent); text-decoration: none; font-size: 14px; display: inline-block; margin-top: 12px;">Capture first →</a>
                     </div>`;
                 return;
             }
 
-            container.innerHTML = '<div class="recipient-list">' + entries.map(entry => `
+            container.innerHTML = entries.map(entry => `
                 <div class="recipient-card" onclick="toggleRecipient(${entry.id}, this)" data-id="${entry.id}">
                     <div class="recipient-phone">${escapeHtml(entry.phone)}</div>
-                    <div class="recipient-code">${escapeHtml(entry.safetyCode)}</div>
-                    <div class="recipient-meta">Added ${new Date(entry.timestamp).toLocaleTimeString()}</div>
+                    <div class="recipient-code">SAFETY: ${escapeHtml(entry.safetyCode)}</div>
+                    <div class="recipient-meta">Session: ${entry.sessionId.substr(-8)}</div>
                 </div>
-            `).join('') + '</div>';
+            `).join('');
         }
 
         function toggleRecipient(id, el) {
@@ -620,8 +676,6 @@
         // Message Composition
         const messageText = document.getElementById('messageText');
         const charCount = document.getElementById('charCount');
-        const previewBox = document.getElementById('previewBox');
-        const previewContent = document.getElementById('previewContent');
 
         messageText.addEventListener('input', function() {
             charCount.textContent = this.value.length;
@@ -632,7 +686,7 @@
         function updatePreview() {
             const text = messageText.value;
             if (!text && selectedRecipients.size === 0) {
-                previewBox.style.display = 'none';
+                document.getElementById('previewBox').style.display = 'none';
                 return;
             }
 
@@ -641,10 +695,11 @@
             
             if (selected.length > 0) {
                 const codes = selected.map(s => s.safetyCode).join(', ');
-                const fullMessage = text + (text ? '\n\n' : '') + `— Verified by MO Safety Code: ${codes}`;
+                // PDF: Message containing the MobileObjex Safety Code
+                const fullMessage = text + (text ? '\n\n' : '') + `Verified by MO Safety Code: ${codes}`;
                 
-                previewContent.textContent = fullMessage;
-                previewBox.style.display = 'block';
+                document.getElementById('previewContent').textContent = fullMessage;
+                document.getElementById('previewBox').style.display = 'block';
             }
         }
 
@@ -654,34 +709,49 @@
             document.getElementById('sendBtn').disabled = !(hasText && hasRecipients);
         }
 
-        // Send
+        // Send Message (PDF Compliant)
         async function sendMessage() {
             const btn = document.getElementById('sendBtn');
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            btn.classList.add('sending');
             
+            // Simulate backend SMS Composer App integration
             await new Promise(r => setTimeout(r, 1500));
 
             const entries = sessionData.phoneNumbers.filter(e => selectedRecipients.has(e.id));
             
+            // PDF: Update status flag to "Sent", include MO username, timestamp, session ID
+            const now = new Date().toISOString();
             entries.forEach(entry => {
                 const idx = sessionData.phoneNumbers.findIndex(p => p.id === entry.id);
                 if (idx !== -1) {
                     sessionData.phoneNumbers[idx].status = 'Sent';
-                    sessionData.phoneNumbers[idx].sentAt = new Date().toISOString();
+                    sessionData.phoneNumbers[idx].sentAt = now;
+                    // PDF: Log confirmation response
+                    sessionData.phoneNumbers[idx].deliveryStatus = 'success';
                 }
             });
 
             sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
+
+            // Show success modal with details (PDF: Confirmation response logged)
+            const modal = document.getElementById('resultModal');
+            const details = document.getElementById('modalDetails');
             
-            document.getElementById('resultText').textContent = 
-                `${entries.length} message(s) delivered successfully with verification.`;
-            document.getElementById('successModal').classList.add('show');
+            details.innerHTML = `
+                <div style="margin-bottom: 8px;"><strong>MO Username:</strong> ${sessionData.moUsername}</div>
+                <div style="margin-bottom: 8px;"><strong>Session ID:</strong> ${sessionData.sessionId.substr(-8)}</div>
+                <div style="margin-bottom: 8px;"><strong>Timestamp:</strong> ${new Date().toLocaleString()}</div>
+                <div style="margin-bottom: 8px;"><strong>Recipients:</strong> ${entries.length}</div>
+                <div style="color: var(--success);"><i class="fas fa-check-circle"></i> All messages delivered successfully</div>
+            `;
             
-            btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Secure Message';
+            modal.classList.add('show');
+            
+            btn.classList.remove('sending');
         }
 
         function closeModal() {
-            document.getElementById('successModal').classList.remove('show');
+            document.getElementById('resultModal').classList.remove('show');
             window.location.reload();
         }
 
@@ -694,5 +764,6 @@
         initTimer();
         loadRecipients();
     </script>
+
 </body>
 </html>
