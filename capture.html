@@ -870,6 +870,79 @@ function showSuccess() {
     if (sessionDisplay) sessionDisplay.textContent = 'Registration Complete';
 }
 </script>
+    <script>
+// Parse session from URL parameter (?s=XXXX)
+const urlParams = new URLSearchParams(window.location.search);
+const sessionToken = urlParams.get('s');
+
+if (!sessionToken) {
+    document.body.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;font-family:sans-serif;">Invalid session link.<br>Please request a new link from your marketer.</div>';
+} else {
+    // Find full session ID from token
+    let fullSessionId = null;
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('mo_session_data_') && key.includes(sessionToken)) {
+            fullSessionId = key.replace('mo_session_data_', '');
+            break;
+        }
+    }
+    
+    if (!fullSessionId) {
+        document.body.innerHTML = '<div style="text-align:center;padding:40px;color:#ef4444;font-family:sans-serif;">Session expired or invalid.<br>Please request a new registration link.</div>';
+    }
+    
+    document.getElementById('captureForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const phone = document.getElementById('phone').value.replace(/\D/g, '');
+        const phoneConfirm = document.getElementById('phoneConfirm').value.replace(/\D/g, '');
+        const safetyCode = document.getElementById('safetyCode').value.trim();
+        const safetyCodeConfirm = document.getElementById('safetyCodeConfirm').value.trim();
+        
+        // Reset errors
+        document.querySelectorAll('.error').forEach(el => el.classList.remove('error'));
+        document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+        
+        let hasError = false;
+        
+        // Validate phone match
+        if (phone !== phoneConfirm) {
+            document.getElementById('phone').classList.add('error');
+            document.getElementById('phoneConfirm').classList.add('error');
+            document.getElementById('phoneError').style.display = 'block';
+            hasError = true;
+        }
+        
+        // Validate safety code match
+        if (safetyCode !== safetyCodeConfirm) {
+            document.getElementById('safetyCode').classList.add('error');
+            document.getElementById('safetyCodeConfirm').classList.add('error');
+            document.getElementById('codeError').style.display = 'block';
+            hasError = true;
+        }
+        
+        if (hasError) return;
+        
+        // Store data per PDF spec: "Flag entry as 'newly entered'"
+        const sessionData = JSON.parse(localStorage.getItem('mo_session_data_' + fullSessionId));
+        const entry = {
+            id: 'user_' + Date.now(),
+            phone: phone,
+            safetyCode: safetyCode,
+            timestamp: new Date().toISOString(),
+            status: 'newly entered'
+        };
+        
+        sessionData.users.push(entry);
+        localStorage.setItem('mo_session_data_' + fullSessionId, JSON.stringify(sessionData));
+        
+        // Show success (PDF spec: "Your registration is complete...")
+        document.getElementById('inputForm').style.display = 'none';
+        document.getElementById('successMessage').style.display = 'block';
+    });
+}
+</script>
 <body>
     <div class="bg-grid"></div>
     <div class="particles">
