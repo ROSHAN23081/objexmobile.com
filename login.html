@@ -13,7 +13,7 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #0f0f12 0%, #1a1a1f 50%, #2d1f15 100%);
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #2d1b15 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -22,36 +22,48 @@
             overflow: hidden;
         }
 
-        /* Animated background gradient */
+        /* Animated background blobs */
         body::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: 
-                radial-gradient(circle at 30% 30%, rgba(245, 158, 11, 0.4) 0%, transparent 40%),
-                radial-gradient(circle at 70% 70%, rgba(251, 191, 36, 0.3) 0%, transparent 40%);
-            animation: rotate 30s linear infinite;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.4) 0%, transparent 70%);
+            top: -200px;
+            right: -200px;
+            filter: blur(60px);
+            animation: float 20s infinite ease-in-out;
             z-index: 0;
         }
 
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        body::after {
+            content: '';
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(251, 191, 36, 0.3) 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            filter: blur(60px);
+            animation: float 25s infinite ease-in-out reverse;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, -30px) scale(1.1); }
         }
 
         .login-container {
             position: relative;
             z-index: 10;
             width: 90%;
-            max-width: 420px;
+            max-width: 440px;
         }
 
-        /* Glass card effect - Preserved as requested */
+        /* Glass card effect - Preserved exactly as requested */
         .glass-card {
-            background: rgba(20, 20, 25, 0.75);
+            background: rgba(30, 30, 40, 0.6);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -65,7 +77,6 @@
             overflow: hidden;
         }
 
-        /* Subtle glow effect on card */
         .glass-card::before {
             content: '';
             position: absolute;
@@ -78,21 +89,19 @@
 
         .logo-section {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .logo-icon {
-            width: 70px;
-            height: 70px;
+            width: 80px;
+            height: 80px;
             background: linear-gradient(135deg, #f59e0b, #fbbf24);
             border-radius: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             margin: 0 auto 1.5rem;
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: #000;
+            font-size: 2rem;
             box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);
             position: relative;
         }
@@ -102,11 +111,11 @@
             position: absolute;
             bottom: -5px;
             right: -5px;
-            font-size: 1rem;
+            font-size: 1.2rem;
             background: rgba(20, 20, 25, 0.9);
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
+            width: 28px;
+            height: 28px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -127,6 +136,35 @@
             font-weight: 400;
         }
 
+        /* Toggle Tabs for Sign In / Create Account */
+        .auth-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            background: transparent;
+            color: #6b7280;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
         .form-group {
             margin-bottom: 1.5rem;
         }
@@ -135,16 +173,16 @@
             display: block;
             color: #9ca3af;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
             margin-bottom: 0.5rem;
         }
 
         .form-group input {
             width: 100%;
             padding: 1rem 1.25rem;
-            background: rgba(0, 0, 0, 0.3);
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             color: #ffffff;
@@ -154,14 +192,14 @@
         }
 
         .form-group input::placeholder {
-            color: #6b7280;
+            color: #4b5563;
         }
 
         .form-group input:focus {
             outline: none;
             border-color: #f59e0b;
             box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
         }
 
         .submit-btn {
@@ -172,13 +210,13 @@
             border: none;
             border-radius: 12px;
             font-size: 1rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 0.5rem;
             box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
-            position: relative;
-            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
         .submit-btn:hover {
@@ -209,14 +247,14 @@
         }
 
         .feature-icon-small {
-            width: 32px;
-            height: 32px;
+            width: 40px;
+            height: 40px;
             background: rgba(245, 158, 11, 0.1);
-            border-radius: 8px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1rem;
+            font-size: 1.25rem;
             color: #fbbf24;
         }
 
@@ -239,26 +277,20 @@
             text-decoration: underline;
         }
 
-        .security-badge {
-            position: absolute;
-            top: 1.5rem;
-            right: 1.5rem;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.3);
-            color: #22c55e;
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            display: none;
         }
 
         @media (max-width: 480px) {
             .glass-card {
                 padding: 2rem 1.5rem;
-                margin: 1rem;
             }
             
             .logo-section h1 {
@@ -270,18 +302,20 @@
 <body>
     <div class="login-container">
         <div class="glass-card">
-            <div class="security-badge">
-                <span>●</span>
-                <span>Secure Session</span>
-            </div>
-            
             <div class="logo-section">
-                <div class="logo-icon">MO</div>
+                <div class="logo-icon"></div>
                 <h1>Mobile Trust Access</h1>
                 <p>Fraud-Free Mobile Communications</p>
             </div>
 
-            <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="auth-tabs">
+                <button class="tab-btn active" onclick="switchTab('signin')" id="signin-tab">Sign In</button>
+                <button class="tab-btn" onclick="switchTab('create')" id="create-tab">Create Account</button>
+            </div>
+
+            <div class="error-message" id="error-msg"></div>
+
+            <form id="authForm" onsubmit="handleAuth(event)">
                 <div class="form-group">
                     <label for="username">MO Username</label>
                     <input 
@@ -300,15 +334,24 @@
                         type="password" 
                         id="password" 
                         name="password" 
-                        placeholder="Enter password" 
+                        placeholder="Enter MO Password" 
                         required
                         autocomplete="current-password"
                     >
                 </div>
 
-                <button type="submit" class="submit-btn">
-                    Continue
-                </button>
+                <div class="form-group" id="confirm-password-group" style="display: none;">
+                    <label for="confirm-password">Confirm MO Password</label>
+                    <input 
+                        type="password" 
+                        id="confirm-password" 
+                        name="confirm-password" 
+                        placeholder="Confirm MO Password" 
+                        autocomplete="new-password"
+                    >
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-btn">Continue</button>
             </form>
 
             <div class="features-bar">
@@ -333,19 +376,101 @@
     </div>
 
     <script>
-        function handleLogin(e) {
-            e.preventDefault();
-            // Your existing authentication logic here
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
+        let currentMode = 'signin';
+
+        // Simple in-memory storage for created accounts (in production, use backend)
+        const users = JSON.parse(localStorage.getItem('mo_users')) || {};
+
+        function switchTab(mode) {
+            currentMode = mode;
+            const signinTab = document.getElementById('signin-tab');
+            const createTab = document.getElementById('create-tab');
+            const confirmGroup = document.getElementById('confirm-password-group');
+            const submitBtn = document.getElementById('submit-btn');
+            const errorMsg = document.getElementById('error-msg');
             
-            // Demo validation (replace with your actual auth)
-            if(username && password) {
-                // Redirect to your app/dashboard
-                console.log('Login attempted:', username);
-                // window.location.href = '/dashboard';
+            errorMsg.style.display = 'none';
+            errorMsg.textContent = '';
+
+            if (mode === 'signin') {
+                signinTab.classList.add('active');
+                createTab.classList.remove('active');
+                confirmGroup.style.display = 'none';
+                submitBtn.textContent = 'Continue';
+                document.getElementById('confirm-password').required = false;
+            } else {
+                signinTab.classList.remove('active');
+                createTab.classList.add('active');
+                confirmGroup.style.display = 'block';
+                submitBtn.textContent = 'Create Account';
+                document.getElementById('confirm-password').required = true;
             }
         }
+
+        function handleAuth(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const errorMsg = document.getElementById('error-msg');
+
+            // Validation per PDF specs
+            if (!username || !password) {
+                errorMsg.textContent = 'MO Username and MO Password are required.';
+                errorMsg.style.display = 'block';
+                return;
+            }
+
+            if (currentMode === 'create') {
+                // Create Account logic
+                if (password !== confirmPassword) {
+                    errorMsg.textContent = 'Passwords do not match.';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+
+                if (users[username]) {
+                    errorMsg.textContent = 'MO Username already exists. Please sign in.';
+                    errorMsg.style.display = 'block';
+                    return;
+                }
+
+                // Create user (store in localStorage for demo persistence)
+                users[username] = password;
+                localStorage.setItem('mo_users', JSON.stringify(users));
+                
+                // Auto sign in
+                createSession(username);
+                alert('Account created successfully! Welcome to Mobile Objex.');
+                window.location.href = 'dashboard.html'; // Redirect to your app
+                
+            } else {
+                // Sign In logic
+                if (users[username] && users[username] === password) {
+                    createSession(username);
+                    window.location.href = 'dashboard.html'; // Redirect to your app
+                } else {
+                    errorMsg.textContent = 'Invalid MO Username or MO Password.';
+                    errorMsg.style.display = 'block';
+                }
+            }
+        }
+
+        function createSession(username) {
+            // Per PDF specs: Create user session, associate captured data with username
+            const sessionId = 'mo_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            sessionStorage.setItem('mo_current_user', username);
+            sessionStorage.setItem('mo_session_id', sessionId);
+            sessionStorage.setItem('mo_session_start', new Date().toISOString());
+        }
+
+        // Check if already logged in
+        window.onload = function() {
+            if (sessionStorage.getItem('mo_current_user')) {
+                // Optional: redirect to dashboard if already logged in
+                // window.location.href = 'dashboard.html';
+            }
+        };
     </script>
 </body>
 </html>
