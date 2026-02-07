@@ -468,32 +468,30 @@
     let fullSessionId = null;
     let sessionData = null;
 
-    // Try to get session from multiple sources
     function getSession() {
-        // Method 1: Check if full session data is encoded in URL hash (for cross-browser)
-        if (hashData) {
-            try {
-                const decoded = JSON.parse(atob(hashData));
-                if (decoded && decoded.sessionId) {
-                    fullSessionId = decoded.sessionId;
-                    sessionData = decoded;
-                    // Store in this browser's localStorage for future use
-                    localStorage.setItem('mo_current_session', JSON.stringify(decoded));
-                    localStorage.setItem('mo_session_data_' + fullSessionId, JSON.stringify({
-                        users: [],
-                        messages: [],
-                        created: new Date().toISOString()
-                    }));
-                    return true;
-                }
-            } catch (e) {
-                console.log('No hash data');
+    // Method 1: Check if full session data is encoded in URL hash (for cross-browser)
+    if (hashData) {
+        try {
+            const decoded = JSON.parse(atob(hashData));
+            if (decoded && decoded.sessionId) {
+                fullSessionId = decoded.sessionId;
+                // Store in this browser's localStorage for future use
+                localStorage.setItem('mo_current_session', JSON.stringify(decoded));
+                localStorage.setItem('mo_session_data_' + fullSessionId, JSON.stringify({
+                    users: [],
+                    messages: [],
+                    created: new Date().toISOString()
+                }));
+                return true;
             }
+        } catch (e) {
+            console.log('Hash decode failed:', e);
         }
+    }
 
-        // Method 2: Check localStorage (same browser)
-        if (!sessionToken) return false;
-
+    // Method 2: Check localStorage using token from query param (same browser)
+    if (sessionToken) {
+        // First check: look for exact match in mo_session_data keys
         for (let i = 0; i < localStorage.length; i++) {
             const key = localStorage.key(i);
             if (key && key.startsWith('mo_session_data_') && key.includes(sessionToken)) {
@@ -501,8 +499,24 @@
                 return true;
             }
         }
-        return false;
+        
+        // Second check: look in mo_current_session
+        const currentSession = localStorage.getItem('mo_current_session');
+        if (currentSession) {
+            try {
+                const parsed = JSON.parse(currentSession);
+                if (parsed && parsed.sessionId && parsed.sessionId.includes(sessionToken)) {
+                    fullSessionId = parsed.sessionId;
+                    return true;
+                }
+            } catch (e) {
+                console.log('Session parse failed:', e);
+            }
+        }
     }
+    
+    return false;
+}
 
     function showInvalidSession() {
         document.getElementById('registrationForm').style.display = 'none';
