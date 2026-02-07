@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Objex | Secure Send</title>
+    <title>Mobile Objex | Message Center</title>
     <style>
         :root {
             --primary-yellow: #F4B942;
@@ -404,6 +404,58 @@
         .page-header p {
             font-size: 18px;
             opacity: 0.7;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border-dark);
+            padding-bottom: 0;
+        }
+
+        body.light-mode .tabs {
+            border-bottom-color: var(--border-light);
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: transparent;
+            border: none;
+            border-bottom: 3px solid transparent;
+            color: var(--text-dark);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.6;
+        }
+
+        body.light-mode .tab {
+            color: var(--text-light);
+        }
+
+        .tab:hover {
+            opacity: 1;
+            color: var(--primary-yellow);
+        }
+
+        .tab.active {
+            opacity: 1;
+            color: var(--primary-yellow);
+            border-bottom-color: var(--primary-yellow);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
         }
 
         /* Content Grid */
@@ -895,6 +947,56 @@
             margin-bottom: 25px;
             opacity: 0.7;
         }
+
+        /* Users List Table */
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .users-table th,
+        .users-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-dark);
+        }
+
+        body.light-mode .users-table th,
+        body.light-mode .users-table td {
+            border-bottom-color: var(--border-light);
+        }
+
+        .users-table th {
+            color: var(--primary-yellow);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .users-table tr:hover {
+            background: rgba(244, 185, 66, 0.05);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-new {
+            background: rgba(52, 199, 89, 0.2);
+            color: #34c759;
+        }
+
+        .status-sent {
+            background: rgba(244, 185, 66, 0.2);
+            color: var(--primary-yellow);
+        }
     </style>
 </head>
 <body>
@@ -915,7 +1017,7 @@
     <div class="orb orb-2"></div>
 
     <nav>
-        <a href="index.html" class="nav-logo">
+        <a href="#" class="nav-logo" onclick="return false;">
             <div class="logo-icon">
                 <div class="shield"></div>
             </div>
@@ -939,88 +1041,117 @@
 
     <div class="container">
         <div class="page-header">
-            <h1>📤 Secure Send</h1>
-            <p>Message Composition & Delivery - Send verified messages to captured recipients</p>
+            <h1>📤 Message Center</h1>
+            <p>Secure Messaging Dashboard - Manage recipients and send verified messages</p>
         </div>
 
-        <div class="content-grid">
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('users')" id="tab-users">Users</button>
+            <button class="tab" onclick="switchTab('campaign')" id="tab-campaign">Campaign</button>
+        </div>
+
+        <!-- Users Tab -->
+        <div id="content-users" class="tab-content active">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-icon">📱</div>
+                    <div class="card-icon">👥</div>
                     <div class="card-title">
-                        <h2>Select Recipients</h2>
-                        <p id="recipientCount">No recipients available</p>
+                        <h2>Registered Users</h2>
+                        <p id="usersCount">No users registered</p>
                     </div>
                 </div>
 
-                <!-- Short URL Display -->
                 <div class="url-box">
                     <div class="url-text" id="shortUrl">Loading...</div>
                     <button class="btn-copy" onclick="copyUrl()">Copy Link</button>
                 </div>
 
-                <div class="recipients-list" id="recipientsList">
+                <div id="usersTableContainer">
                     <div class="empty-state">
                         <div class="empty-icon">📭</div>
-                        <p>No recipients captured in this session</p>
-                        <p style="font-size: 12px; margin-top: 10px;">Share the link above to add recipients</p>
+                        <p>No users registered in this session</p>
+                        <p style="font-size: 12px; margin-top: 10px;">Share the link above to add users</p>
                     </div>
                 </div>
-
-                <div class="card-header" style="margin-top: 20px;">
-                    <div class="card-icon">✉️</div>
-                    <div class="card-title">
-                        <h2>Compose Message</h2>
-                        <p>SMS will be sent with MO Safety Code</p>
-                    </div>
-                </div>
-
-                <div class="safety-notice">
-                    <span class="icon">🛡️</span>
-                    <span><strong>MO Safety Code Protection:</strong> Safety code will be automatically prefixed to all messages for verification.</span>
-                </div>
-
-                <form id="sendForm" onsubmit="handleSend(event)">
-                    <div class="form-group">
-                        <label class="form-label">Message Content *</label>
-                        <textarea class="form-textarea" id="messageContent" placeholder="Enter your secure message here..." maxlength="1600" required></textarea>
-                        <div class="char-counter">
-                            <span id="charCount">0</span> / 1600 characters
-                        </div>
-                    </div>
-
-                    <!-- Message Preview -->
-                    <div class="safety-notice" style="margin-bottom: 20px;">
-                        <span class="icon">👁️</span>
-                        <div>
-                            <strong>Preview:</strong><br>
-                            <span id="previewText" style="font-family: monospace; font-size: 13px;">
-                                <span style="color: var(--primary-yellow); font-weight: 700;">[SafetyCode]</span> Your message will appear here...
-                            </span>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn" id="sendBtn" disabled>
-                        <span>🚀</span>
-                        Send Secure Message
-                    </button>
-                </form>
             </div>
+        </div>
 
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon">📨</div>
-                    <div class="card-title">
-                        <h2>Message History</h2>
-                        <p id="messageCount">No messages sent</p>
+        <!-- Campaign Tab -->
+        <div id="content-campaign" class="tab-content">
+            <div class="content-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">📱</div>
+                        <div class="card-title">
+                            <h2>Select Recipients</h2>
+                            <p id="recipientCount">No recipients available</p>
+                        </div>
                     </div>
+
+                    <div class="recipients-list" id="recipientsList">
+                        <div class="empty-state">
+                            <div class="empty-icon">📭</div>
+                            <p>No recipients captured in this session</p>
+                            <p style="font-size: 12px; margin-top: 10px;">Switch to Users tab to get the registration link</p>
+                        </div>
+                    </div>
+
+                    <div class="card-header" style="margin-top: 20px;">
+                        <div class="card-icon">✉️</div>
+                        <div class="card-title">
+                            <h2>Compose Message</h2>
+                            <p>SMS will be sent with Safety Code prefix</p>
+                        </div>
+                    </div>
+
+                    <div class="safety-notice">
+                        <span class="icon">🛡️</span>
+                        <span><strong>Safety Code Protection:</strong> Safety code will be automatically prefixed to all messages for verification.</span>
+                    </div>
+
+                    <form id="sendForm" onsubmit="handleSend(event)">
+                        <div class="form-group">
+                            <label class="form-label">Message Content *</label>
+                            <textarea class="form-textarea" id="messageContent" placeholder="Enter your secure message here..." maxlength="1600" required></textarea>
+                            <div class="char-counter">
+                                <span id="charCount">0</span> / 1600 characters
+                            </div>
+                        </div>
+
+                        <!-- Message Preview -->
+                        <div class="safety-notice" style="margin-bottom: 20px;">
+                            <span class="icon">👁️</span>
+                            <div>
+                                <strong>Preview:</strong><br>
+                                <span id="previewText" style="font-family: monospace; font-size: 13px;">
+                                    <span style="color: var(--primary-yellow); font-weight: 700;">[SafetyCode]</span> Your message will appear here...
+                                </span>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn" id="sendBtn" disabled>
+                            <span>🚀</span>
+                            Send Secure Message
+                        </button>
+                    </form>
                 </div>
 
-                <div class="message-history" id="messageHistory">
-                    <div class="empty-state">
-                        <div class="empty-icon">📤</div>
-                        <p>No messages sent yet</p>
-                        <p style="font-size: 12px; margin-top: 10px;">Sent messages will appear here</p>
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">📨</div>
+                        <div class="card-title">
+                            <h2>Message History</h2>
+                            <p id="messageCount">No messages sent</p>
+                        </div>
+                    </div>
+
+                    <div class="message-history" id="messageHistory">
+                        <div class="empty-state">
+                            <div class="empty-icon">📤</div>
+                            <p>No messages sent yet</p>
+                            <p style="font-size: 12px; margin-top: 10px;">Sent messages will appear here</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1053,7 +1184,27 @@
             setupMessagePreview();
         }
 
-        // Check authentication - FIXED for localStorage
+        // Tab switching
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById('tab-' + tabName).classList.add('active');
+
+            // Update content
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById('content-' + tabName).classList.add('active');
+
+            // Refresh data if switching to users
+            if (tabName === 'users') {
+                renderUsersTable();
+            }
+        }
+
+        // Check authentication
         function checkAuth() {
             const sessionStr = localStorage.getItem('mo_current_session');
             
@@ -1077,17 +1228,18 @@
                     usernameDisplay.textContent = session.name || session.username;
                 }
 
-                // Display short URL
+                // Display URL
                 const shortUrl = document.getElementById('shortUrl');
-                if (shortUrl && session.shortUrl) {
-                    shortUrl.textContent = session.shortUrl;
+                if (shortUrl && session.captureUrl) {
+                    shortUrl.textContent = session.captureUrl;
                 }
 
-                // Load session data (users captured)
+                // Load session data
                 const sessionDataStr = localStorage.getItem('mo_session_data_' + session.sessionId);
                 sessionData = sessionDataStr ? JSON.parse(sessionDataStr) : { users: [] };
                 
-                // Render recipients
+                // Render both views
+                renderUsersTable();
                 renderRecipients();
                 
             } catch (e) {
@@ -1096,7 +1248,54 @@
             }
         }
 
-        // Render recipients list
+        // Render users table (for Users tab)
+        function renderUsersTable() {
+            const container = document.getElementById('usersTableContainer');
+            const count = document.getElementById('usersCount');
+            
+            if (!sessionData.users || sessionData.users.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">📭</div>
+                        <p>No users registered in this session</p>
+                        <p style="font-size: 12px; margin-top: 10px;">Share the link above to add users</p>
+                    </div>
+                `;
+                count.textContent = 'No users registered';
+            } else {
+                count.textContent = `${sessionData.users.length} users registered`;
+                
+                let html = `
+                    <table class="users-table">
+                        <thead>
+                            <tr>
+                                <th>Phone Number</th>
+                                <th>Safety Code</th>
+                                <th>Registered</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                
+                sessionData.users.forEach(user => {
+                    const date = new Date(user.timestamp).toLocaleString();
+                    html += `
+                        <tr>
+                            <td>${user.phone}</td>
+                            <td style="color: var(--primary-yellow); font-family: monospace;">${user.safetyCode}</td>
+                            <td>${date}</td>
+                            <td><span class="status-badge status-${user.status === 'newly entered' ? 'new' : 'sent'}">${user.status}</span></td>
+                        </tr>
+                    `;
+                });
+                
+                html += '</tbody></table>';
+                container.innerHTML = html;
+            }
+        }
+
+        // Render recipients list (for Campaign tab)
         function renderRecipients() {
             const list = document.getElementById('recipientsList');
             const count = document.getElementById('recipientCount');
@@ -1107,14 +1306,14 @@
                     <div class="empty-state">
                         <div class="empty-icon">📭</div>
                         <p>No recipients captured in this session</p>
-                        <p style="font-size: 12px; margin-top: 10px;">Share the link above to add recipients</p>
+                        <p style="font-size: 12px; margin-top: 10px;">Switch to Users tab to get the registration link</p>
                     </div>
                 `;
                 count.textContent = 'No recipients available';
-                sendBtn.disabled = true;
+                if (sendBtn) sendBtn.disabled = true;
             } else {
                 count.textContent = `${sessionData.users.length} recipients available`;
-                sendBtn.disabled = false;
+                if (sendBtn) sendBtn.disabled = false;
                 
                 list.innerHTML = sessionData.users.map((user, index) => `
                     <div class="recipient-item">
@@ -1153,7 +1352,7 @@
             return div.innerHTML;
         }
 
-        // Handle send message - FIXED to prevent default properly
+        // Handle send message
         function handleSend(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -1181,7 +1380,7 @@
             sendBtn.innerHTML = '<span>⏳</span> Sending...';
             sendBtn.disabled = true;
 
-            // Simulate sending (per PDF: "Prefix messages with Safety Codes")
+            // Simulate sending with safety code prefix
             setTimeout(() => {
                 selectedRecipients.forEach(recipient => {
                     const message = {
@@ -1189,14 +1388,21 @@
                         recipient: recipient.phone,
                         code: recipient.safetyCode,
                         content: content,
-                        fullMessage: `${recipient.safetyCode} ${content}`, // Prefixed per PDF spec
+                        fullMessage: `${recipient.safetyCode} ${content}`,
                         timestamp: new Date().toLocaleTimeString(),
                         status: 'sent'
                     };
                     messages.push(message);
+                    
+                    // Update user status in session data
+                    recipient.status = 'sent';
                 });
 
+                // Save updated session data
+                localStorage.setItem('mo_session_data_' + session.sessionId, JSON.stringify(sessionData));
+                
                 updateMessageHistory();
+                renderUsersTable(); // Update status in users tab
                 
                 // Reset form
                 document.getElementById('messageContent').value = '';
@@ -1209,7 +1415,7 @@
                 alert(`Successfully sent to ${selectedRecipients.length} recipient(s) with safety code prefix!`);
             }, 1500);
             
-            return false; // Extra prevention
+            return false;
         }
 
         // Update message history
@@ -1251,8 +1457,8 @@
 
         // Copy URL function
         function copyUrl() {
-            if (session && session.shortUrl) {
-                navigator.clipboard.writeText(session.shortUrl).then(() => {
+            if (session && session.captureUrl) {
+                navigator.clipboard.writeText(session.captureUrl).then(() => {
                     const btn = document.querySelector('.btn-copy');
                     const original = btn.textContent;
                     btn.textContent = 'Copied!';
@@ -1261,7 +1467,7 @@
             }
         }
 
-        // Logout function (per PDF: "Delete URL and user info of this session")
+        // Logout function - per PDF: "Delete URL and user info of this session"
         function logout() {
             if (confirm('Logout will clear all session data. Continue?')) {
                 if (session) {
@@ -1365,6 +1571,7 @@
                     const data = JSON.parse(updated);
                     if (data.users.length !== (sessionData.users ? sessionData.users.length : 0)) {
                         sessionData = data;
+                        renderUsersTable();
                         renderRecipients();
                     }
                 }
