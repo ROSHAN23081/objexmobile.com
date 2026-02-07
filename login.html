@@ -709,15 +709,32 @@
                     const sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
                     const shortCode = sessionId.substr(-8);
                     
-                    const sessionData = {
-                        username: user.username,
-                        name: user.name,
-                        sessionId: sessionId,
-                        shortCode: shortCode,
-                        shortUrl: window.location.origin + '/capture.html?s=' + shortCode,
-                        loginTime: new Date().toISOString(),
-                        expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString()
-                    };
+                 // Create session data object
+const sessionData = {
+    username: user.username,
+    name: user.name,
+    sessionId: sessionId,
+    shortCode: shortCode,
+    loginTime: new Date().toISOString(),
+    expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString()
+};
+
+// Encode session data for cross-browser URL sharing (works in new browsers/incognito)
+const urlSafeSession = {
+    sessionId: sessionId,
+    username: user.username,
+    name: user.name,
+    expiresAt: sessionData.expiresAt
+};
+
+// Use try-catch in case btoa fails on some characters
+try {
+    const encoded = btoa(JSON.stringify(urlSafeSession));
+    sessionData.shortUrl = window.location.origin + '/capture.html#' + encoded;
+} catch (e) {
+    // Fallback to query param if encoding fails
+    sessionData.shortUrl = window.location.origin + '/capture.html?s=' + shortCode;
+}
                     
                     // Store in localStorage (not sessionStorage) so consumer can access in new tab
                     localStorage.setItem('mo_current_session', JSON.stringify(sessionData));
