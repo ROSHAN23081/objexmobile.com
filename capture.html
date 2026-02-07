@@ -381,6 +381,40 @@
         body.light-mode .security-footer {
             border-top-color: var(--border-light);
         }
+
+        /* SMS Preview */
+        .sms-preview {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+        body.light-mode .sms-preview {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: var(--border-light);
+        }
+
+        .sms-header {
+            color: var(--primary-yellow);
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .sms-content {
+            color: var(--text-dark);
+            line-height: 1.4;
+        }
+
+        body.light-mode .sms-content {
+            color: var(--text-light);
+        }
     </style>
 </head>
 <body>
@@ -406,7 +440,7 @@
     <div class="card invalid-session" id="invalidSession">
         <div class="card-header">
             <h2>⚠️ Invalid Link</h2>
-            <p>This registration link is invalid or has expired. Please request a new secure link from your MO representative.</p>
+            <p>This registration link is invalid or has expired. Please request a new secure link from your Mobile Objex representative.</p>
         </div>
     </div>
 
@@ -454,6 +488,15 @@
         <div class="success-icon">✅</div>
         <h2>Registration Complete</h2>
         <p>Your information has been securely stored. You will receive a confirmation SMS shortly with your safety code verification.</p>
+        
+        <!-- SMS Preview showing what will be sent -->
+        <div class="sms-preview">
+            <div class="sms-header">📱 Confirmation SMS Preview</div>
+            <div class="sms-content" id="smsPreviewContent">
+                <span style="color: var(--primary-yellow); font-weight: 700;">[Your Safety Code]</span> Thank you for registering with Mobile Objex. Your secure messaging is now active.
+            </div>
+        </div>
+        
         <div class="security-footer" style="margin-top: 30px;">
             <span>🔒</span>
             <span>Session secured • Data encrypted</span>
@@ -461,62 +504,48 @@
     </div>
 
    <script>
-    // Parse session from URL parameter (?s=XXXX or #data)
+    // Parse session from URL parameter (?s=XXXX)
     const urlParams = new URLSearchParams(window.location.search);
-    const sessionToken = urlParams.get('s');
-    const hashData = window.location.hash.substring(1); // Check for encoded data in hash
-    let fullSessionId = null;
+    const sessionId = urlParams.get('s');
     let sessionData = null;
+    let sessionValid = false;
 
     function getSession() {
-    // Method 1: Check if full session data is encoded in URL hash (for cross-browser)
-    if (hashData) {
-        try {
-            const decoded = JSON.parse(atob(hashData));
-            if (decoded && decoded.sessionId) {
-                fullSessionId = decoded.sessionId;
-                // Store in this browser's localStorage for future use
-                localStorage.setItem('mo_current_session', JSON.stringify(decoded));
-                localStorage.setItem('mo_session_data_' + fullSessionId, JSON.stringify({
-                    users: [],
-                    messages: [],
-                    created: new Date().toISOString()
-                }));
-                return true;
-            }
-        } catch (e) {
-            console.log('Hash decode failed:', e);
+        // Validate session ID format
+        if (!sessionId || !sessionId.startsWith('sess_')) {
+            console.log('Invalid session ID format');
+            return false;
         }
-    }
 
-    // Method 2: Check localStorage using token from query param (same browser)
-    if (sessionToken) {
-        // First check: look for exact match in mo_session_data keys
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith('mo_session_data_') && key.includes(sessionToken)) {
-                fullSessionId = key.replace('mo_session_data_', '');
-                return true;
-            }
+        // Check if session exists in localStorage
+        const sessionDataStr = localStorage.getItem('mo_session_data_' + sessionId);
+        if (!sessionDataStr) {
+            console.log('Session not found in localStorage');
+            return false;
         }
-        
-        // Second check: look in mo_current_session
-        const currentSession = localStorage.getItem('mo_current_session');
-        if (currentSession) {
-            try {
+
+        try {
+            sessionData = JSON.parse(sessionDataStr);
+            
+            // Check if session has expired
+            const currentSession = localStorage.getItem('mo_current_session');
+            if (currentSession) {
                 const parsed = JSON.parse(currentSession);
-                if (parsed && parsed.sessionId && parsed.sessionId.includes(sessionToken)) {
-                    fullSessionId = parsed.sessionId;
-                    return true;
+                if (parsed.sessionId === sessionId) {
+                    if (new Date(parsed.expiresAt) < new Date()) {
+                        console.log('Session expired');
+                        return false;
+                    }
                 }
-            } catch (e) {
-                console.log('Session parse failed:', e);
             }
+            
+            sessionValid = true;
+            return true;
+        } catch (e) {
+            console.log('Error parsing session:', e);
+            return false;
         }
     }
-    
-    return false;
-}
 
     function showInvalidSession() {
         document.getElementById('registrationForm').style.display = 'none';
@@ -577,7 +606,7 @@
             if (hasError) return;
             
             // Store data
-            const sessionDataStr = localStorage.getItem('mo_session_data_' + fullSessionId);
+            const sessionDataStr = localStorage.getItem('mo_session_data_' + sessionId);
             if (!sessionDataStr) {
                 alert('Session expired. Please request a new link.');
                 return;
@@ -593,12 +622,34 @@
             };
             
             data.users.push(entry);
-            localStorage.setItem('mo_session_data_' + fullSessionId, JSON.stringify(data));
+            localStorage.setItem('mo_session_data_' + sessionId, JSON.stringify(data));
+            
+            // Update SMS preview with actual safety code
+            document.getElementById('smsPreviewContent').innerHTML = 
+                `<span style="color: var(--primary-yellow); font-weight: 700;">${escapeHtml(safetyCode)}</span> Thank you for registering with Mobile Objex. Your secure messaging is now active.`;
             
             // Show success
             document.getElementById('registrationForm').style.display = 'none';
             document.getElementById('successState').classList.add('show');
+            
+            // Simulate sending confirmation SMS (per PDF requirement)
+            simulateConfirmationSMS(phone, safetyCode);
         });
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Simulate confirmation SMS per PDF spec: "Confirm through page and SMS"
+    function simulateConfirmationSMS(phone, safetyCode) {
+        console.log(`[SMS SIMULATION] Sending confirmation to ${phone}:`);
+        console.log(`[SMS SIMULATION] Content: ${safetyCode} Thank you for registering with Mobile Objex. Your secure messaging is now active.`);
+        
+        // In production, this would integrate with SMS Composer App
+        // For demo, we log to console and could show a toast notification
     }
 
     // Initialize
