@@ -953,7 +953,7 @@
                     </div>
                 </div>
 
-                <!-- Short URL Display (Added per PDF specs) -->
+                <!-- Short URL Display -->
                 <div class="url-box">
                     <div class="url-text" id="shortUrl">Loading...</div>
                     <button class="btn-copy" onclick="copyUrl()">Copy Link</button>
@@ -965,13 +965,6 @@
                         <p>No recipients captured in this session</p>
                         <p style="font-size: 12px; margin-top: 10px;">Share the link above to add recipients</p>
                     </div>
-                </div>
-
-                <div style="margin-bottom: 30px; padding-top: 20px; border-top: 1px solid var(--border-dark);">
-                    <a href="capture.html" class="btn btn-secondary">
-                        <span>←</span>
-                        Back to Capture
-                    </a>
                 </div>
 
                 <div class="card-header" style="margin-top: 20px;">
@@ -996,7 +989,7 @@
                         </div>
                     </div>
 
-                    <!-- Message Preview (Added per PDF specs) -->
+                    <!-- Message Preview -->
                     <div class="safety-notice" style="margin-bottom: 20px;">
                         <span class="icon">👁️</span>
                         <div>
@@ -1057,20 +1050,26 @@
             loadTheme();
             startTimer();
             setupCharCounter();
+            setupMessagePreview();
         }
 
-        // Check authentication - CRITICAL FIX
+        // Check authentication - FIXED for localStorage
         function checkAuth() {
             const sessionStr = localStorage.getItem('mo_current_session');
             
             if (!sessionStr) {
-                // Not logged in, redirect to login
                 window.location.href = 'login.html';
                 return;
             }
 
             try {
                 session = JSON.parse(sessionStr);
+                
+                // Check expiry
+                if (new Date(session.expiresAt) < new Date()) {
+                    showExpiredModal();
+                    return;
+                }
                 
                 // Display username
                 const usernameDisplay = document.getElementById('usernameDisplay');
@@ -1090,9 +1089,6 @@
                 
                 // Render recipients
                 renderRecipients();
-                
-                // Set up message preview
-                setupMessagePreview();
                 
             } catch (e) {
                 console.error('Session error:', e);
@@ -1143,7 +1139,7 @@
                     document.getElementById('charCount').textContent = text.length;
                     
                     if (text.trim()) {
-                        preview.innerHTML = `<span style="color: var(--primary-yellow); font-weight: 700;">[SafetyCode]</span> ${text}`;
+                        preview.innerHTML = `<span style="color: var(--primary-yellow); font-weight: 700;">[SafetyCode]</span> ${escapeHtml(text)}`;
                     } else {
                         preview.innerHTML = `<span style="color: var(--primary-yellow); font-weight: 700;">[SafetyCode]</span> Your message will appear here...`;
                     }
@@ -1151,12 +1147,19 @@
             }
         }
 
-        // Handle send message
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // Handle send message - FIXED to prevent default properly
         function handleSend(e) {
             e.preventDefault();
+            e.stopPropagation();
 
-            const content = document.getElementById('messageContent').value;
-            if (!content.trim()) {
+            const content = document.getElementById('messageContent').value.trim();
+            if (!content) {
                 alert('Please enter a message');
                 return;
             }
@@ -1205,6 +1208,8 @@
 
                 alert(`Successfully sent to ${selectedRecipients.length} recipient(s) with safety code prefix!`);
             }, 1500);
+            
+            return false; // Extra prevention
         }
 
         // Update message history
@@ -1234,7 +1239,7 @@
                             </span>
                         </div>
                         <div class="message-content">
-                            <span class="safety-prefix">${msg.code}</span> ${msg.content}
+                            <span class="safety-prefix">${msg.code}</span> ${escapeHtml(msg.content)}
                         </div>
                         <div style="margin-top: 10px; font-size: 12px; opacity: 0.5;">
                             ${msg.timestamp}
@@ -1298,16 +1303,11 @@
 
         // Session timer (10 minutes)
         function startTimer() {
-            // Set expiry to 10 minutes from now if not set
-            if (session && !session.expiresAt) {
-                session.expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
-                localStorage.setItem('mo_current_session', JSON.stringify(session));
+            if (session && session.expiresAt) {
+                expiryTime = new Date(session.expiresAt).getTime();
+                updateTimer();
+                timerInterval = setInterval(updateTimer, 1000);
             }
-            
-            expiryTime = session ? new Date(session.expiresAt).getTime() : Date.now() + 10 * 60 * 1000;
-            
-            updateTimer();
-            timerInterval = setInterval(updateTimer, 1000);
         }
 
         function updateTimer() {
@@ -1341,7 +1341,9 @@
         function showExpiredModal() {
             document.getElementById('expiredModal').classList.add('show');
             localStorage.removeItem('mo_current_session');
-            localStorage.removeItem('mo_session_data_' + (session ? session.sessionId : ''));
+            if (session && session.sessionId) {
+                localStorage.removeItem('mo_session_data_' + session.sessionId);
+            }
         }
 
         // Setup character counter
