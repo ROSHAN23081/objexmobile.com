@@ -46,7 +46,6 @@
             color: var(--text-light);
         }
 
-        /* Animated Background Grid */
         .bg-grid {
             position: fixed;
             top: 0;
@@ -73,7 +72,6 @@
                 linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
         }
 
-        /* Floating Particles */
         .particles {
             position: fixed;
             top: 0;
@@ -114,7 +112,6 @@
             100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
         }
 
-        /* Animated Gradient Orbs */
         .orb {
             position: fixed;
             border-radius: 50%;
@@ -147,7 +144,6 @@
             50% { transform: scale(1.2); opacity: 0.6; }
         }
 
-        /* Theme Toggle */
         .theme-toggle {
             position: fixed;
             top: 20px;
@@ -193,7 +189,6 @@
             transform: rotate(180deg);
         }
 
-        /* Main Container */
         .container {
             position: relative;
             z-index: 10;
@@ -207,7 +202,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Logo Section */
         .logo-section {
             text-align: center;
             margin-bottom: 40px;
@@ -308,7 +302,6 @@
             color: rgba(0, 0, 0, 0.5);
         }
 
-        /* Login Card */
         .login-card {
             background: var(--card-dark);
             border: 1px solid var(--border-dark);
@@ -382,7 +375,6 @@
             line-height: 1.5;
         }
 
-        /* Form Styles */
         .form-group {
             margin-bottom: 24px;
             position: relative;
@@ -448,7 +440,6 @@
             transform: translateY(-50%) scale(1.1);
         }
 
-        /* Security Badge */
         .security-badge {
             display: flex;
             align-items: center;
@@ -488,7 +479,6 @@
             opacity: 0.8;
         }
 
-        /* Submit Button */
         .submit-btn {
             width: 100%;
             padding: 18px;
@@ -534,7 +524,6 @@
             transform: translateY(-1px);
         }
 
-        /* Footer */
         .card-footer {
             margin-top: 24px;
             text-align: center;
@@ -566,7 +555,6 @@
             width: 100%;
         }
 
-        /* Error Message */
         .error-message {
             background: rgba(255, 59, 48, 0.1);
             border: 1px solid rgba(255, 59, 48, 0.3);
@@ -591,7 +579,6 @@
             75% { transform: translateX(5px); }
         }
 
-        /* Loading State */
         .loading {
             display: inline-block;
             width: 20px;
@@ -608,7 +595,6 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Responsive */
         @media (max-width: 480px) {
             .container { width: 95%; }
             .login-card { padding: 30px 20px; }
@@ -616,105 +602,6 @@
         }
     </style>
 </head>
-    <script>
-// MO User Authentication System
-const MO_USERS = [
-    { username: 'admin', password: 'admin123', name: 'Administrator' },
-    { username: 'sales1', password: 'sales123', name: 'Sales Team' },
-    { username: 'marketer', password: 'market123', name: 'Marketing' }
-];
-
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-    
-    const user = MO_USERS.find(u => u.username === username && u.password === password);
-    
-    if (user) {
-        // Create unique session per PDF specs
-        const sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        const shortCode = sessionId.substr(5, 8);
-        
-        const sessionData = {
-            username: user.username,
-            name: user.name,
-            sessionId: sessionId,
-            shortCode: shortCode,
-            shortUrl: window.location.origin + '/capture.html?s=' + shortCode,
-            loginTime: new Date().toISOString()
-        };
-        
-        // Store session
-        localStorage.setItem('mo_current_session', JSON.stringify(sessionData));
-        localStorage.setItem('mo_session_data_' + sessionId, JSON.stringify({
-            users: [],
-            messages: [],
-            created: new Date().toISOString()
-        }));
-        
-        // Redirect to send.html (campaign page)
-        window.location.href = 'send.html';
-    } else {
-        showError('Invalid credentials. Please try again.');
-    }
-});
-
-function showError(msg) {
-    const alert = document.getElementById('errorAlert');
-    if (alert) {
-        alert.textContent = msg;
-        alert.style.display = 'block';
-        setTimeout(() => alert.style.display = 'none', 3000);
-    }
-}
-</script>
-    <script>
-// Hardcoded MO users per PDF spec
-const MO_USERS = [
-    { username: 'admin', password: 'admin123', name: 'Administrator' },
-    { username: 'sales1', password: 'sales123', name: 'Sales Team' },
-    { username: 'marketer', password: 'market123', name: 'Marketing' }
-];
-
-document.getElementById('loginForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value.trim();
-    
-    const user = MO_USERS.find(u => u.username === username && u.password === password);
-    
-    if (user) {
-        // Create unique session per PDF specs
-        const sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        const shortCode = sessionId.substr(5, 8);
-        
-        const sessionData = {
-            username: user.username,
-            name: user.name,
-            sessionId: sessionId,
-            shortCode: shortCode,
-            shortUrl: window.location.origin + '/capture.html?s=' + shortCode,
-            loginTime: new Date().toISOString()
-        };
-        
-        // Store session
-        localStorage.setItem('mo_current_session', JSON.stringify(sessionData));
-        localStorage.setItem('mo_session_data_' + sessionId, JSON.stringify({
-            users: [],
-            messages: [],
-            created: new Date().toISOString()
-        }));
-        
-        // Redirect to send.html (campaign page)
-        window.location.href = 'send.html';
-    } else {
-        alert('Invalid credentials. Please try again.');
-    }
-});
-</script>
 <body>
     <div class="bg-grid"></div>
     <div class="particles">
@@ -795,6 +682,65 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
     </div>
 
     <script>
+        // MO User Authentication System
+        const MO_USERS = [
+            { username: 'admin', password: 'admin123', name: 'Administrator' },
+            { username: 'sales1', password: 'sales123', name: 'Sales Team' },
+            { username: 'marketer', password: 'market123', name: 'Marketing' }
+        ];
+
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const errorMsg = document.getElementById('errorMsg');
+            const loading = document.getElementById('loading');
+            const submitBtn = document.getElementById('submitBtn');
+            
+            loading.style.display = 'inline-block';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                const user = MO_USERS.find(u => u.username === username && u.password === password);
+                
+                if (user) {
+                    // Create unique session per PDF specs
+                    const sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+                    const shortCode = sessionId.substr(-8);
+                    
+                    const sessionData = {
+                        username: user.username,
+                        name: user.name,
+                        sessionId: sessionId,
+                        shortCode: shortCode,
+                        shortUrl: window.location.origin + '/capture.html?s=' + shortCode,
+                        loginTime: new Date().toISOString(),
+                        expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString()
+                    };
+                    
+                    // Store in localStorage (not sessionStorage) so consumer can access in new tab
+                    localStorage.setItem('mo_current_session', JSON.stringify(sessionData));
+                    localStorage.setItem('mo_session_data_' + sessionId, JSON.stringify({
+                        users: [],
+                        messages: [],
+                        created: new Date().toISOString()
+                    }));
+                    
+                    // Redirect to send.html (marketer dashboard)
+                    window.location.href = 'send.html';
+                } else {
+                    errorMsg.classList.add('show');
+                    loading.style.display = 'none';
+                    submitBtn.disabled = false;
+                    
+                    setTimeout(() => {
+                        errorMsg.classList.remove('show');
+                    }, 3000);
+                }
+            }, 800);
+        }
+
         // Theme Toggle
         function toggleTheme() {
             const body = document.body;
@@ -822,57 +768,18 @@ document.getElementById('loginForm').addEventListener('submit', function(e) {
             document.getElementById('themeText').textContent = 'Light';
         }
 
-        // Mock Authentication
-        const validCredentials = {
-            'admin': 'mobileobjex2024',
-            'sacredheart': 'shdev2024',
-            'demo': 'demo123'
-        };
-
-        function handleLogin(e) {
-            e.preventDefault();
-            
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const errorMsg = document.getElementById('errorMsg');
-            const loading = document.getElementById('loading');
-            const submitBtn = document.getElementById('submitBtn');
-            
-            loading.style.display = 'inline-block';
-            submitBtn.disabled = true;
-            
-            setTimeout(() => {
-                if (validCredentials[username] === password) {
-                    const sessionId = 'mo_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-                    const sessionData = {
-                        username: username,
-                        sessionId: sessionId,
-                        loginTime: new Date().toISOString(),
-                        expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString()
-                    };
-                    
-                    sessionStorage.setItem('mo_session', JSON.stringify(sessionData));
-                    window.location.href = 'capture.html';
-                } else {
-                    errorMsg.classList.add('show');
-                    loading.style.display = 'none';
-                    submitBtn.disabled = false;
-                    
-                    setTimeout(() => {
-                        errorMsg.classList.remove('show');
-                    }, 3000);
-                }
-            }, 800);
-        }
-
         // Check if already logged in
-        const existingSession = sessionStorage.getItem('mo_session');
+        const existingSession = localStorage.getItem('mo_current_session');
         if (existingSession) {
             const session = JSON.parse(existingSession);
             if (new Date(session.expiresAt) > new Date()) {
-                window.location.href = 'capture.html';
+                window.location.href = 'send.html';
             } else {
-                sessionStorage.removeItem('mo_session');
+                localStorage.removeItem('mo_current_session');
+                // Also clean up session data
+                if (session.sessionId) {
+                    localStorage.removeItem('mo_session_data_' + session.sessionId);
+                }
             }
         }
     </script>
