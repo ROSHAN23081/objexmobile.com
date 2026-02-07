@@ -460,122 +460,140 @@
         </div>
     </div>
 
-    <script>
-        // Parse session from URL parameter (?s=XXXX)
-        const urlParams = new URLSearchParams(window.location.search);
-        const sessionToken = urlParams.get('s');
-        let fullSessionId = null;
+   <script>
+    // Parse session from URL parameter (?s=XXXX or #data)
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionToken = urlParams.get('s');
+    const hashData = window.location.hash.substring(1); // Check for encoded data in hash
+    let fullSessionId = null;
+    let sessionData = null;
 
-        // Validate session
-        function validateSession() {
-            if (!sessionToken) {
-                showInvalidSession();
-                return false;
-            }
-
-            // Find full session ID from token
-            for (let i = 0; i < localStorage.length; i++) {
-                const key = localStorage.key(i);
-                if (key && key.startsWith('mo_session_data_') && key.includes(sessionToken)) {
-                    fullSessionId = key.replace('mo_session_data_', '');
+    // Try to get session from multiple sources
+    function getSession() {
+        // Method 1: Check if full session data is encoded in URL hash (for cross-browser)
+        if (hashData) {
+            try {
+                const decoded = JSON.parse(atob(hashData));
+                if (decoded && decoded.sessionId) {
+                    fullSessionId = decoded.sessionId;
+                    sessionData = decoded;
+                    // Store in this browser's localStorage for future use
+                    localStorage.setItem('mo_current_session', JSON.stringify(decoded));
+                    localStorage.setItem('mo_session_data_' + fullSessionId, JSON.stringify({
+                        users: [],
+                        messages: [],
+                        created: new Date().toISOString()
+                    }));
                     return true;
                 }
+            } catch (e) {
+                console.log('No hash data');
             }
-
-            showInvalidSession();
-            return false;
         }
 
-        function showInvalidSession() {
-            document.getElementById('registrationForm').style.display = 'none';
-            document.getElementById('invalidSession').classList.add('show');
-        }
+        // Method 2: Check localStorage (same browser)
+        if (!sessionToken) return false;
 
-        // Phone formatting
-        function setupPhoneFormatting() {
-            const phoneInputs = [document.getElementById('phone'), document.getElementById('phoneConfirm')];
-            
-            phoneInputs.forEach(input => {
-                input.addEventListener('input', function(e) {
-                    let value = e.target.value.replace(/\D/g, '');
-                    if (value.length > 0) {
-                        if (value.length <= 3) {
-                            value = '(' + value;
-                        } else if (value.length <= 6) {
-                            value = '(' + value.slice(0, 3) + ') ' + value.slice(3);
-                        } else {
-                            value = '(' + value.slice(0, 3) + ') ' + value.slice(3, 6) + '-' + value.slice(6, 10);
-                        }
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith('mo_session_data_') && key.includes(sessionToken)) {
+                fullSessionId = key.replace('mo_session_data_', '');
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function showInvalidSession() {
+        document.getElementById('registrationForm').style.display = 'none';
+        document.getElementById('invalidSession').classList.add('show');
+    }
+
+    // Phone formatting
+    function setupPhoneFormatting() {
+        const phoneInputs = [document.getElementById('phone'), document.getElementById('phoneConfirm')];
+        
+        phoneInputs.forEach(input => {
+            input.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 0) {
+                    if (value.length <= 3) {
+                        value = '(' + value;
+                    } else if (value.length <= 6) {
+                        value = '(' + value.slice(0, 3) + ') ' + value.slice(3);
+                    } else {
+                        value = '(' + value.slice(0, 3) + ') ' + value.slice(3, 6) + '-' + value.slice(6, 10);
                     }
-                    e.target.value = value;
-                });
+                }
+                e.target.value = value;
             });
-        }
+        });
+    }
 
-        // Form submission
-        function setupForm() {
-            document.getElementById('captureForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const phone = document.getElementById('phone').value.trim();
-                const phoneConfirm = document.getElementById('phoneConfirm').value.trim();
-                const safetyCode = document.getElementById('safetyCode').value.trim();
-                const safetyCodeConfirm = document.getElementById('safetyCodeConfirm').value.trim();
-                
-                // Reset errors
-                document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
-                document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
-                
-                let hasError = false;
-                
-                // Validate phone match
-                if (phone !== phoneConfirm) {
-                    document.getElementById('phone').classList.add('error');
-                    document.getElementById('phoneConfirm').classList.add('error');
-                    document.getElementById('phoneError').classList.add('show');
-                    hasError = true;
-                }
-                
-                // Validate safety code match
-                if (safetyCode !== safetyCodeConfirm) {
-                    document.getElementById('safetyCode').classList.add('error');
-                    document.getElementById('safetyCodeConfirm').classList.add('error');
-                    document.getElementById('codeError').classList.add('show');
-                    hasError = true;
-                }
-                
-                if (hasError) return;
-                
-                // Store data per PDF spec: "Flag entry as 'newly entered'"
-                const sessionDataStr = localStorage.getItem('mo_session_data_' + fullSessionId);
-                if (!sessionDataStr) {
-                    alert('Session expired. Please request a new link.');
-                    return;
-                }
-                
-                const sessionData = JSON.parse(sessionDataStr);
-                const entry = {
-                    id: 'user_' + Date.now(),
-                    phone: phone,
-                    safetyCode: safetyCode,
-                    timestamp: new Date().toISOString(),
-                    status: 'newly entered'
-                };
-                
-                sessionData.users.push(entry);
-                localStorage.setItem('mo_session_data_' + fullSessionId, JSON.stringify(sessionData));
-                
-                // Show success (PDF spec: "Your registration is complete...")
-                document.getElementById('registrationForm').style.display = 'none';
-                document.getElementById('successState').classList.add('show');
-            });
-        }
+    // Form submission
+    function setupForm() {
+        document.getElementById('captureForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const phone = document.getElementById('phone').value.trim();
+            const phoneConfirm = document.getElementById('phoneConfirm').value.trim();
+            const safetyCode = document.getElementById('safetyCode').value.trim();
+            const safetyCodeConfirm = document.getElementById('safetyCodeConfirm').value.trim();
+            
+            // Reset errors
+            document.querySelectorAll('.form-input').forEach(el => el.classList.remove('error'));
+            document.querySelectorAll('.error-message').forEach(el => el.classList.remove('show'));
+            
+            let hasError = false;
+            
+            if (phone !== phoneConfirm) {
+                document.getElementById('phone').classList.add('error');
+                document.getElementById('phoneConfirm').classList.add('error');
+                document.getElementById('phoneError').classList.add('show');
+                hasError = true;
+            }
+            
+            if (safetyCode !== safetyCodeConfirm) {
+                document.getElementById('safetyCode').classList.add('error');
+                document.getElementById('safetyCodeConfirm').classList.add('error');
+                document.getElementById('codeError').classList.add('show');
+                hasError = true;
+            }
+            
+            if (hasError) return;
+            
+            // Store data
+            const sessionDataStr = localStorage.getItem('mo_session_data_' + fullSessionId);
+            if (!sessionDataStr) {
+                alert('Session expired. Please request a new link.');
+                return;
+            }
+            
+            const data = JSON.parse(sessionDataStr);
+            const entry = {
+                id: 'user_' + Date.now(),
+                phone: phone,
+                safetyCode: safetyCode,
+                timestamp: new Date().toISOString(),
+                status: 'newly entered'
+            };
+            
+            data.users.push(entry);
+            localStorage.setItem('mo_session_data_' + fullSessionId, JSON.stringify(data));
+            
+            // Show success
+            document.getElementById('registrationForm').style.display = 'none';
+            document.getElementById('successState').classList.add('show');
+        });
+    }
 
-        // Initialize
-        if (validateSession()) {
-            setupPhoneFormatting();
-            setupForm();
-        }
-    </script>
+    // Initialize
+    if (getSession()) {
+        setupPhoneFormatting();
+        setupForm();
+    } else {
+        showInvalidSession();
+    }
+</script>
 </body>
 </html>
