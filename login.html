@@ -631,7 +631,7 @@
                     <div class="shield"></div>
                 </div>
                 <div class="logo-text">Mobile<span>Objex</span></div>
-                <div class="tagline">AI-Driven Mobile Trust</div>
+                <div class="tagline">Secure Mobile Messaging</div>
             </div>
         </div>
 
@@ -676,7 +676,6 @@
 
             <div class="card-footer">
                 <p>Protected by Mobile Objex Secure Infrastructure</p>
-                <p style="margin-top: 8px;"><a href="index.html">← Back to Platform Overview</a></p>
             </div>
         </div>
     </div>
@@ -709,39 +708,32 @@
                     const sessionId = 'sess_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
                     const shortCode = sessionId.substr(-8);
                     
-                 // Create session data object
-const sessionData = {
-    username: user.username,
-    name: user.name,
-    sessionId: sessionId,
-    shortCode: shortCode,
-    loginTime: new Date().toISOString(),
-    expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString()
-};
+                    // Create session data object
+                    const sessionData = {
+                        username: user.username,
+                        name: user.name,
+                        sessionId: sessionId,
+                        shortCode: shortCode,
+                        loginTime: new Date().toISOString(),
+                        expiresAt: new Date(Date.now() + 10 * 60 * 1000).toISOString()
+                    };
 
-// Encode session data for cross-browser URL sharing (works in new browsers/incognito)
-const urlSafeSession = {
-    sessionId: sessionId,
-    username: user.username,
-    name: user.name,
-    expiresAt: sessionData.expiresAt
-};
-
-// Use try-catch in case btoa fails on some characters
-try {
-    const encoded = btoa(JSON.stringify(urlSafeSession));
-    sessionData.shortUrl = window.location.origin + '/capture.html#' + encoded;
-} catch (e) {
-    // Fallback to query param if encoding fails
-    sessionData.shortUrl = window.location.origin + '/capture.html?s=' + shortCode;
-}
+                    // Generate relative URL that works on any server or locally
+                    // Use query parameter approach for maximum compatibility
+                    const baseUrl = window.location.pathname.replace('login.html', '');
+                    const captureUrl = baseUrl + 'capture.html?s=' + encodeURIComponent(sessionId);
                     
-                    // Store in localStorage (not sessionStorage) so consumer can access in new tab
+                    // Store full URL for sharing
+                    sessionData.captureUrl = window.location.origin + captureUrl;
+                    sessionData.shortUrl = sessionData.captureUrl;
+                    
+                    // Store in localStorage
                     localStorage.setItem('mo_current_session', JSON.stringify(sessionData));
                     localStorage.setItem('mo_session_data_' + sessionId, JSON.stringify({
                         users: [],
                         messages: [],
-                        created: new Date().toISOString()
+                        created: new Date().toISOString(),
+                        owner: user.username
                     }));
                     
                     // Redirect to send.html (marketer dashboard)
@@ -788,15 +780,19 @@ try {
         // Check if already logged in
         const existingSession = localStorage.getItem('mo_current_session');
         if (existingSession) {
-            const session = JSON.parse(existingSession);
-            if (new Date(session.expiresAt) > new Date()) {
-                window.location.href = 'send.html';
-            } else {
-                localStorage.removeItem('mo_current_session');
-                // Also clean up session data
-                if (session.sessionId) {
-                    localStorage.removeItem('mo_session_data_' + session.sessionId);
+            try {
+                const session = JSON.parse(existingSession);
+                if (new Date(session.expiresAt) > new Date()) {
+                    window.location.href = 'send.html';
+                } else {
+                    // Clean up expired session
+                    localStorage.removeItem('mo_current_session');
+                    if (session.sessionId) {
+                        localStorage.removeItem('mo_session_data_' + session.sessionId);
+                    }
                 }
+            } catch (e) {
+                localStorage.removeItem('mo_current_session');
             }
         }
     </script>
